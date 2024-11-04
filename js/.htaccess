@@ -1,0 +1,45 @@
+# Bloquear acceso directo al listado de directorios
+Options -Indexes
+
+# Habilitar el módulo de reescritura de URLs
+RewriteEngine On
+
+# Permitir acceso a archivos específicos en esta carpeta
+
+RewriteCond %{REQUEST_URI} !/login.js$ [NC]
+RewriteCond %{REQUEST_URI} !/register.js$ [NC]
+RewriteCond %{REQUEST_URI} !/urlHelper.js$ [NC]
+RewriteCond %{REQUEST_URI} !/agregarEspecialidad.js$ [NC]
+RewriteCond %{REQUEST_URI} !/agregarCurso.js$ [NC]
+RewriteCond %{REQUEST_URI} !/gestionarUsuarios.js$ [NC]
+RewriteCond %{REQUEST_URI} !/matricularEstudiante.js$ [NC]
+RewriteCond %{REQUEST_URI} !/asignarEspecialidadDocente.js$ [NC]
+
+
+
+RewriteCond %{REQUEST_URI} !/perfilDocente.js$ [NC]
+RewriteCond %{REQUEST_URI} !/anunciosDocente.js$ [NC]
+RewriteCond %{REQUEST_URI} !/asignarAulaDocente.js$ [NC]
+RewriteCond %{REQUEST_URI} !/agregarMaterialDocente.js$ [NC]
+RewriteCond %{REQUEST_URI} !/loadingOverlay.js$ [NC]
+
+
+RewriteCond %{REQUEST_URI} !/checkTokenExpiration.js$ [NC]
+
+RewriteCond %{REQUEST_URI} !/logout.js$ [NC]
+
+
+RewriteCond %{REQUEST_URI} !/perfilEstudiante.js$ [NC]
+RewriteCond %{REQUEST_URI} !/anunciosAlumno.js$ [NC]
+
+
+RewriteCond %{REQUEST_URI} !/checkRole.js$ [NC]
+
+RewriteCond %{REQUEST_URI} !/contadorAnuncios.js$ [NC]
+RewriteCond %{REQUEST_URI} !/contadorAnucnisoPorCurso.js$ [NC]
+RewriteCond %{REQUEST_URI} !/cursos.js$ [NC]
+RewriteCond %{REQUEST_URI} !/tareasPendientes.js$ [NC]
+RewriteCond %{REQUEST_URI} !/contadorTareas.js$ [NC]
+
+# Redirigir todas las demás solicitudes a /index.php
+RewriteRule ^.*$ /index.php [L,R=302]

@@ -1,0 +1,10 @@
+# Bloquear acceso directo al listado de directorios
+Options -Indexes
+
+# Habilitar el módulo de reescritura de URLs
+RewriteEngine On
+
+# Si el usuario intenta acceder a una ruta en ADMINPHP, DOCENTEPHP o ESTUDIANTEPHP sin un token JWT, redirige a index.php
+RewriteCond %{REQUEST_URI} ^/PHP/(ADMINPHP|DOCENTEPHP|ESTUDIANTEPHP)/ [NC]
+RewriteCond %{HTTP_COOKIE} !jwt=.+ [NC]
+RewriteRule ^ /index.php [R=302,L]
