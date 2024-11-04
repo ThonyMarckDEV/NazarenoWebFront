@@ -86,6 +86,9 @@ function loadModulos(idCurso) {
         return;
     }
 
+        // Mostrar el loader al enviar el formulario
+        document.getElementById("loadingScreen").classList.remove("hidden");
+
     fetch(`${API_BASE_URL}/api/curso/${idCurso}/modulos`, {
         headers: { 'Authorization': `Bearer ${token}`, "ngrok-skip-browser-warning": "69420" }
     })
@@ -131,7 +134,11 @@ function loadModulos(idCurso) {
     .catch(error => {
         console.error("Error al cargar los módulos:", error);
         showNotification("Error al cargar los módulos", "bg-red-500");
-    });
+    })
+    .finally(()=>{
+        // Ocultar el loader después de la operación
+        document.getElementById("loadingScreen").classList.add("hidden");
+   });
 }
 
 
@@ -249,6 +256,9 @@ function enviarActividad() {
         showNotification("La fecha de vencimiento es requerida", "bg-red-500");
         return;
     }
+    
+    // Mostrar el loader al enviar el formulario
+     document.getElementById("loadingScreen").classList.remove("hidden");
 
     fetch(`${API_BASE_URL}/api/actividades`, {
         method: 'POST',
@@ -282,9 +292,6 @@ function enviarActividad() {
             return;
         }
 
-        // Crear el anuncio con la descripción de la actividad asignada
-        const descripcionAnuncio = `Ha asignado una actividad en: ${nombreModulo}`;
-
         // Enviar el anuncio a la API
         fetch(`${API_BASE_URL}/api/anuncios`, {
             method: 'POST',
@@ -295,7 +302,7 @@ function enviarActividad() {
             body: JSON.stringify({ 
                 nombreCurso, 
                 seccion, 
-                descripcion: descripcionAnuncio, 
+                descripcion, 
                 idDocente 
             })
         })
@@ -317,7 +324,14 @@ function enviarActividad() {
             showNotification("Error al enviar anuncio", "bg-red-500");
         });
     })
-    .catch(error => showNotification("Error al asignar actividad", "bg-red-500"));
+    .catch(error => {
+        console.error('Error al asignar actividad:', error);
+        showNotification("Error al enviar actividad", "bg-red-500");
+    })
+    .finally(()=>{
+        // Ocultar el loader después de la operación
+        document.getElementById("loadingScreen").classList.add("hidden");
+   });
 }
 
 
@@ -337,6 +351,9 @@ function enviarMaterial() {
     formData.append('nombre', nombre);
     formData.append('archivo', archivo);
     formData.append('idModulo', idModulo);
+
+    // Mostrar el loader al enviar el formulario
+        document.getElementById("loadingScreen").classList.remove("hidden");
 
     fetch(`${API_BASE_URL}/api/materiales`, {
         method: 'POST',
@@ -370,6 +387,7 @@ function enviarMaterial() {
             showNotification("Faltan datos del curso, sección o módulo para el anuncio", "bg-red-500");
             return;
         }
+
 
         // Enviar anuncio automáticamente
         fetch(`${API_BASE_URL}/api/anuncios`, {
@@ -406,7 +424,11 @@ function enviarMaterial() {
     .catch(error => {
         console.error("Error al agregar material:", error);
         showNotification("Error al agregar material", "bg-red-500");
-    });
+    })
+    .finally(()=>{
+        // Ocultar el loader después de la operación
+        document.getElementById("loadingScreen").classList.add("hidden");
+   });
 }
 
 // Función para limpiar los campos del modal de material

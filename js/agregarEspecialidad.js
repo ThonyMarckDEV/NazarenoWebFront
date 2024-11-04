@@ -8,6 +8,9 @@ function submitSpecialtyForm() {
     const formData = new FormData(form);
     const data = Object.fromEntries(formData.entries());
 
+    // Mostrar el loader al enviar el formulario
+    document.getElementById("loadingScreen").classList.remove("hidden");
+
     fetch(`${API_BASE_URL}/api/agregarEspecialidad`, {
         method: "POST",
         headers: {
@@ -29,11 +32,16 @@ function submitSpecialtyForm() {
     .catch((error) => {
         console.error("Error:", error);
         showNotification("Error en la solicitud", "bg-red-500");
-    });
+    })
+    .finally(()=>{
+        // Ocultar el loader después de la operación
+        document.getElementById("loadingScreen").classList.add("hidden");
+   });
 }
 
 // Función para listar las especialidades
 function listEspecialidades() {
+
     fetch(`${API_BASE_URL}/api/listarEspecialidades`, {
         method: "GET",
         headers: {
@@ -65,6 +73,10 @@ function listEspecialidades() {
 
 // Función para eliminar una especialidad
 function eliminarEspecialidad(idEspecialidad) {
+
+    // Mostrar el loader al enviar el formulario
+     document.getElementById("loadingScreen").classList.remove("hidden");
+
     fetch(`${API_BASE_URL}/api/eliminarEspecialidad/${idEspecialidad}`, {
         method: "DELETE",
         headers: {
@@ -82,7 +94,11 @@ function eliminarEspecialidad(idEspecialidad) {
     .catch(error => {
         console.error("Error al eliminar especialidad:", error);
         showNotification("Error al eliminar especialidad", "bg-red-500");
-    });
+    })
+    .finally(()=>{
+        // Ocultar el loader después de la operación
+        document.getElementById("loadingScreen").classList.add("hidden");
+   });
 }
 
 // Función para mostrar la notificación

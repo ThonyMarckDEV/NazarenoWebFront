@@ -53,6 +53,8 @@
         </li>
     </ul>
 </div>
+  <!-- Loader -->
+  <?php include '../loader.php'; ?>
 <!-- Overlay de Carga Fijo -->
 <div id="loadingOverlay" class="fixed inset-0 flex items-center justify-center bg-white hidden z-50" style="width: 100vw; height: 100vh;">
         <img src="../../img/loading.gif" alt="Cargando..." class="w-20 h-20"> <!-- Tamaño fijo del GIF -->

@@ -44,6 +44,9 @@
         </form>
     </div>
 
+  <!-- Loader -->
+    <?php include './PHP/loader.php'; ?>
+
     <!-- Script de JavaScript para manejar la autenticación y redirección -->
     <script type="module" src="./js/login.js"></script>
 </body>

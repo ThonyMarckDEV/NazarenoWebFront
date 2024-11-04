@@ -77,6 +77,10 @@ function enviarAnuncio() {
     const seccion = modal.dataset.seccion;
     const descripcion = document.getElementById("modalDescripcion").value;
 
+        // Mostrar el "loading screen" antes de enviar el anuncio
+        document.getElementById("loadingScreen").classList.remove("hidden");
+
+
     fetch(`${API_BASE_URL}/api/anuncios`, {
         method: 'POST',
         headers: { 
@@ -102,6 +106,10 @@ function enviarAnuncio() {
     .catch(error => {
         console.error('Error al enviar Anuncio:', error);
         showNotification("Error al enviar Anuncio", "bg-red-500");
+    })
+    .finally(() => {
+        // Ocultar el "loading screen" después de la operación
+        document.getElementById("loadingScreen").classList.add("hidden");
     });
 }
 

@@ -66,6 +66,9 @@ function uploadProfileImage() {
     const formData = new FormData();
     formData.append("perfil", document.getElementById("profileInput").files[0]);
 
+    // Mostrar el loader al enviar el formulario
+    document.getElementById("loadingScreen").classList.remove("hidden");
+
     fetch(`${API_BASE_URL}/api/uploadProfileImageDocente/${idUsuario}`, {
         method: "POST",
         headers: {
@@ -83,7 +86,14 @@ function uploadProfileImage() {
             showNotification(data.message, "bg-red-500");
         }
     })
-    .catch(error => console.error("Error al subir imagen de perfil:", error));
+    .catch(
+        error => console.error("Error al subir imagen de perfil:", error
+
+    ))
+    .finally(()=>{
+        // Ocultar el loader después de la operación
+        document.getElementById("loadingScreen").classList.add("hidden");
+   });
 }
 
 // Función para actualizar los datos del docente
@@ -100,6 +110,9 @@ function updateDocente() {
         telefono: document.getElementById("telefono").value,
         departamento: document.getElementById("departamento").value,
     };
+
+    // Mostrar el loader al enviar el formulario
+    document.getElementById("loadingScreen").classList.remove("hidden");
 
     fetch(`${API_BASE_URL}/api/updateDocente/${idUsuario}`, {
         method: "PUT",
@@ -118,7 +131,14 @@ function updateDocente() {
             showNotification(data.message, "bg-red-500");
         }
     })
-    .catch(error => console.error("Error al actualizar datos del docente:", error));
+    .catch(
+        error => console.error("Error al actualizar datos del docente:", error
+
+    ))
+    .finally(()=>{
+        // Ocultar el loader después de la operación
+        document.getElementById("loadingScreen").classList.add("hidden");
+   });
 }
 
 // Función para mostrar notificaciones

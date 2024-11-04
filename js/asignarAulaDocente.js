@@ -25,6 +25,9 @@ function asignarAulaDocente() {
         return;
     }
 
+        // Mostrar el loader al enviar el formulario
+        document.getElementById("loadingScreen").classList.remove("hidden");
+
     fetch(`${API_BASE_URL}/api/docente/asignar-aula`, {
         method: 'POST',
         headers: { 
@@ -45,7 +48,11 @@ function asignarAulaDocente() {
     .catch(error => {
         console.error('Error:', error);
         showNotification("Error en la solicitud", "bg-red-500");
-    });
+    })
+    .finally(()=>{
+        // Ocultar el loader después de la operación
+        document.getElementById("loadingScreen").classList.add("hidden");
+   });
 }
 
 // Función para cargar docentes en el select
@@ -139,6 +146,10 @@ function listarAsignaciones() {
 
 // Función para eliminar una asignación
 function eliminarAsignacion(idAsignacion) {
+
+    // Mostrar el loader al enviar el formulario
+    document.getElementById("loadingScreen").classList.remove("hidden");
+
     fetch(`${API_BASE_URL}/api/docente/asignacion/${idAsignacion}`, {
         method: 'DELETE',
         headers: 
@@ -160,7 +171,11 @@ function eliminarAsignacion(idAsignacion) {
     .catch(error => {
         console.error('Error al eliminar asignación:', error);
         showNotification("Error al eliminar asignación", "bg-red-500");
-    });
+    })
+    .finally(()=>{
+        // Ocultar el loader después de la operación
+        document.getElementById("loadingScreen").classList.add("hidden");
+   });
 }
 
 // Ejecutar funciones de carga al cargar la página

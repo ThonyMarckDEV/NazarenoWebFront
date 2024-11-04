@@ -53,8 +53,12 @@ function loadDocentes() {
 
 // Función para asignar especialidad a docente (con token)
 function asignarEspecialidad() {
+
     const idEspecialidad = document.getElementById("especialidad").value;
     const idDocente = document.getElementById("docente").value;
+
+    // Mostrar el loader al enviar el formulario
+    document.getElementById("loadingScreen").classList.remove("hidden");
 
     fetch(`${API_BASE_URL}/api/asignarEspecialidadDocente`, {
         method: "POST",
@@ -75,7 +79,14 @@ function asignarEspecialidad() {
             showNotification(data.message, "bg-red-500");
         }
     })
-    .catch(error => console.error("Error al asignar especialidad:", error));
+    .catch(
+        error => console.error("Error al asignar especialidad:", error
+
+    ))    
+    .finally(()=>{
+        // Ocultar el loader después de la operación
+        document.getElementById("loadingScreen").classList.add("hidden");
+   });
 }
 
 // Función para cargar asignaciones de especialidades a docentes
@@ -110,6 +121,10 @@ function loadAsignaciones() {
 
 // Función para eliminar una asignación (con token)
 function eliminarAsignacion(id) {
+
+    // Mostrar el loader al enviar el formulario
+    document.getElementById("loadingScreen").classList.remove("hidden");
+
     fetch(`${API_BASE_URL}/api/eliminarAsignacionDocente/${id}`, {
         method: "DELETE",
         headers: {
@@ -127,7 +142,14 @@ function eliminarAsignacion(id) {
             showNotification(data.message || "Error al eliminar asignación", "bg-red-500");
         }
     })
-    .catch(error => console.error("Error al eliminar asignación:", error));
+    .catch(
+        error => console.error("Error al eliminar asignación:", error
+
+    ))
+    .finally(()=>{
+        // Ocultar el loader después de la operación
+        document.getElementById("loadingScreen").classList.add("hidden");
+   });
 }
 
 // Función para mostrar notificación

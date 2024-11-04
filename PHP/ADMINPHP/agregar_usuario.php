@@ -154,7 +154,6 @@
             </table>
         </div>
     </div>
-
     <!-- Script para enviar datos en formato JSON -->
     <script type="module" src="../../js/register.js"></script>
     <!-- Script para listar, eliminar y editar usuarios -->

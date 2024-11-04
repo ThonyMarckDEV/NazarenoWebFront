@@ -8,6 +8,8 @@ function submitCursoForm() {
     const formData = new FormData(form);
     const data = Object.fromEntries(formData.entries());
 
+    // Mostrar el loader al enviar el formulario
+    document.getElementById("loadingScreen").classList.remove("hidden");
 
     fetch(`${API_BASE_URL}/api/agregarCurso`, {
         method: "POST",
@@ -30,7 +32,11 @@ function submitCursoForm() {
     .catch((error) => {
         console.error("Error:", error);
         showNotification("Error en la solicitud", "bg-red-500");
-    });
+    })    
+    .finally(()=>{
+        // Ocultar el loader después de la operación
+        document.getElementById("loadingScreen").classList.add("hidden");
+   });
 }
 
 // Cargar las opciones de especialidades
@@ -117,11 +123,18 @@ function listCursos() {
             cursosTableBody.appendChild(row);
         });
     })
-    .catch(error => console.error("Error al cargar cursos:", error));
+    .catch(
+      error => console.error("Error al cargar cursos:", error
+
+    ));
 }
 
 // Función para eliminar un curso
 function eliminarCurso(idCurso) {
+
+    // Mostrar el loader al enviar el formulario
+    document.getElementById("loadingScreen").classList.remove("hidden");
+
     fetch(`${API_BASE_URL}/api/eliminarCurso/${idCurso}`, {
         method: "DELETE",
         headers: {
@@ -137,7 +150,14 @@ function eliminarCurso(idCurso) {
             listCursos(); 
         }
     })
-    .catch(error => console.error("Error al eliminar curso:", error));
+    .catch(
+        error => console.error("Error al eliminar curso:", error
+
+    ))    
+    .finally(()=>{
+        // Ocultar el loader después de la operación
+        document.getElementById("loadingScreen").classList.add("hidden");
+   });
 }
 
 

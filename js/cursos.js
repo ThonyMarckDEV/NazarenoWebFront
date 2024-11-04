@@ -215,6 +215,10 @@ function loadMaterialesYActividades(idModulo, nombreCurso, seccion, nombreModulo
 
 // Función para descargar el archivo desde la API de descarga
 function descargarArchivo(url, nombreArchivo) {
+
+      // Mostrar el loader al enviar el formulario
+      document.getElementById("loadingScreen").classList.remove("hidden");
+
     fetch(url, {
         method: 'GET',
         headers: {
@@ -233,7 +237,14 @@ function descargarArchivo(url, nombreArchivo) {
         link.download = nombreArchivo;
         link.click();
     })
-    .catch(error => console.error("Error en la descarga:", error));
+    .catch(
+        error => console.error("Error en la descarga:", error
+
+    ))
+    .finally(()=>{
+        // Ocultar el loader después de la operación
+        document.getElementById("loadingScreen").classList.add("hidden");
+   });
 }
 
 let idModulo, nombreCurso, seccion, nombreModulo;
@@ -290,6 +301,9 @@ function enviarTarea() {
     formData.append('idActividad', actividadSeleccionada);
     formData.append('archivo', archivo);
 
+         // Mostrar el loader al enviar el formulario
+         document.getElementById("loadingScreen").classList.remove("hidden");
+
     fetch(`${API_BASE_URL}/api/subir-tarea`, {
         method: 'POST',
         headers: {
@@ -313,7 +327,11 @@ function enviarTarea() {
     .catch(error => {
         console.error("Error al subir tarea:", error);
         showNotification("Error al subir tarea", "bg-red-500");
-    });
+    })
+    .finally(()=>{
+        // Ocultar el loader después de la operación
+        document.getElementById("loadingScreen").classList.add("hidden");
+   });
 }
 
 function showNotification(message, bgColor) {

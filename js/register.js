@@ -9,7 +9,8 @@ function submitForm() {
     const formData = new FormData(form);
     const data = Object.fromEntries(formData.entries());
 
- 
+    // Mostrar el loader al enviar el formulario
+    document.getElementById("loadingScreen").classList.remove("hidden");
 
     fetch(`${API_BASE_URL}/api/register`, {
         method: "POST",
@@ -34,6 +35,10 @@ function submitForm() {
         console.error("Error:", error);
         showNotification("Error en la solicitud", "bg-red-500");
         form.reset();
+    })
+    .finally(()=>{
+         // Ocultar el loader después de la operación
+         document.getElementById("loadingScreen").classList.add("hidden");
     });
 }
 

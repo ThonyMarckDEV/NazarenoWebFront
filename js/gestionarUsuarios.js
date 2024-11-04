@@ -51,6 +51,10 @@ export function listUsers() {
 
 // Función para eliminar usuario con token
 function deleteUser(userId) {
+
+    // Mostrar el loader al enviar el formulario
+    document.getElementById("loadingScreen").classList.remove("hidden");
+
     fetch(`${API_BASE_URL}/api/eliminarUsuario/${userId}`, {
         method: "DELETE",
         headers: {
@@ -67,7 +71,14 @@ function deleteUser(userId) {
             showNotification(data.message || "Error al eliminar usuario", "bg-red-500");
         }
     })
-    .catch(error => console.error("Error al eliminar usuario:", error));
+    .catch(
+        error => console.error("Error al eliminar usuario:", error
+
+    ))
+    .finally(()=>{
+        // Ocultar el loader después de la operación
+        document.getElementById("loadingScreen").classList.add("hidden");
+   });;
 }
 
 // Función para actualizar usuario con token
@@ -75,6 +86,9 @@ function updateUser(userId) {
     const username = document.getElementById(`username-${userId}`).value;
     const rol = document.getElementById(`rol-${userId}`).value;
     const correo = document.getElementById(`correo-${userId}`).value;
+
+        // Mostrar el loader al enviar el formulario
+        document.getElementById("loadingScreen").classList.remove("hidden");
 
     fetch(`${API_BASE_URL}/api/actualizarUsuario/${userId}`, {
         method: "PUT",
@@ -94,7 +108,14 @@ function updateUser(userId) {
             showNotification(data.message || "Error al actualizar usuario", "bg-red-500");
         }
     })
-    .catch(error => console.error("Error al actualizar usuario:", error));
+    .catch(
+        error => console.error("Error al actualizar usuario:", error
+
+    ))
+    .finally(()=>{
+        // Ocultar el loader después de la operación
+        document.getElementById("loadingScreen").classList.add("hidden");
+   });
 }
 
 // Función para mostrar notificaciones

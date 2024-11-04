@@ -19,7 +19,7 @@ function loadEstudiantes() {
         data.data.forEach(estudiante => {
             const option = document.createElement("option");
             option.value = estudiante.idUsuario;
-            option.textContent = estudiante.username;
+            option.textContent = estudiante.nombre_completo; // Usamos 'nombre_completo'
             select.appendChild(option);
         });
     })
@@ -55,7 +55,6 @@ function loadGrados() {
     });
 }
 
-// Listar matriculas
 function listMatriculas() {
     fetch(`${API_BASE_URL}/api/listarMatriculas`, {
         method: "GET",
@@ -72,7 +71,7 @@ function listMatriculas() {
             const row = document.createElement("tr");
             row.innerHTML = `
                 <td class="p-3 border-b">${matricula.idMatricula}</td>
-                <td class="p-3 border-b">${matricula.usuario.username}</td>
+                <td class="p-3 border-b">${matricula.nombre_completo}</td> <!-- Usamos 'nombre_completo' -->
                 <td class="p-3 border-b">${matricula.grado.nombreGrado}</td>
                 <td class="p-3 border-b">${matricula.fechaMatricula}</td>
                 <td class="p-3 border-b">
@@ -91,6 +90,10 @@ function listMatriculas() {
 
 // Eliminar matricula con token
 function eliminarMatricula(idMatricula) {
+
+    // Mostrar el loader al enviar el formulario
+    document.getElementById("loadingScreen").classList.remove("hidden");
+
     fetch(`${API_BASE_URL}/api/eliminarMatricula/${idMatricula}`, {
         method: "DELETE",
         headers: {
@@ -112,13 +115,21 @@ function eliminarMatricula(idMatricula) {
     .catch(error => {
         console.error("Error al eliminar matrícula:", error);
         showNotification("Error en la solicitud", "bg-red-500");
-    });
+    })
+    .finally(()=>{
+        // Ocultar el loader después de la operación
+        document.getElementById("loadingScreen").classList.add("hidden");
+   });
 }
 
 // Matricular estudiante con token
 function submitMatricula() {
+
     const idUsuario = document.getElementById("estudiante").value;
     const idGrado = document.getElementById("grado").value;
+
+    // Mostrar el loader al enviar el formulario
+    document.getElementById("loadingScreen").classList.remove("hidden");
 
     fetch(`${API_BASE_URL}/api/matricularEstudiante`, {
         method: "POST",
@@ -141,7 +152,11 @@ function submitMatricula() {
     .catch(error => {
         console.error("Error:", error);
         showNotification("Error en la solicitud", "bg-red-500");
-    });
+    })
+    .finally(()=>{
+        // Ocultar el loader después de la operación
+        document.getElementById("loadingScreen").classList.add("hidden");
+   });
 }
 
 // Mostrar notificación en pantalla

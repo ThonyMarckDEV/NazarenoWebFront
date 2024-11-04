@@ -39,7 +39,7 @@ document.getElementById("loginForm").addEventListener("submit", async function(e
         localStorage.setItem("jwt", token);
 
         // Guardar el token en una cookie
-        setCookie("jwt", token, 1); // Expira en 1 día
+        setCookie("jwt", token, 1); // Expira en 1 día (puedes ajustar el tiempo)
 
         // Decodificar el token para obtener el rol del usuario
         const decodedToken = parseJwt(token);
@@ -67,7 +67,7 @@ document.getElementById("loginForm").addEventListener("submit", async function(e
 
 // Función para crear una cookie
 function setCookie(name, value, days) {
-    const expires = new Date(Date.now() + days * 864e5).toUTCString();
+    const expires = new Date(Date.now() + days * 864e5).toUTCString(); // Tiempo en días
     document.cookie = name + "=" + value + "; expires=" + expires + "; path=/";
 }
 

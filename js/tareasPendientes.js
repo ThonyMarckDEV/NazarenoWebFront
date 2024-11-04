@@ -179,6 +179,7 @@ function loadModulos(idCurso) {
 
 
 function cargarTareasPendientesPorModulo(idModulo, moduloCard) {
+
     fetch(`${API_BASE_URL}/api/modulo/${idModulo}/tareas-pendientes`, {
         headers: { 'Authorization': `Bearer ${token}`, "Content-Type": "application/json" }
     })
@@ -199,7 +200,10 @@ function cargarTareasPendientesPorModulo(idModulo, moduloCard) {
             }
         }
     })
-    .catch(error => console.error("Error al obtener tareas pendientes para el módulo:", error));
+    .catch(
+        error => console.error("Error al obtener tareas pendientes para el módulo:", error
+
+    ));
 }
 
 function openModulosModal(idCurso) {
@@ -228,6 +232,10 @@ function openTareasModal(idModulo) {
     const tareasContainer = document.getElementById("tareasContainer");
     tareasContainer.innerHTML = ""; // Limpiar el contenedor antes de cargar nuevas tareas
     console.log("Token:", token);
+
+    // Mostrar el loader al enviar el formulario
+    document.getElementById("loadingScreen").classList.remove("hidden");
+
     fetch(`${API_BASE_URL}/api/modulo/${idModulo}/tareas`, {
         headers: { 'Authorization': `Bearer ${token}` }
     })
@@ -253,6 +261,10 @@ function openTareasModal(idModulo) {
     .catch(error => {
         console.error("Error al cargar las tareas:", error);
         showNotification("Error al cargar las tareas", "bg-red-500");
+    })
+    .finally(()=>{
+         // Ocultar el loader después de la operación
+         document.getElementById("loadingScreen").classList.add("hidden");
     });
 
     const modal = document.getElementById("tareasModal");
@@ -267,6 +279,9 @@ function closeTareasModal() {
 function revisarTarea(idTarea) {
     const nota = document.getElementById(`nota-${idTarea}`).value;
     const idDocente = getIdUsuarioFromToken();
+
+    // Mostrar el "loading screen" antes de enviar el anuncio
+    document.getElementById("loadingScreen").classList.remove("hidden");
 
     fetch(`${API_BASE_URL}/api/tarea/revisar`, {
         method: 'POST',
@@ -292,7 +307,11 @@ function revisarTarea(idTarea) {
     .catch(error => {
         console.error("Error al revisar la tarea:", error);
         showNotification("Error al revisar la tarea", "bg-red-500");
-    });
+    })
+    .finally(()=>{
+        // Ocultar el loader después de la operación
+        document.getElementById("loadingScreen").classList.add("hidden");
+   });
 }
 
 

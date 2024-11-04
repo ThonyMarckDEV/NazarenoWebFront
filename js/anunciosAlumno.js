@@ -139,6 +139,9 @@ function openAnuncioModal(nombreCurso, seccion) {
 function marcarRevisado(idAnuncio) {
     const idUsuario = getIdUsuarioFromToken();
 
+    // Mostrar el loader al enviar el formulario
+    document.getElementById("loadingScreen").classList.remove("hidden");
+
     fetch(`${API_BASE_URL}/api/anuncios/${idAnuncio}/revisar`, {
         method: "POST",
         headers: {
@@ -167,7 +170,11 @@ function marcarRevisado(idAnuncio) {
     .catch(error => {
         console.error("Error al marcar el anuncio como revisado:", error);
         alert("Hubo un problema al intentar marcar el anuncio como revisado.");
-    });
+    })
+    .finally(()=>{
+        // Ocultar el loader después de la operación
+        document.getElementById("loadingScreen").classList.add("hidden");
+   });
 }
 
 // Función para cerrar el modal de anuncio
