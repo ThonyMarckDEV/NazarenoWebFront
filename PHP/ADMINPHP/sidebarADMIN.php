@@ -1,3 +1,4 @@
+<script src="https://cdn.jsdelivr.net/npm/jwt-decode/build/jwt-decode.min.js"></script>
 <!-- sidebar.php -->
 <div class="w-36 sm:w-64 bg-white shadow-md min-h-screen px-3 sm:px-6 py-4"> <!-- Ajuste de ancho a w-36 solo en móviles -->
     <div class="flex items-center space-x-4">
@@ -60,8 +61,11 @@
 <!-- Incluir el script de autenticación y el script para el botón de menú -->
 <!-- <script type="module" src="../../js/authAdmin.js"></script> -->
 <script type="module" src="../../js/checkRole.js"></script>
-<!-- Incluir el script de verificación de expiración del token -->
-<script type="module" src="../../js/checkTokenExpiration.js"></script>
 <!-- Script para manejar el cierre de sesión -->
 <script type="module" src="../../js/logout.js"></script>
+<!-- Cargar el archivo JavaScript en todas las páginas -->
+<script type="module" src="../../js/checkTokenInterval.js"></script>
+<script type="module" src="../../js/lastActivity.js"></script>
+
+
 

@@ -20,20 +20,18 @@ export async function logout() {
             console.error("Error al desloguear al usuario:", error);
         }
     }
-
-
     
-     // Eliminar el token de localStorage
-     localStorage.removeItem("jwt");
+       // Eliminar el token de localStorage
+       localStorage.removeItem("jwt");
 
-     // Eliminar la cookie JWT configurando su fecha de expiración en el pasado
-    document.cookie = "jwt=; path=/; expires=Thu, 01 Jan 1970 00:00:00 UTC; Secure; SameSite=Strict";
-
- 
+       // Eliminar la cookie JWT configurando su fecha de expiración en el pasado
+      document.cookie = "jwt=; path=/; expires=Thu, 01 Jan 1970 00:00:00 UTC; Secure; SameSite=Strict";
+  
    
     // Redirigir a la página de inicio de sesión en el dominio raíz
     window.location.href = `${window.location.origin}/index.php`;
 
+      
 }
 
 // Decodificar el token
