@@ -203,9 +203,15 @@ function closeModulosModal() {
 
 
 function openMaterialActividadModal(idModulo) {
+    const idUsuario = getIdUsuarioFromToken();
+    if (!idUsuario) {
+        showNotification("No se encontró el ID del usuario en el token.", "bg-red-500");
+        return;
+    }
+
     document.getElementById("loadingScreen").classList.remove("hidden");
 
-    fetch(`${API_BASE_URL}/api/modulos/${idModulo}/calificaciones`, {
+    fetch(`${API_BASE_URL}/api/modulos/${idModulo}/calificaciones/${idUsuario}`, {
         headers: { 
             "Authorization": `Bearer ${token}`, 
             "Content-Type": "application/json" 
@@ -228,7 +234,6 @@ function openMaterialActividadModal(idModulo) {
                 actividadElement.classList.add("p-4", "rounded-lg", bgColorClass, "shadow-lg", "relative", "mb-4", "transform", "rotate-1");
 
                 // Agregar botón solo si la tarea no ha sido vista
-                const idUsuario = getIdUsuarioFromToken(); // Obtener idUsuario del token
                 const vistoButton = actividad.visto === 'no' ? `
                     <button onclick="marcarTareaComoVista(${actividad.idTarea}, ${idUsuario})" 
                             class="bg-blue-500 text-white px-3 py-1 rounded mt-2">Marcar como visto</button>
@@ -252,11 +257,13 @@ function openMaterialActividadModal(idModulo) {
     })
     .catch(error => {
         console.error("Error al cargar las calificaciones:", error);
+        showNotification("Error al cargar las calificaciones", "bg-red-500");
     })
     .finally(() => {
         document.getElementById("loadingScreen").classList.add("hidden");
     });
 }
+
 
 
 // Función para marcar una tarea como vista y recargar el modal

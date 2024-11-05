@@ -53,6 +53,14 @@ function loadEspecialidades() {
         const select = document.getElementById("idEspecialidad");
         select.innerHTML = ''; // Limpiar opciones anteriores
 
+          // Crear opción predeterminada
+          const defaultOption = document.createElement("option");
+          defaultOption.value = ''; // Valor vacío para opción no seleccionable
+          defaultOption.textContent = "Seleccione una Especialidad";
+          defaultOption.disabled = true;
+          defaultOption.selected = true;
+          select.appendChild(defaultOption);
+
         data.data.forEach(item => {
             const option = document.createElement("option");
             option.value = item.idEspecialidad; // Asegurarse de que coincide con el JSON
@@ -78,7 +86,7 @@ function loadGrados() {
     .then(response => response.json())
     .then(data => {
         const select = document.getElementById("idGrado");
-        select.innerHTML = ''; // Limpiar opciones anteriores
+        select.innerHTML = 'Seleccione un grado:'; // Valor vacío para opción no seleccionable
 
         data.data.forEach(item => {
             const option = document.createElement("option");

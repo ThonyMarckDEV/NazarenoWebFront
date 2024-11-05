@@ -30,23 +30,30 @@ function loadEstudiantes() {
 }
 
 function loadGrados() {
+    const gradoSelect = document.getElementById("grado");
+    if (!gradoSelect) {
+        console.error("Error: El elemento con ID 'grado' no se encuentra en el DOM.");
+        return;
+    }
+
     fetch(`${API_BASE_URL}/api/listarGradosCupos`, {
         method: "GET",
-        headers: {
+        headers: { 
+            'Authorization': `Bearer ${token}`,
             "ngrok-skip-browser-warning": "69420",
-            "bypass-tunnel-reminder": "true" // O usa un encabezado personalizado
+            "bypass-tunnel-reminder": "true"
         }
     })
     .then(response => response.json())
     .then(data => {
-        const select = document.getElementById("grado");
-        select.innerHTML = '';
+        gradoSelect.innerHTML = "<option value=''>Seleccione un aula</option>"; // Limpiar opciones previas
 
         data.data.forEach(grado => {
             const option = document.createElement("option");
             option.value = grado.idGrado;
-            option.textContent = `${grado.nombreGrado} - Cupos: ${grado.cupos}`;
-            select.appendChild(option);
+            // Mostrar grado, sección y cupos en cada opción del select
+            option.textContent = `${grado.nombreGrado} - Sección: ${grado.seccion} - Cupos: ${grado.cupos}`;
+            gradoSelect.appendChild(option);
         });
     })
     .catch(error => {
@@ -71,8 +78,8 @@ function listMatriculas() {
             const row = document.createElement("tr");
             row.innerHTML = `
                 <td class="p-3 border-b">${matricula.idMatricula}</td>
-                <td class="p-3 border-b">${matricula.nombre_completo}</td> <!-- Usamos 'nombre_completo' -->
-                <td class="p-3 border-b">${matricula.grado.nombreGrado}</td>
+                <td class="p-3 border-b">${matricula.nombre_completo}</td>
+                <td class="p-3 border-b">${matricula.grado.nombreGrado} - ${matricula.grado.seccion}</td> <!-- Mostrar nombre y sección del grado -->
                 <td class="p-3 border-b">${matricula.fechaMatricula}</td>
                 <td class="p-3 border-b">
                     <button onclick="eliminarMatricula(${matricula.idMatricula})" 
@@ -87,6 +94,7 @@ function listMatriculas() {
         showNotification("Error en la solicitud", "bg-red-500");
     });
 }
+
 
 // Eliminar matricula con token
 function eliminarMatricula(idMatricula) {
