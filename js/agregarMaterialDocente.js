@@ -211,13 +211,6 @@ function openActividadModal(idModulo) {
     modal.style.display = "block";
 }
 
-
-// Cerrar modal de material
-function closeMaterialModal() {
-    const modal = document.getElementById("materialModal");
-    if (modal) modal.style.display = "none";
-}
-
 // Cerrar modal de actividad
 function closeActividadModal() {
     limpiarCamposActividad(); // Llama a la función para limpiar los campos
@@ -286,6 +279,9 @@ function enviarActividad() {
             return;
         }
 
+        // Crear el mensaje de descripción para el anuncio
+        const descripcionAnuncio = `El docente ha asignado una actividad en: ${nombreModulo}`;
+
         // Enviar el anuncio a la API
         fetch(`${API_BASE_URL}/api/anuncios`, {
             method: 'POST',
@@ -296,7 +292,7 @@ function enviarActividad() {
             body: JSON.stringify({ 
                 nombreCurso, 
                 seccion, 
-                descripcion, 
+                descripcion: descripcionAnuncio, 
                 idDocente 
             })
         })
@@ -430,6 +426,13 @@ function limpiarCamposMaterial() {
     document.getElementById("materialNombre").value = "";
     document.getElementById("materialArchivo").value = "";
 }
+
+// Cerrar modal de material
+function closeMaterialModal() {
+    const modal = document.getElementById("materialModal");
+    if (modal) modal.style.display = "none";
+}
+
 
 // Función para mostrar notificaciones
 function showNotification(message, bgColor) {

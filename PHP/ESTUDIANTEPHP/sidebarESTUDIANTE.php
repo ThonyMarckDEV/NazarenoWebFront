@@ -29,9 +29,10 @@
             </a>
         </li>
         <li>
-            <a href="calificaciones.php" class="flex items-center space-x-2 text-gray-700 hover:bg-gray-200 hover:text-gray-900 p-2 rounded">
-                <img src="../../img/material.png" alt="Asignar Especialidad Docente" class="w-5 h-5">
-                <span>Calificaciones</span>
+            <a href="calificaciones.php" class="flex items-center space-x-2 text-gray-700 hover:bg-gray-200 hover:text-gray-900 p-2 rounded relative">
+                <img src="../../img/calificaciones.png" alt="" class="w-5 h-5">
+                <span>calificaciones</span>
+                <span id="contadorCalificaciones" class="absolute top-2 right-0 transform translate-y-1 bg-red-500 text-white rounded-full text-xs w-5 h-5 flex items-center justify-center hidden">0</span>
             </a>
         </li>
         <li>
@@ -59,3 +60,5 @@
 <!-- Cargar el archivo JavaScript en todas las páginas -->
 <script type="module"  src="../../js/checkTokenInterval.js"></script>
 <script type="module"  src="../../js/lastActivity.js"></script>
+<!-- Script para actualizar el contador de anuncios no vistos -->
+<script type="module" src="../../js/contadorCalificaciones.js"></script>

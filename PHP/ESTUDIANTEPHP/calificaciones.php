@@ -36,26 +36,26 @@
         </div>
     </div>
 
- <!-- Modal para mostrar módulos del curso -->
+    <!-- Modal para mostrar módulos del curso -->
     <div id="modulosModal" style="display: none;" class="fixed inset-0 bg-gray-800 bg-opacity-75 flex items-center justify-center z-50">
-        <div class="bg-white p-4 rounded-lg w-full max-w-xs mx-4 ml-auto sm:mx-auto sm:max-w-lg sm:p-6 sm:mt-32">
-            <h2 class="text-lg sm:text-xl font-semibold mb-4 text-center">Calificaciones del Curso</h2>
-            <div id="moduloContainer" class="space-y-2">
+        <div class="bg-white p-4 rounded-lg w-10/12 max-w-xs ml-8 mx-2 sm:mx-auto sm:max-w-md sm:p-4 sm:max-h-[80vh] overflow-y-auto my-auto">
+            <h2 class="text-base font-semibold mb-3 text-center">Módulos del Curso</h2>
+            <div id="moduloContainer" class="space-y-3">
                 <!-- Aquí se cargarán los módulos dinámicamente -->
             </div>
-            <div class="flex justify-center sm:justify-end mt-4">
-                <button onclick="closeModulosModal()" class="bg-gray-300 text-gray-800 px-3 py-1 sm:px-5 sm:py-3 text-sm sm:text-base rounded">Cerrar</button>
+            <div class="flex justify-center sm:justify-end mt-3">
+                <button onclick="closeModulosModal()" class="bg-gray-300 text-gray-800 px-2 py-1 sm:px-4 sm:py-2 text-sm rounded">Cerrar</button>
             </div>
         </div>
     </div>
 
     <!-- Modal para mostrar calificaciones de actividades -->
     <div id="moduloModal" style="display: none;" class="fixed inset-0 bg-gray-800 bg-opacity-75 flex items-center justify-center z-50">
-        <div class="bg-white p-4 rounded-lg w-full max-w-xs mx-4 sm:max-w-lg lg:max-w-2xl lg:w-2/3 sm:p-6 lg:mx-auto lg:my-auto lg:mt-20 shadow-2xl">
+        <div class="bg-white p-4 rounded-lg w-full max-w-xs mx-4 sm:max-w-lg lg:max-w-3xl lg:w-3/4 sm:p-6 lg:mx-auto lg:my-auto lg:mt-20 shadow-2xl">
             <h2 class="text-lg sm:text-xl font-semibold mb-4 text-center">Calificaciones de Actividades del Módulo</h2>
             
             <!-- Contenedor de Actividades -->
-            <div id="actividadContainer" class="space-y-4 overflow-y-auto max-h-80">
+            <div id="actividadContainer" class="space-y-4 overflow-y-auto max-h-96 lg:max-h-[60vh]">
                 <!-- Aquí se cargarán las actividades dinámicamente -->
             </div>
             
@@ -64,7 +64,7 @@
             </div>
         </div>
     </div>
-
+    
     <!-- Incluir el script para cargar anuncios -->
     <script type="module" src="../../js/calificaciones.js"></script>
 </body>

@@ -154,7 +154,6 @@ function loadModulos(idCurso) {
 
             moduloCard.innerHTML = `
             <div class="flex flex-col h-full relative">
-                <!-- Nombre del módulo en la parte superior -->
                 <span class="font-semibold text-xl mb-2">${modulo.nombre}</span>
                 <div class="flex justify-end items-center space-x-2 space-x-reverse mt-auto">
                     <span id="contador-${modulo.idModulo}" class="bg-red-500 text-white rounded-full w-6 h-6 flex items-center justify-center text-xs font-bold order-1" style="display: none;">0</span>

@@ -45,6 +45,8 @@ function loadCursos() {
                         <p class="text-sm text-gray-600 mb-2">Grado: ${curso.nombreGrado} - Sección: ${curso.seccion}</p>
                     </div>
                     <div class="flex items-center space-x-2 mt-2 sm:mt-0">
+                     <!-- Contador visible al lado del botón en pantallas grandes, y junto al texto en móviles -->
+                        <span id="contador-${curso.nombreCurso}-${curso.seccion}" class="bg-red-500 text-white rounded-full w-6 h-6 flex items-center justify-center text-sm font-bold" style="display: none;">0</span>
                         <button onclick="openModuloModal(${curso.idCurso}, '${curso.nombreCurso}', '${curso.seccion}')" class="bg-black text-white px-3 py-1 rounded">Ver Módulo</button>
                     </div>
                 </div>
@@ -52,11 +54,40 @@ function loadCursos() {
 
                 cursosList.appendChild(courseCard);
             });
+                   // Llamar a la función para actualizar el contador de tareas pendientes por curso
+                   actualizarContadorCalificacionesRevisadasPorCurso(idUsuario);
         } else {
             cursosList.innerHTML = "<p class='text-center text-gray-600'>No hay cursos disponibles.</p>";
         }
     })
     .catch(error => console.error("Error al cargar los cursos:", error));
+}
+
+// Función para actualizar el contador de tareas revisadas por curso
+function actualizarContadorCalificacionesRevisadasPorCurso(idUsuario) {
+    fetch(`${API_BASE_URL}/api/tareas-revisadas-por-curso/${idUsuario}`, {
+        headers: {
+            'Authorization': `Bearer ${token}`,
+            "Content-Type": "application/json"
+        }
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            data.data.forEach(({ nombreCurso, seccion, tareas_revisadas }) => {
+                const contadorElemento = document.getElementById(`contador-${nombreCurso}-${seccion}`);
+                if (contadorElemento) {
+                    if (tareas_revisadas > 0) {
+                        contadorElemento.textContent = tareas_revisadas;
+                        contadorElemento.style.display = "flex";
+                    } else {
+                        contadorElemento.style.display = "none";
+                    }
+                }
+            });
+        }
+    })
+    .catch(error => console.error("Error al obtener el contador de tareas revisadas por curso:", error));
 }
 
 function loadModulos(idCurso, nombreCurso, seccion) {
@@ -88,16 +119,32 @@ function loadModulos(idCurso, nombreCurso, seccion) {
             );
 
             moduloCard.innerHTML = `
-                <div>
-                    <span class="font-semibold block">${modulo.nombre}</span>
-                    <div class="flex flex-row sm:flex-row space-x-2 mt-1 sm:mt-2">
-                        <button onclick="openMaterialActividadModal(${modulo.idModulo}, '${nombreCurso}', '${seccion}', '${modulo.nombre}')" 
-                            class="bg-black text-white px-2 py-1 sm:px-4 sm:py-2 rounded text-xs sm:text-base">
-                            Ver Calificaciones
-                        </button>
-                    </div>
+            <div>
+                <span class="font-semibold block">${modulo.nombre}</span>
+                <div class="flex flex-row sm:flex-row space-x-2 mt-1 sm:mt-2">
+                <span id="contador-${modulo.idModulo}" class="bg-red-500 text-white rounded-full w-6 h-6 flex items-center justify-center text-xs font-bold order-1" style="display: none;">0</span>
+                    <button onclick="openMaterialActividadModal(${modulo.idModulo}, '${nombreCurso}', '${seccion}', '${modulo.nombre}')" 
+                        class="bg-black text-white px-2 py-1 sm:px-4 sm:py-2 rounded text-xs sm:text-base">
+                        Ver Calificaciones
+                    </button>
                 </div>
+            </div>
             `;
+
+        // <div>
+        //     <span class="font-semibold block">${modulo.nombre}</span>
+        //     <div class="flex flex-row sm:flex-row space-x-2 mt-1 sm:mt-2">
+        //     <span id="contador-${modulo.idModulo}" class="bg-red-500 text-white rounded-full w-6 h-6 flex items-center justify-center text-xs font-bold order-1" style="display: none;">0</span>
+        //         <button onclick="openMaterialActividadModal(${modulo.idModulo}, '${nombreCurso}', '${seccion}', '${modulo.nombre}')" 
+        //             class="bg-black text-white px-2 py-1 sm:px-4 sm:py-2 rounded text-xs sm:text-base">
+        //             Ver Calificaciones
+        //         </button>
+        //     </div>
+        // </div>
+
+            // Obtener idUsuario y cargar el contador de tareas revisadas por módulo
+            const idUsuario = getIdUsuarioFromToken();
+            cargarCalificacionesRevisadasPorModulo(idUsuario, modulo.idModulo, moduloCard);
             moduloContainer.appendChild(moduloCard);
         });
     })
@@ -105,6 +152,40 @@ function loadModulos(idCurso, nombreCurso, seccion) {
         console.error("Error al cargar los módulos:", error);
         showNotification("Error al cargar los módulos", "bg-red-500");
     });
+}
+
+// Función para cargar el contador de tareas revisadas por módulo con logs
+function cargarCalificacionesRevisadasPorModulo(idUsuario, idModulo, moduloCard) {
+    console.log(`Cargando tareas revisadas para idUsuario: ${idUsuario}, idModulo: ${idModulo}`);
+
+    fetch(`${API_BASE_URL}/api/tareas-revisadas-por-modulo/${idUsuario}/${idModulo}`, {
+        headers: {
+            'Authorization': `Bearer ${token}`,
+            "Content-Type": "application/json"
+        }
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            const tareasRevisadas = data.tareasRevisadas; // Asignamos aquí el valor correctamente
+            console.log(`Total tareas revisadas para módulo ${idModulo}:`, tareasRevisadas);
+
+            const contadorElemento = moduloCard.querySelector(`#contador-${idModulo}`);
+            if (contadorElemento) {
+                if (tareasRevisadas > 0) {
+                    contadorElemento.textContent = tareasRevisadas;
+                    contadorElemento.style.display = "flex";
+                } else {
+                    contadorElemento.style.display = "none";
+                }
+            } else {
+                console.error(`No se encontró el elemento contador para idModulo: ${idModulo}`);
+            }
+        } else {
+            console.error("La API no devolvió éxito al obtener tareas revisadas.");
+        }
+    })
+    .catch(error => console.error("Error al obtener el contador de tareas revisadas por módulo:", error));
 }
 
 // Abrir el modal de módulos
@@ -121,7 +202,9 @@ function closeModulosModal() {
 }
 
 
-function openMaterialActividadModal(idModulo, nombreCurso, seccion, nombreModulo) {
+function openMaterialActividadModal(idModulo) {
+    document.getElementById("loadingScreen").classList.remove("hidden");
+
     fetch(`${API_BASE_URL}/api/modulos/${idModulo}/calificaciones`, {
         headers: { 
             "Authorization": `Bearer ${token}`, 
@@ -136,18 +219,26 @@ function openMaterialActividadModal(idModulo, nombreCurso, seccion, nombreModulo
         if (data.success && data.data.length > 0) {
             data.data.forEach(actividad => {
                 const actividadElement = document.createElement("div");
-
+                
                 // Definir el color de fondo basado en la nota
-                let bgColorClass = "bg-green-200"; // Verde por defecto
+                let bgColorClass = "bg-green-200";
                 if (actividad.nota < 11) bgColorClass = "bg-red-200";
                 else if (actividad.nota < 15) bgColorClass = "bg-yellow-200";
 
                 actividadElement.classList.add("p-4", "rounded-lg", bgColorClass, "shadow-lg", "relative", "mb-4", "transform", "rotate-1");
 
+                // Agregar botón solo si la tarea no ha sido vista
+                const idUsuario = getIdUsuarioFromToken(); // Obtener idUsuario del token
+                const vistoButton = actividad.visto === 'no' ? `
+                    <button onclick="marcarTareaComoVista(${actividad.idTarea}, ${idUsuario})" 
+                            class="bg-blue-500 text-white px-3 py-1 rounded mt-2">Marcar como visto</button>
+                ` : '';
+
                 actividadElement.innerHTML = `
-                    <div class="absolute top-1 left-1 h-4 w-4 bg-yellow-300 rounded-full shadow-lg"></div> <!-- Esquina simulando el pin -->
+                    <div class="absolute top-1 left-1 h-4 w-4 bg-yellow-300 rounded-full shadow-lg"></div> 
                     <p class="font-semibold text-gray-800 mb-1">${actividad.titulo}</p>
                     <p class="text-gray-600 text-sm">Nota: <span class="font-bold ${actividad.color}">${actividad.nota}</span></p>
+                    ${vistoButton}
                 `;
                 
                 actividadContainer.appendChild(actividadElement);
@@ -156,13 +247,37 @@ function openMaterialActividadModal(idModulo, nombreCurso, seccion, nombreModulo
             actividadContainer.innerHTML = "<p class='text-center text-gray-600'>No hay actividades con calificaciones disponibles.</p>";
         }
 
-        // Mostrar el modal
         const modal = document.getElementById("moduloModal");
         if (modal) modal.style.display = "block";
     })
     .catch(error => {
         console.error("Error al cargar las calificaciones:", error);
+    })
+    .finally(() => {
+        document.getElementById("loadingScreen").classList.add("hidden");
     });
+}
+
+
+// Función para marcar una tarea como vista y recargar el modal
+function marcarTareaComoVista(idTarea, idUsuario) {
+    fetch(`${API_BASE_URL}/api/tareas/${idTarea}/${idUsuario}/marcar-visto`, {
+        method: 'PUT',
+        headers: {
+            'Authorization': `Bearer ${token}`,
+            'Content-Type': 'application/json'
+        }
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            console.log("Tarea marcada como vista:", data.message);
+            location.reload(); // Recarga la página si la tarea fue marcada como vista correctamente
+        } else {
+            console.error("Error al marcar tarea como vista:", data.message);
+        }
+    })
+    .catch(error => console.error("Error en la solicitud:", error));
 }
 
 function closeMaterialActividadModal() {
@@ -199,3 +314,4 @@ window.openMaterialActividadModal = openMaterialActividadModal;
 window.closeMaterialActividadModal = closeMaterialActividadModal;
 // Hacer la función accesible globalmente
 window.closeMaterialActividadModal = closeMaterialActividadModal;
+window.marcarTareaComoVista = marcarTareaComoVista;
