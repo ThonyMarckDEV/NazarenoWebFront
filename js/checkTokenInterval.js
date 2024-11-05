@@ -1,5 +1,5 @@
 // Configuración del intervalo de verificación
-const checkTokenInterval = 1000; // Verifica cada 1 segundo
+const checkTokenInterval = 60000; // Verifica cada 60 segundos
 const expirationThreshold = 120;   // Intenta renovar si quedan 2 minutos o menos
 
 // URL base de la API
@@ -9,7 +9,6 @@ import API_BASE_URL from './urlHelper.js';
 function checkAndRenewToken() {
     const token = localStorage.getItem('jwt');
     if (!token) {
-        console.log("No hay token disponible, redirigiendo al login...");
         redirectToLogin();
         return;
     }
@@ -18,7 +17,6 @@ function checkAndRenewToken() {
     const currentTime = Math.floor(Date.now() / 1000);
     const timeRemaining = tokenExpiration - currentTime;
 
-    console.log(`Verificación del token: tiempo restante ${timeRemaining} segundos`);
 
     if (timeRemaining <= 0) {
         alert("Tu sesión ha caducado, serás redirigido para iniciar sesión nuevamente.");
@@ -32,10 +30,14 @@ function checkAndRenewToken() {
     }
 }
 
+let isRenewingToken = false;
+
 // Función para renovar el token llamando al servidor Laravel
 async function renewToken() {
+    if (isRenewingToken) return; // Evita llamadas concurrentes
+    isRenewingToken = true;
     const token = localStorage.getItem('jwt');
-    console.log(`Intentando renovar el token actual: ${token}`);
+    console.log(`Intentando renovar el token actual`);
     
     try {
         const response = await fetch(`${API_BASE_URL}/api/refresh-token`, {
@@ -48,7 +50,7 @@ async function renewToken() {
 
         if (response.ok) {
             const data = await response.json();
-            console.log(`Token renovado recibido: ${data.accessToken}`);
+            console.log(`Token renovado`);
             localStorage.setItem('jwt', data.accessToken); // Guarda el nuevo token
         } else {
             console.log("Error al renovar el token, cerrando sesión...");
@@ -58,6 +60,7 @@ async function renewToken() {
         console.error("Excepción al renovar el token:", error);
         logoutExternal();
     }
+    isRenewingToken = false;
 }
 
 // Importar y usar la función de logout externo

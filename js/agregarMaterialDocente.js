@@ -112,21 +112,25 @@ function loadModulos(idCurso) {
             );
 
             moduloCard.innerHTML = `
-                <div>
-                    <span class="font-semibold block">${modulo.nombre}</span>
-                    <div class="flex flex-row sm:flex-row space-x-2 mt-1 sm:mt-2">
-                        <button onclick="openMaterialModal(${modulo.idModulo})" 
-                            class="bg-black text-white px-2 py-1 sm:px-4 sm:py-2 rounded text-xs sm:text-base">
-                            Agregar Material
-                        </button>
-                        <button onclick="openActividadModal(${modulo.idModulo})" 
-                            class="bg-gray-300 text-gray-800 px-2 py-1 sm:px-4 sm:py-2 rounded text-xs sm:text-base">
-                            Asignar Actividad
-                        </button>
-                    </div>
+            <div>
+                <span class="font-semibold block">${modulo.nombre}</span>
+                <div class="flex flex-row sm:flex-row space-x-2 mt-1 sm:mt-2">
+                    <button onclick="openMaterialModal(${modulo.idModulo})" 
+                        class="bg-black text-white px-2 py-1 sm:px-4 sm:py-2 rounded text-xs sm:text-base">
+                        Agregar Material
+                    </button>
+                    <button onclick="openActividadModal(${modulo.idModulo})" 
+                        class="bg-gray-300 text-gray-800 px-2 py-1 sm:px-4 sm:py-2 rounded text-xs sm:text-base">
+                        Asignar Actividad
+                    </button>
+                    <button onclick="verModulo(${modulo.idModulo})" 
+                        class="bg-blue-500 text-white px-2 py-1 sm:px-4 sm:py-2 rounded text-xs sm:text-base">
+                        Ver Módulo
+                    </button>
                 </div>
-            `;
-            moduloContainer.appendChild(moduloCard);
+            </div>
+        `;
+        moduloContainer.appendChild(moduloCard);
         });
     })
     .catch(error => {
@@ -433,6 +437,214 @@ function closeMaterialModal() {
     if (modal) modal.style.display = "none";
 }
 
+// Define una variable global al principio de tu archivo JavaScript
+let currentModuloId = null;
+
+function verModulo(idModulo) {
+    currentModuloId = idModulo; // Actualiza el id actual del módulo
+    const materialContainer = document.getElementById("materialContainer");
+    const actividadContainer = document.getElementById("actividadContainer");
+
+    if (!materialContainer || !actividadContainer) {
+        console.error("Los contenedores de materiales y actividades no están en el DOM.");
+        return;
+    }
+
+    materialContainer.innerHTML = "<h3 class='font-semibold text-lg mb-2'>Materiales:</h3>";
+    actividadContainer.innerHTML = "<h3 class='font-semibold text-lg mb-2'>Actividades:</h3>";
+
+    // Cargar materiales
+    fetch(`${API_BASE_URL}/api/modulo/${idModulo}/materialesAsignadas`, {
+        headers: { 'Authorization': `Bearer ${token}` }
+    })
+    .then(response => response.json())
+    .then(data => {
+        data.data.forEach(material => {
+            const materialCard = document.createElement("div");
+            materialCard.classList.add("bg-white", "rounded-lg", "shadow-md", "p-4", "mb-4", "flex", "items-center", "justify-between");
+
+            const extensionArchivo = material.ruta.split('.').pop();
+            const nombreConExtension = `${material.nombre}.${extensionArchivo}`;
+            const rutaCompletaMaterial = `${API_BASE_URL}/api/descargar/${encodeURIComponent(material.ruta)}`;
+
+            materialCard.innerHTML = `
+                <div class="flex items-center space-x-4">
+                    <span class="font-semibold text-gray-800">${nombreConExtension}</span>
+                </div>
+                <div class="flex space-x-2">
+                    <button onclick="eliminarMaterial(${material.idMaterial}, ${idModulo})" class="bg-red-500 text-white p-2 rounded">
+                        Eliminar
+                    </button>
+                </div>
+            `;
+            materialContainer.appendChild(materialCard);
+        });
+    })
+    .catch(error => console.error("Error al cargar los materiales:", error));
+
+    // Cargar actividades
+    fetch(`${API_BASE_URL}/api/modulo/${idModulo}/actividadesAsignadas`, {
+        headers: { 'Authorization': `Bearer ${token}` }
+    })
+    .then(response => response.json())
+    .then(data => {
+        data.data.forEach(actividad => {
+            const actividadCard = document.createElement("div");
+            actividadCard.classList.add(
+                "bg-gray-100",
+                "rounded-lg",
+                "shadow-md",
+                "p-4",
+                "mb-4",
+                "flex",
+                "flex-col"
+            );
+            
+            actividadCard.innerHTML = `
+                <div>
+                    <h3 class="font-semibold text-gray-800">${actividad.titulo}</h3>
+                    <p class="text-gray-700">${actividad.descripcion}</p>
+                    <p class="text-sm text-gray-600"><strong>Fecha de Entrega:</strong> ${actividad.fecha_vencimiento}</p>
+                </div>
+                <div class="flex flex-nowrap space-x-2 mt-4">
+                    <button onclick="eliminarActividad(${actividad.idActividad}, ${idModulo})" class="bg-red-500 text-white px-2 py-1 rounded text-sm flex-shrink-0">
+                        Eliminar
+                    </button>
+                    <button onclick="abrirModalActualizarActividad(${actividad.idActividad}, ${idModulo}, '${actividad.titulo}', '${actividad.descripcion}', '${actividad.fecha_vencimiento}')" class="bg-yellow-500 text-white px-2 py-1 rounded text-sm flex-shrink-0">
+                        Actualizar
+                    </button>
+                </div>
+            `;
+            actividadContainer.appendChild(actividadCard);
+        });
+    })
+    .catch(error => console.error("Error al cargar las actividades:", error));
+
+    const modal = document.getElementById("moduloModal");
+    if (modal) modal.style.display = "block";
+}
+
+function eliminarMaterial(idMaterial) {
+    if (!idMaterial) {
+        console.error("idMaterial no definido");
+        showNotification("Error: idMaterial no está definido", "bg-red-500");
+        return;
+    }
+
+    if (!confirm("¿Estás seguro de que deseas eliminar este material?")) return;
+
+    fetch(`${API_BASE_URL}/api/material/${idMaterial}`, {
+        method: 'DELETE',
+        headers: { 'Authorization': `Bearer ${token}` }
+    })
+    .then(response => {
+        if (!response.ok) throw new Error("Error al eliminar el material");
+        return response.json();
+    })
+    .then(data => {
+        showNotification(data.message, "bg-green-500");
+        verModulo(currentModuloId); // Recargar el módulo para reflejar los cambios
+    })
+    .catch(error => {
+        console.error("Error al eliminar el material:", error);
+        showNotification("Error al eliminar el material", "bg-red-500");
+    });
+}
+
+function eliminarActividad(idActividad) {
+    if (!idActividad) {
+        console.error("idActividad no definido");
+        showNotification("Error: idActividad no está definido", "bg-red-500");
+        return;
+    }
+
+    if (!confirm("¿Estás seguro de que deseas eliminar esta actividad?")) return;
+
+    fetch(`${API_BASE_URL}/api/actividad/${idActividad}`, {
+        method: 'DELETE',
+        headers: { 'Authorization': `Bearer ${token}` }
+    })
+    .then(response => {
+        if (!response.ok) throw new Error("Error al eliminar la actividad");
+        return response.json();
+    })
+    .then(data => {
+        showNotification(data.message, "bg-green-500");
+        verModulo(currentModuloId); // Recargar el módulo para reflejar los cambios
+    })
+    .catch(error => {
+        console.error("Error al eliminar la actividad:", error);
+        showNotification("Error al eliminar la actividad", "bg-red-500");
+    });
+}
+
+function guardarActividadActualizada() {
+    const idActividad = document.getElementById("actividadIdActualizar").value;
+    const idModulo = document.getElementById("actividadModuloIdActualizar").value;
+    const titulo = document.getElementById("actividadTituloActualizar").value;
+    const descripcion = document.getElementById("actividadDescripcionActualizar").value;
+    const fecha_vencimiento = document.getElementById("actividadFechaVencimientoActualizar").value;
+
+    console.log("Datos para enviar a actualizarActividad:", { titulo, descripcion, fecha_vencimiento });
+
+    fetch(`${API_BASE_URL}/api/actualizaractividad/${idActividad}`, {
+        method: 'PUT',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`
+        },
+        body: JSON.stringify({ titulo, descripcion, fecha_vencimiento })
+    })
+    .then(response => {
+        if (!response.ok) throw new Error("Error al actualizar la actividad");
+        return response.json();
+    })
+    .then(data => {
+        if (data.success) {
+            showNotification(data.message, "bg-green-500");
+            cerrarModal('modalActualizarActividad');
+            verModulo(idModulo);
+        } else {
+            showNotification(data.message, "bg-red-500");
+        }
+    })
+    .catch(error => {
+        console.error("Error al actualizar la actividad:", error);
+        showNotification("Error al actualizar la actividad", "bg-red-500");
+    });
+}
+
+
+function abrirModalActualizarActividad(idActividad, idModulo, tituloActual, descripcionActual, fechaActual) {
+    document.getElementById("actividadIdActualizar").value = idActividad;
+    document.getElementById("actividadModuloIdActualizar").value = idModulo;
+    document.getElementById("actividadTituloActualizar").value = tituloActual;
+    document.getElementById("actividadDescripcionActualizar").value = descripcionActual;
+    document.getElementById("actividadFechaVencimientoActualizar").value = fechaActual;
+
+    document.getElementById("modalActualizarActividad").classList.remove("hidden");
+}
+
+function cerrarModal(modalId) {
+    document.getElementById(modalId).classList.add("hidden");
+
+    if (modalId === 'modalActualizarActividad') {
+        // Limpiar los campos del modal de actualización
+        document.getElementById("actividadTituloActualizar").value = '';
+        document.getElementById("actividadDescripcionActualizar").value = '';
+        document.getElementById("actividadFechaVencimientoActualizar").value = '';
+    } else if (modalId === 'actividadModal') {
+        // Limpiar los campos del modal de creación de actividad
+        document.getElementById("actividadTitulo").value = '';
+        document.getElementById("actividadDescripcion").value = '';
+        document.getElementById("actividadFechaVencimiento").value = '';
+    }
+}
+
+function closeMaterialActividadModal() {
+    const modal = document.getElementById("moduloModal");
+    if (modal) modal.style.display = "none";
+}
 
 // Función para mostrar notificaciones
 function showNotification(message, bgColor) {
@@ -462,4 +674,11 @@ window.closeMaterialModal = closeMaterialModal;
 window.closeActividadModal = closeActividadModal;
 window.enviarActividad = enviarActividad;
 window.enviarMaterial = enviarMaterial;
-window.seleccionarCurso = seleccionarCurso; // Añadir esta línea
+window.eliminarMaterial = eliminarMaterial;
+window.eliminarActividad = eliminarActividad;
+window.closeMaterialActividadModal = closeMaterialActividadModal;
+window.seleccionarCurso = seleccionarCurso;
+window.verModulo = verModulo;
+window.abrirModalActualizarActividad = abrirModalActualizarActividad;
+window.cerrarModal = cerrarModal;
+window.guardarActividadActualizada = guardarActividadActualizada;

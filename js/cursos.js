@@ -130,7 +130,7 @@ function closeModulosModal() {
 }
 
 
-function loadMaterialesYActividades(idModulo, nombreCurso, seccion, nombreModulo) {
+function loadMaterialesYActividades(idModulo) {
     const idUsuario = getIdUsuarioFromToken();
     const materialContainer = document.getElementById("materialContainer");
     const actividadContainer = document.getElementById("actividadContainer");

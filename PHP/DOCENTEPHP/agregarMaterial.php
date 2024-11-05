@@ -96,6 +96,54 @@
     </div>
 </div>
 
+<!-- Modal para mostrar materiales y actividades -->
+<div id="moduloModal" style="display: none;" class="fixed inset-0 bg-gray-800 bg-opacity-75 flex items-center justify-center z-50">
+    <div class="bg-white p-4 rounded-lg w-full max-w-xs mx-4 sm:max-w-lg lg:max-w-2xl lg:w-2/3 sm:p-6 lg:mx-auto lg:my-auto lg:mt-20">
+        <h2 class="text-lg sm:text-xl font-semibold mb-4 text-center">Materiales y Actividades del Módulo</h2>
+
+        <div class="overflow-y-auto max-h-80 p-4">
+            <!-- Contenedor de Materiales -->
+            <div id="materialContainer" class="space-y-4 mb-6">
+                <!-- Aquí se cargarán los materiales dinámicamente -->
+            </div>
+
+            <!-- Contenedor de Actividades -->
+            <div id="actividadContainer" class="space-y-4">
+                <!-- Aquí se cargarán las actividades dinámicamente -->
+            </div>
+        </div>
+
+        <div class="flex justify-center sm:justify-end mt-4">
+            <button onclick="closeMaterialActividadModal()" class="bg-gray-300 text-gray-800 px-3 py-1 sm:px-5 sm:py-3 text-sm sm:text-base rounded">Cerrar</button>
+        </div>
+    </div>
+</div>
+
+
+<!-- Modal de Actualización de Actividad -->
+<div id="modalActualizarActividad" class="fixed inset-0 bg-gray-900 bg-opacity-50 flex items-center justify-center hidden z-50">
+    <div class="bg-white w-11/12 max-w-md mx-auto rounded shadow-lg p-6">
+        <h2 class="text-lg font-semibold text-gray-800 mb-4">Actualizar Actividad</h2>
+        <input type="hidden" id="actividadIdActualizar">
+        <input type="hidden" id="actividadModuloIdActualizar">
+        
+        <label for="actividadTituloActualizar" class="block text-sm font-medium text-gray-700">Nuevo Título</label>
+        <input id="actividadTituloActualizar" type="text" class="mt-1 p-2 w-full border rounded focus:outline-none focus:ring-2 focus:ring-indigo-500" placeholder="Título de la Actividad">
+        
+        <label for="actividadDescripcionActualizar" class="block text-sm font-medium text-gray-700 mt-4">Nueva Descripción</label>
+        <textarea id="actividadDescripcionActualizar" class="mt-1 p-2 w-full border rounded focus:outline-none focus:ring-2 focus:ring-indigo-500" rows="3"></textarea>
+        
+        <label for="actividadFechaVencimientoActualizar" class="block text-sm font-medium text-gray-700 mt-4">Nueva Fecha de Vencimiento</label>
+        <input id="actividadFechaVencimientoActualizar" type="date" class="mt-1 p-2 w-full border rounded focus:outline-none focus:ring-2 focus:ring-indigo-500">
+        
+        <div class="flex justify-end mt-6 space-x-4">
+            <button onclick="cerrarModal('modalActualizarActividad')" class="bg-gray-400 text-white px-4 py-2 rounded">Cancelar</button>
+            <button onclick="guardarActividadActualizada()" class="bg-indigo-600 text-white px-4 py-2 rounded">Guardar Cambios</button>
+        </div>
+    </div>
+</div>
+
+
     <!-- Incluir el script para manejar la carga de cursos, módulos, y modales -->
     <script type="module" src="../../js/agregarMaterialDocente.js"></script>
 </body>
