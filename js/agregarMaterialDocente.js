@@ -533,6 +533,9 @@ function eliminarMaterial(idMaterial) {
 
     if (!confirm("¿Estás seguro de que deseas eliminar este material?")) return;
 
+    // Mostrar el loader al enviar el formulario
+    document.getElementById("loadingScreen").classList.remove("hidden");
+
     fetch(`${API_BASE_URL}/api/material/${idMaterial}`, {
         method: 'DELETE',
         headers: { 'Authorization': `Bearer ${token}` }
@@ -548,7 +551,11 @@ function eliminarMaterial(idMaterial) {
     .catch(error => {
         console.error("Error al eliminar el material:", error);
         showNotification("Error al eliminar el material", "bg-red-500");
-    });
+    })
+    .finally(()=>{
+        // Ocultar el loader después de la operación
+        document.getElementById("loadingScreen").classList.add("hidden");
+   });
 }
 
 function eliminarActividad(idActividad) {
@@ -559,6 +566,9 @@ function eliminarActividad(idActividad) {
     }
 
     if (!confirm("¿Estás seguro de que deseas eliminar esta actividad?")) return;
+
+    // Mostrar el loader al enviar el formulario
+        document.getElementById("loadingScreen").classList.remove("hidden");
 
     fetch(`${API_BASE_URL}/api/actividad/${idActividad}`, {
         method: 'DELETE',
@@ -575,7 +585,11 @@ function eliminarActividad(idActividad) {
     .catch(error => {
         console.error("Error al eliminar la actividad:", error);
         showNotification("Error al eliminar la actividad", "bg-red-500");
-    });
+    })    
+    .finally(()=>{
+        // Ocultar el loader después de la operación
+        document.getElementById("loadingScreen").classList.add("hidden");
+   });
 }
 
 function guardarActividadActualizada() {
@@ -586,6 +600,9 @@ function guardarActividadActualizada() {
     const fecha_vencimiento = document.getElementById("actividadFechaVencimientoActualizar").value;
 
     console.log("Datos para enviar a actualizarActividad:", { titulo, descripcion, fecha_vencimiento });
+    
+    // Mostrar el loader al enviar el formulario
+    document.getElementById("loadingScreen").classList.remove("hidden");
 
     fetch(`${API_BASE_URL}/api/actualizaractividad/${idActividad}`, {
         method: 'PUT',
@@ -611,7 +628,11 @@ function guardarActividadActualizada() {
     .catch(error => {
         console.error("Error al actualizar la actividad:", error);
         showNotification("Error al actualizar la actividad", "bg-red-500");
-    });
+    })
+    .finally(()=>{
+        // Ocultar el loader después de la operación
+        document.getElementById("loadingScreen").classList.add("hidden");
+   });
 }
 
 
