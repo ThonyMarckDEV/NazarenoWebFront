@@ -65,7 +65,7 @@ function loadEspecialidades() {
         showNotification("Error en la solicitud", "bg-red-500");
     });
 }
-
+//
 // Cargar las opciones de grados con sus secciones
 function loadGrados() {
     fetch(`${API_BASE_URL}/api/listarGrados`, {
