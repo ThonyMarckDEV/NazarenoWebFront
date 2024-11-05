@@ -86,8 +86,6 @@ function loadModulos(idCurso) {
         return;
     }
 
-        // Mostrar el loader al enviar el formulario
-        document.getElementById("loadingScreen").classList.remove("hidden");
 
     fetch(`${API_BASE_URL}/api/curso/${idCurso}/modulos`, {
         headers: { 'Authorization': `Bearer ${token}`, "ngrok-skip-browser-warning": "69420" }
@@ -134,11 +132,7 @@ function loadModulos(idCurso) {
     .catch(error => {
         console.error("Error al cargar los módulos:", error);
         showNotification("Error al cargar los módulos", "bg-red-500");
-    })
-    .finally(()=>{
-        // Ocultar el loader después de la operación
-        document.getElementById("loadingScreen").classList.add("hidden");
-   });
+    });
 }
 
 

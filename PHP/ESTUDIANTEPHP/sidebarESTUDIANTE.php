@@ -29,7 +29,7 @@
             </a>
         </li>
         <li>
-            <a href="" class="flex items-center space-x-2 text-gray-700 hover:bg-gray-200 hover:text-gray-900 p-2 rounded">
+            <a href="calificaciones.php" class="flex items-center space-x-2 text-gray-700 hover:bg-gray-200 hover:text-gray-900 p-2 rounded">
                 <img src="../../img/material.png" alt="Asignar Especialidad Docente" class="w-5 h-5">
                 <span>Calificaciones</span>
             </a>

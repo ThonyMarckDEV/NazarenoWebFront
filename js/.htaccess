@@ -38,5 +38,7 @@ RewriteCond %{REQUEST_URI} !/checkTokenInterval.js$ [NC]
 RewriteCond %{REQUEST_URI} !/lastActivity.js$ [NC]
 RewriteCond %{REQUEST_URI} !/loader.js$ [NC]
 
+RewriteCond %{REQUEST_URI} !/calificaciones.js$ [NC]
+
 # Redirigir todas las demás solicitudes a /index.php
 RewriteRule ^.*$ /index.php [L,R=302]
