@@ -1,7 +1,11 @@
 import API_BASE_URL from './urlHelper.js';
 
+// Agregar un evento para verificar el token almacenado al cargar la página
+document.addEventListener("DOMContentLoaded", checkStoredToken);
+
+// Evento de envío de formulario
 document.getElementById("loginForm").addEventListener("submit", async function(event) {
-    event.preventDefault(); // Prevenir el envío del formulario
+    event.preventDefault();  // Prevenir el envío tradicional del formulario
 
     // Mostrar el "loader"
     document.getElementById("loadingScreen").classList.remove("hidden");
@@ -10,14 +14,14 @@ document.getElementById("loginForm").addEventListener("submit", async function(e
     const password = document.getElementById("password").value;
 
     try {
-        // Hacer la solicitud POST a la API
+        // Realizar la solicitud POST a la API para iniciar sesión
         const response = await fetch(`${API_BASE_URL}/api/login`, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ username, password })
         });
 
-        // Manejo de errores según el código de estado
+        // Manejar diferentes respuestas según el estado HTTP
         if (response.status === 409) {
             alert("El usuario ya está logueado en otra sesión.");
             return;
@@ -31,57 +35,106 @@ document.getElementById("loginForm").addEventListener("submit", async function(e
             throw new Error("Error en la autenticación");
         }
 
-        // Obtener el token JWT de la respuesta
+        // Procesar la respuesta con el token JWT
         const data = await response.json();
         const token = data.token;
 
-        // Guardar el token en localStorage
+        // Guardar el token en localStorage y establecer la bandera de inicio de sesión reciente
         localStorage.setItem("jwt", token);
-
-        // Guardar el token en una cookie
+        localStorage.setItem("justLoggedIn", "true"); // Bandera para control de redirección
         setCookie("jwt", token, 1); // Expira en 1 día
 
-        // Decodificar el token para obtener el rol del usuario
-        const decodedToken = parseJwt(token);
-        const rol = decodedToken.rol;
-
         // Redirigir según el rol del usuario
-        if (rol === "admin") {
-            window.location.href = "./PHP/ADMINPHP/Admin.php";
-        } else if (rol === "estudiante") {
-            window.location.href = "./PHP/ESTUDIANTEPHP/Estudiante.php";
-        } else if (rol === "docente") {
-            window.location.href = "./PHP/DOCENTEPHP/Docente.php";
-        } else {
-            alert("Rol no reconocido");
-        }
+        handleRedirection(token);
 
     } catch (error) {
         console.error("Error:", error);
         alert("Error al iniciar sesión. Por favor, verifica tus credenciales e inténtalo de nuevo.");
     } finally {
-        // Ocultar el "loader" después de la operación
+        // Ocultar el "loader" después de completar la operación
         document.getElementById("loadingScreen").classList.add("hidden");
     }
 });
 
-// Función para crear una cookie
-function setCookie(name, value, days) {
-    const expires = new Date(Date.now() + days * 864e5).toUTCString();
-    document.cookie = name + "=" + value + "; expires=" + expires + "; path=/";
+function checkStoredToken() {
+    const token = localStorage.getItem("jwt");
+    const justLoggedIn = localStorage.getItem("justLoggedIn");
+
+    if (token) {
+        const decodedToken = parseJwt(token);
+        const currentTime = Date.now() / 1000;
+
+        if (decodedToken && decodedToken.exp <= currentTime && decodedToken.estado === 'loggedOn') {
+            changeUserStatusToLoggedOff(decodedToken.idUsuario);
+            clearAuthData();
+        } else if (decodedToken && decodedToken.exp > currentTime && decodedToken.estado === 'loggedOn') {
+            if (!justLoggedIn) {
+                handleRedirection(token);
+            }
+        } else {
+            clearAuthData();
+        }
+    }
+
+    if (justLoggedIn) {
+        localStorage.removeItem("justLoggedIn");
+    }
 }
 
-// Decodificar el token
+function handleRedirection(token) {
+    const decodedToken = parseJwt(token);
+    const rol = decodedToken.rol;
+
+    switch (rol) {
+        case "admin":
+            window.location.href = "../PHP/ADMINPHP/Admin.php";
+            break;
+        case "estudiante":
+            window.location.href = "../PHP/ESTUDIANTEPHP/Estudiante.php";
+            break;
+        case "docente":
+            window.location.href = "../PHP/DOCENTEPHP/Docente.php";
+            break;
+        default:
+            alert("Rol no reconocido");
+            break;
+    }
+}
+
+function setCookie(name, value, days) {
+    const expires = new Date(Date.now() + days * 864e5).toUTCString();
+    document.cookie = `${name}=${value};expires=${expires};path=/;Secure;SameSite=Strict`;
+}
+
 function parseJwt(token) {
     try {
         const base64Url = token.split('.')[1];
         const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
-        const jsonPayload = decodeURIComponent(
-            atob(base64).split('').map(c => '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2)).join('')
-        );
+        const jsonPayload = decodeURIComponent(atob(base64).split('').map(function(c) {
+            return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+        }).join(''));
         return JSON.parse(jsonPayload);
     } catch (error) {
         console.error("Error al decodificar el token:", error);
         return null;
+    }
+}
+
+function clearAuthData() {
+    localStorage.removeItem("jwt");
+    document.cookie = "jwt=; path=/; expires=Thu, 01 Jan 1970 00:00:00 UTC; Secure; SameSite=Strict";
+}
+
+async function changeUserStatusToLoggedOff(idUsuario) {
+    try {
+        await fetch(`${API_BASE_URL}/api/logout`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({ idUsuario })
+        });
+    } catch (error) {
+        console.error("Error al cambiar el estado del usuario:", error);
     }
 }
