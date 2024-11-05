@@ -28,5 +28,5 @@ function updateLastActivity() {
 // Llamar a la función inmediatamente cuando se carga el archivo
 updateLastActivity();
 
-// Configurar el intervalo para ejecutar cada 3 minutos (180,000 ms)
-setInterval(updateLastActivity, 180000);
+// Configurar el intervalo para ejecutar cada 1 minutos
+setInterval(updateLastActivity, 60000);

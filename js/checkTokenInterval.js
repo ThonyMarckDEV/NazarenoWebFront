@@ -1,37 +1,42 @@
 // Configuración del intervalo de verificación
-const checkTokenInterval = 60000; // Verifica cada 60 segundos
-const expirationThreshold = 120;  // Renueva 2 minutos antes de la expiración
+const checkTokenInterval = 1000; // Verifica cada 1 segundo
+const expirationThreshold = 120;   // Intenta renovar si quedan 2 minutos o menos
 
 // URL base de la API
 import API_BASE_URL from './urlHelper.js';
 
 // Función para verificar y renovar el token
 function checkAndRenewToken() {
-
     const token = localStorage.getItem('jwt');
     if (!token) {
+        console.log("No hay token disponible, redirigiendo al login...");
         redirectToLogin();
         return;
     }
 
     const tokenExpiration = parseJwtExpiration(token); // Función para extraer la expiración del token
-
-    // Calcula el tiempo restante para la expiración
     const currentTime = Math.floor(Date.now() / 1000);
     const timeRemaining = tokenExpiration - currentTime;
 
-    if (timeRemaining < 0) {
-        logout();
+    console.log(`Verificación del token: tiempo restante ${timeRemaining} segundos`);
+
+    if (timeRemaining <= 0) {
+        alert("Tu sesión ha caducado, serás redirigido para iniciar sesión nuevamente.");
+        console.log("El token ha expirado, cerrando sesión...");
+        logoutExternal();
     } else if (timeRemaining <= expirationThreshold) {
+        console.log(`Renovando el token, tiempo restante hasta expiración: ${timeRemaining} segundos.`);
         renewToken();
+    } else {
+        console.log(`No es necesario renovar aún, tiempo restante hasta expiración: ${timeRemaining} segundos.`);
     }
 }
 
 // Función para renovar el token llamando al servidor Laravel
 async function renewToken() {
-
-    const token = localStorage.getItem('jwt'); // Recupera el token actualizado cada vez
-
+    const token = localStorage.getItem('jwt');
+    console.log(`Intentando renovar el token actual: ${token}`);
+    
     try {
         const response = await fetch(`${API_BASE_URL}/api/refresh-token`, {
             method: 'POST',
@@ -43,70 +48,31 @@ async function renewToken() {
 
         if (response.ok) {
             const data = await response.json();
+            console.log(`Token renovado recibido: ${data.accessToken}`);
             localStorage.setItem('jwt', data.accessToken); // Guarda el nuevo token
         } else {
-            logout();
+            console.log("Error al renovar el token, cerrando sesión...");
+            logoutExternal();
         }
     } catch (error) {
-        logout(); // Si ocurre un error, cierra sesión
+        console.error("Excepción al renovar el token:", error);
+        logoutExternal();
     }
 }
 
-// Función para cerrar sesión del usuario y redirigir al login
-export async function logout() {
-
-    const token = localStorage.getItem("jwt");
-
-    const decodedToken = parseJwt(token);
-
-    if (token && decodedToken) {
-        try {
-            await fetch(`${API_BASE_URL}/api/logout`, {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify({ idUsuario: decodedToken.idUsuario }) // Enviar idUsuario en el cuerpo
-            });
-        } catch (error) {
-        }
-    }
-
-    // Eliminar el token de localStorage
-    localStorage.removeItem("jwt");
-
-    // Eliminar la cookie JWT configurando su fecha de expiración en el pasado
-    document.cookie = "jwt=; path=/; expires=Thu, 01 Jan 1970 00:00:00 UTC; Secure; SameSite=Strict";
-
-    // Redirigir a la página de inicio de sesión en el dominio raíz
-    redirectToLogin();
-}
+// Importar y usar la función de logout externo
+import { logout as logoutExternal } from './logout.js';
 
 // Función para redirigir al login
 function redirectToLogin() {
-    window.location.href = `${window.location.origin}/index.php`;
+    window.location.href = `${window.location.origin}/index.php`; // Asegura que la URL es correcta
 }
 
 // Función auxiliar para extraer la expiración del token
 function parseJwtExpiration(token) {
     const payload = JSON.parse(atob(token.split('.')[1]));
     return payload.exp; // Extrae la expiración
-}   
-
-// Decodificar el token (función auxiliar)
-function parseJwt(token) {
-    try {
-        const base64Url = token.split('.')[1];
-        const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
-        const jsonPayload = decodeURIComponent(
-            atob(base64).split('').map(c => '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2)).join('')
-        );
-        const decoded = JSON.parse(jsonPayload);
-        return decoded;
-    } catch (error) {
-        return null;
-    }
 }
 
-// Ejecutar la verificación del token cada minuto
+// Ejecutar la verificación del token cada segundo
 setInterval(checkAndRenewToken, checkTokenInterval);
