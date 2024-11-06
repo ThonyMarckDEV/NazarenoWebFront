@@ -53,16 +53,20 @@
 
 <!-- Modal para listar estudiantes matriculados -->
 <div id="estudiantesModal" class="fixed inset-0 bg-gray-800 bg-opacity-75 flex items-center justify-center z-50 hidden">
-    <div class="bg-white p-4 rounded-lg w-full max-w-md mx-4 sm:p-6 max-h-[80vh] overflow-y-auto relative">
-        <button onclick="closeEstudiantesModal()" class="absolute top-2 right-2 text-gray-700 hover:text-gray-900 text-2xl">&times;</button>
-        <h2 class="text-lg sm:text-xl font-semibold mb-4">Estudiantes Matriculados</h2>
+    <div class="bg-white p-6 rounded-lg w-full max-w-md mx-4 sm:p-8 relative">
+        <!-- Botón para cerrar el modal -->
+        <button onclick="closeEstudiantesModal()" class="absolute top-4 right-4 text-gray-700 hover:text-gray-900 text-3xl">&times;</button>
         
-        <!-- Contenedor para la lista de estudiantes, configurado para deslizarse verticalmente -->
-        <div id="estudiantesContainer" class="space-y-4">
-            <!-- Lista de estudiantes se cargará aquí -->
+        <!-- Título del modal -->
+        <h2 class="text-xl font-semibold mb-6 text-center">Estudiantes Matriculados</h2>
+        
+        <!-- Contenedor para la lista de estudiantes con límite de altura -->
+        <div id="estudiantesContainer" class="space-y-4 max-h-56 overflow-y-auto">
+            <!-- Las tarjetas de estudiantes se cargarán aquí dinámicamente -->
         </div>
     </div>
 </div>
+
     <!-- Incluir el script para cargar anuncios -->
     <script type="module" src="../../js/anunciosDocente.js"></script>
 </body>

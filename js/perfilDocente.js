@@ -54,8 +54,9 @@ async function loadDocenteData() {
         document.getElementById("telefono").value = data.data.telefono;
         document.getElementById("departamento").value = data.data.departamento;
 
-        // Cargar imagen de perfil con la URL completa desde Laravel
-        document.getElementById("profileImage").src = data.data.perfil || '/path/to/default-image.jpg';
+                 // Cargar imagen de perfil con la URL completa desde Laravel
+        // Si no hay imagen, cargar la imagen por defecto del frontend en /img/default-profile.jpg
+        document.getElementById("profileImage").src = data.data.perfil || '../../img/default-profile.jpg';
     } catch (error) {
         console.error("Error al cargar datos del docente:", error);
     }

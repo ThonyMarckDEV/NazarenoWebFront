@@ -120,6 +120,36 @@ function enviarAnuncio() {
     });
 }
 
+// Función para cerrar el modal
+function closeEstudiantesModal() {
+    const modal = document.getElementById("estudiantesModal");
+    modal.classList.add("hidden");
+}
+
+// Función asincrónica para cargar la foto de perfil
+async function loadFotoPerfil(idUsuario) {
+    try {
+        const response = await fetch(`${API_BASE_URL}/api/alumnos/${idUsuario}/foto-perfil`, {
+            method: "GET",
+            headers: {
+                "Authorization": `Bearer ${token}`,
+                "ngrok-skip-browser-warning": "69420"
+            }
+        });
+
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+
+        const data = await response.json();
+        // Retorna la URL completa de la foto de perfil proporcionada por Laravel o null si no existe
+        return data.data.perfil || null;
+    } catch (error) {
+        console.error("Error al cargar la foto de perfil:", error);
+        return null; // En caso de error, regresa null sin ruta predeterminada
+    }
+}
+
 // Función para abrir el modal de estudiantes matriculados
 function openEstudiantesModal(idCurso) {
     const modal = document.getElementById("estudiantesModal");
@@ -158,30 +188,40 @@ function openEstudiantesModal(idCurso) {
             const cargarEstudiantes = data.data.map(async (estudiante) => {
                 const estudianteCard = document.createElement("div");
 
-                // Añadir clases de forma individual
-                estudianteCard.classList.add("flex", "items-center", "space-x-4", "p-2", "border-b", "last:border-b-0");
+                // Añadir clases para una disposición horizontal y tamaño adecuado
+                estudianteCard.classList.add("flex", "items-center", "space-x-4", "p-2", "border-b");
 
-                // Crear un contenedor temporal para la imagen de perfil
+                // Crear la imagen de perfil
                 const perfilImg = document.createElement("img");
-                perfilImg.classList.add("w-12", "h-12", "rounded-full", "object-cover");
+                perfilImg.classList.add("w-10", "h-10", "rounded-full", "object-cover");
                 perfilImg.alt = `${estudiante.nombreCompleto}`;
 
                 // Obtener la foto de perfil del estudiante usando su idUsuario
                 const fotoPerfil = await loadFotoPerfil(estudiante.idUsuario);
-                perfilImg.src = fotoPerfil ? fotoPerfil : '../../img/default-profile.jpg'; // Ruta relativa desde index.php
+                perfilImg.src = fotoPerfil ? fotoPerfil : `${window.location.origin}/img/default-profile.jpg`; // Ruta absoluta basada en el origen
 
-                // Configurar el contenido del estudiante
-                estudianteCard.classList.add("w-72", "sm:w-full", "shrink-0"); // Ancho específico en móvil y ajustable en pantallas grandes
-                estudianteCard.classList.add("flex", "flex-col", "items-start", "space-y-2"); // Configuración para lista vertical
-                estudianteCard.innerHTML += `
-                    <div>
-                        <p class="text-sm sm:text-base font-semibold">${estudiante.nombreCompleto}</p>
-                        <p class="text-sm text-gray-600">${estudiante.departamento}</p>
-                    </div>
-                `;
+                // Crear el contenedor de información
+                const infoContainer = document.createElement("div");
+                infoContainer.classList.add("flex", "flex-col");
 
-                // Insertar la imagen y el contenido en el contenedor de estudiantes
-                estudianteCard.prepend(perfilImg);
+                // Añadir el nombre y el departamento
+                const nombre = document.createElement("p");
+                nombre.classList.add("text-sm", "sm:text-base", "font-semibold");
+                nombre.textContent = estudiante.nombreCompleto;
+
+                const departamento = document.createElement("p");
+                departamento.classList.add("text-sm", "text-gray-600");
+                departamento.textContent = estudiante.departamento;
+
+                // Añadir los elementos al contenedor de información
+                infoContainer.appendChild(nombre);
+                infoContainer.appendChild(departamento);
+
+                // Añadir la imagen y la información al contenedor de estudiante
+                estudianteCard.appendChild(perfilImg);
+                estudianteCard.appendChild(infoContainer);
+
+                // Añadir la tarjeta al contenedor de estudiantes
                 estudiantesContainer.appendChild(estudianteCard);
             });
 
@@ -199,43 +239,6 @@ function openEstudiantesModal(idCurso) {
         // Ocultar el "loading screen" después de que todos los estudiantes y sus fotos hayan cargado
         document.getElementById("loadingScreen").classList.add("hidden");
     });
-}
-
-// Función asincrónica para cargar la foto de perfil
-async function loadFotoPerfil(idUsuario) {
-    try {
-        const response = await fetch(`${API_BASE_URL}/api/alumnos/${idUsuario}/foto-perfil`, {
-            method: "GET",
-            headers: {
-                "Authorization": `Bearer ${token}`,
-                "ngrok-skip-browser-warning": "69420"
-            }
-        });
-
-        if (!response.ok) {
-            throw new Error(`HTTP error! status: ${response.status}`);
-        }
-
-        const data = await response.json();
-        // Retorna la URL completa de la foto de perfil proporcionada por Laravel o null si no existe
-        return data.data.perfil || null;
-    } catch (error) {
-        console.error("Error al cargar la foto de perfil:", error);
-        return null; // En caso de error, regresa null sin ruta predeterminada
-    }
-}
-
-
-// Función para cerrar el modal de estudiantes matriculados
-function closeEstudiantesModal() {
-    const modal = document.getElementById("estudiantesModal");
-    const estudiantesContainer = document.getElementById("estudiantesContainer");
-    
-    // Ocultar el modal
-    modal.classList.add("hidden");
-
-    // Limpiar contenido
-    estudiantesContainer.innerHTML = "";
 }
 
 // Función para mostrar la notificación
