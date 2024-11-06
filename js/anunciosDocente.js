@@ -33,18 +33,25 @@ function loadCursos() {
         data.data.forEach(curso => {
             const courseCard = document.createElement("div");
             courseCard.classList.add("bg-gray-100", "p-4", "rounded-lg", "shadow-md", "mb-4");
-
-            // HTML estructurado para que el botón esté debajo en móviles y al costado en PC
+        
+           // HTML estructurado para que el enlace esté encima en móviles y al costado en pantallas grandes
             courseCard.innerHTML = `
-                <div class="flex flex-col sm:flex-row sm:justify-between sm:items-center">
-                    <div>
-                        <h3 class="text-lg font-semibold text-gray-800">${curso.nombreCurso}</h3>
-                        <p class="text-sm text-gray-600 mb-2 sm:mb-0">Grado: ${curso.nombreGrado} - Sección: ${curso.seccion}</p>
-                    </div>
-                    <button onclick="openAnuncioModal('${curso.nombreCurso}', '${curso.seccion}')" class="bg-black text-white px-3 py-1 rounded mt-2 sm:mt-0">Anunciar</button>
+            <div class="flex flex-col sm:flex-row sm:justify-between sm:items-center">
+                <div>
+                    <h3 class="text-lg font-semibold text-gray-800">${curso.nombreCurso}</h3>
+                    <p class="text-sm text-gray-600 mb-2 sm:mb-0">Grado: ${curso.nombreGrado} - Sección: ${curso.seccion}</p>
                 </div>
+                <div class="flex flex-col sm:flex-row sm:items-center sm:space-x-2 mt-2 sm:mt-0">
+                    <button onclick="openEstudiantesModal(${curso.idCurso})" class="text-blue-500 hover:underline text-sm sm:text-base mb-2 sm:mb-0">
+                        Estudiantes matriculados
+                    </button>
+                    <button onclick="openAnuncioModal('${curso.nombreCurso}', '${curso.seccion}')" class="bg-black text-white px-3 py-1 rounded">
+                        Anunciar
+                    </button>
+                </div>
+            </div>
             `;
-
+        
             container.appendChild(courseCard);
         });
     })
@@ -113,6 +120,124 @@ function enviarAnuncio() {
     });
 }
 
+// Función para abrir el modal de estudiantes matriculados
+function openEstudiantesModal(idCurso) {
+    const modal = document.getElementById("estudiantesModal");
+    const estudiantesContainer = document.getElementById("estudiantesContainer");
+
+    // Mostrar el "loading screen" antes de cargar estudiantes
+    document.getElementById("loadingScreen").classList.remove("hidden");
+
+    // Mostrar el modal
+    modal.classList.remove("hidden");
+
+    // Limpiar contenido previo
+    estudiantesContainer.innerHTML = "<p class='text-center text-gray-600'>Cargando estudiantes...</p>";
+
+    // Obtener idDocente desde el token
+    const idDocente = getIdUsuarioFromToken();
+    if (!idDocente) {
+        estudiantesContainer.innerHTML = "<p class='text-center text-red-500'>Error de autenticación.</p>";
+        document.getElementById("loadingScreen").classList.add("hidden"); // Ocultar el loading screen en caso de error
+        return;
+    }
+
+    // Realizar la petición a la API para obtener estudiantes
+    fetch(`${API_BASE_URL}/api/cursos/${idCurso}/estudiantes`, {
+        headers: {
+            'Authorization': `Bearer ${token}`,
+            "ngrok-skip-browser-warning": "69420"
+        }
+    })
+    .then(response => response.json())
+    .then(data => {
+        estudiantesContainer.innerHTML = ""; // Limpiar el mensaje de carga
+
+        if (data.success && data.data.length > 0) {
+            // Crear una lista de promesas para cargar todas las fotos de perfil
+            const cargarEstudiantes = data.data.map(async (estudiante) => {
+                const estudianteCard = document.createElement("div");
+
+                // Añadir clases de forma individual
+                estudianteCard.classList.add("flex", "items-center", "space-x-4", "p-2", "border-b", "last:border-b-0");
+
+                // Crear un contenedor temporal para la imagen de perfil
+                const perfilImg = document.createElement("img");
+                perfilImg.classList.add("w-12", "h-12", "rounded-full", "object-cover");
+                perfilImg.alt = `${estudiante.nombreCompleto}`;
+
+                // Obtener la foto de perfil del estudiante usando su idUsuario
+                const fotoPerfil = await loadFotoPerfil(estudiante.idUsuario);
+                perfilImg.src = fotoPerfil ? fotoPerfil : '../../img/default-profile.jpg'; // Ruta relativa desde index.php
+
+                // Configurar el contenido del estudiante
+                estudianteCard.classList.add("w-72", "sm:w-full", "shrink-0"); // Ancho específico en móvil y ajustable en pantallas grandes
+                estudianteCard.classList.add("flex", "flex-col", "items-start", "space-y-2"); // Configuración para lista vertical
+                estudianteCard.innerHTML += `
+                    <div>
+                        <p class="text-sm sm:text-base font-semibold">${estudiante.nombreCompleto}</p>
+                        <p class="text-sm text-gray-600">${estudiante.departamento}</p>
+                    </div>
+                `;
+
+                // Insertar la imagen y el contenido en el contenedor de estudiantes
+                estudianteCard.prepend(perfilImg);
+                estudiantesContainer.appendChild(estudianteCard);
+            });
+
+            // Esperar a que todas las fotos de perfil de los estudiantes se hayan cargado
+            return Promise.all(cargarEstudiantes);
+        } else {
+            estudiantesContainer.innerHTML = "<p class='text-center text-gray-600'>No hay estudiantes matriculados en este curso.</p>";
+        }
+    })
+    .catch(error => {
+        console.error("Error al obtener estudiantes:", error);
+        estudiantesContainer.innerHTML = "<p class='text-center text-red-500'>Error al cargar los estudiantes.</p>";
+    })
+    .finally(() => {
+        // Ocultar el "loading screen" después de que todos los estudiantes y sus fotos hayan cargado
+        document.getElementById("loadingScreen").classList.add("hidden");
+    });
+}
+
+// Función asincrónica para cargar la foto de perfil
+async function loadFotoPerfil(idUsuario) {
+    try {
+        const response = await fetch(`${API_BASE_URL}/api/alumnos/${idUsuario}/foto-perfil`, {
+            method: "GET",
+            headers: {
+                "Authorization": `Bearer ${token}`,
+                "ngrok-skip-browser-warning": "69420"
+            }
+        });
+
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+
+        const data = await response.json();
+        // Retorna la URL completa de la foto de perfil proporcionada por Laravel o null si no existe
+        return data.data.perfil || null;
+    } catch (error) {
+        console.error("Error al cargar la foto de perfil:", error);
+        return null; // En caso de error, regresa null sin ruta predeterminada
+    }
+}
+
+
+// Función para cerrar el modal de estudiantes matriculados
+function closeEstudiantesModal() {
+    const modal = document.getElementById("estudiantesModal");
+    const estudiantesContainer = document.getElementById("estudiantesContainer");
+    
+    // Ocultar el modal
+    modal.classList.add("hidden");
+
+    // Limpiar contenido
+    estudiantesContainer.innerHTML = "";
+}
+
 // Función para mostrar la notificación
 function showNotification(message, bgColor) {
     const notification = document.getElementById("notification");
@@ -133,3 +258,6 @@ document.addEventListener("DOMContentLoaded", loadCursos);
 window.openAnuncioModal = openAnuncioModal;
 window.closeAnuncioModal = closeAnuncioModal;
 window.enviarAnuncio = enviarAnuncio;
+// Hacer las nuevas funciones accesibles globalmente
+window.openEstudiantesModal = openEstudiantesModal;
+window.closeEstudiantesModal = closeEstudiantesModal;
