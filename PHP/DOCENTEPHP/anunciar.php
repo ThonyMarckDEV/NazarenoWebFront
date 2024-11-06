@@ -67,6 +67,15 @@
     </div>
 </div>
 
+<!-- Modal para mostrar imagen de perfil ampliada -->
+<div id="imageModal" class="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-50 hidden">
+    <div class="relative bg-white rounded-lg p-4 max-w-sm sm:max-w-md md:max-w-lg w-full mx-4">
+        <button onclick="closeImageModal()" class="absolute top-2 right-2 text-gray-700 hover:text-gray-900 text-xl font-bold">&times;</button>
+        <img src="" alt="Perfil Ampliado" id="modalProfileImage" class="w-full h-auto rounded-lg">
+    </div>
+</div>
+
+
     <!-- Incluir el script para cargar anuncios -->
     <script type="module" src="../../js/anunciosDocente.js"></script>
 </body>

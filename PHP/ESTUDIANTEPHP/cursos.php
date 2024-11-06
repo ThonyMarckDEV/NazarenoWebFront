@@ -87,6 +87,31 @@
         </div>
     </div>
 
+<!-- Modal para listar estudiantes matriculados -->
+<div id="estudiantesModal" class="fixed inset-0 bg-gray-800 bg-opacity-75 flex items-center justify-center z-50 hidden">
+    <div class="bg-white p-6 rounded-lg w-full max-w-md mx-4 sm:p-8 relative">
+        <!-- Botón para cerrar el modal -->
+        <button onclick="closeEstudiantesModal()" class="absolute top-4 right-4 text-gray-700 hover:text-gray-900 text-3xl">&times;</button>
+        
+        <!-- Título del modal -->
+        <h2 class="text-xl font-semibold mb-6 text-center">Estudiantes Matriculados</h2>
+        
+        <!-- Contenedor para la lista de estudiantes con límite de altura -->
+        <div id="estudiantesContainer" class="space-y-4 max-h-56 overflow-y-auto">
+            <!-- Las tarjetas de estudiantes se cargarán aquí dinámicamente -->
+        </div>
+    </div>
+</div>
+
+<!-- Modal para mostrar imagen de perfil ampliada -->
+<div id="imageModal" class="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-50 hidden">
+    <div class="relative bg-white rounded-lg p-4 max-w-sm sm:max-w-md md:max-w-lg w-full mx-4">
+        <button onclick="closeImageModal()" class="absolute top-2 right-2 text-gray-700 hover:text-gray-900 text-xl font-bold">&times;</button>
+        <img src="" alt="Perfil Ampliado" id="modalProfileImage" class="w-full h-auto rounded-lg">
+    </div>
+</div>
+
+
     
     <!-- Incluir el script para cargar anuncios -->
     <script type="module" src="../../js/cursos.js"></script>

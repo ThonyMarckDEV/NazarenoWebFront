@@ -42,7 +42,7 @@ function loadCursos() {
                     <p class="text-sm text-gray-600 mb-2 sm:mb-0">Grado: ${curso.nombreGrado} - Sección: ${curso.seccion}</p>
                 </div>
                 <div class="flex flex-col sm:flex-row sm:items-center sm:space-x-2 mt-2 sm:mt-0">
-                    <button onclick="openEstudiantesModal(${curso.idCurso})" class="text-blue-500 hover:underline text-sm sm:text-base mb-2 sm:mb-0">
+                    <button onclick="openEstudiantesModal(${curso.idCurso})" class="text-gray-500 hover:text-gray-600 text-sm sm:text-base mb-2 sm:mb-0 no-underline">
                         Estudiantes matriculados
                     </button>
                     <button onclick="openAnuncioModal('${curso.nombreCurso}', '${curso.seccion}')" class="bg-black text-white px-3 py-1 rounded">
@@ -120,12 +120,6 @@ function enviarAnuncio() {
     });
 }
 
-// Función para cerrar el modal
-function closeEstudiantesModal() {
-    const modal = document.getElementById("estudiantesModal");
-    modal.classList.add("hidden");
-}
-
 // Función asincrónica para cargar la foto de perfil
 async function loadFotoPerfil(idUsuario) {
     try {
@@ -193,12 +187,15 @@ function openEstudiantesModal(idCurso) {
 
                 // Crear la imagen de perfil
                 const perfilImg = document.createElement("img");
-                perfilImg.classList.add("w-10", "h-10", "rounded-full", "object-cover");
+                perfilImg.classList.add("w-10", "h-10", "rounded-full", "object-cover", "cursor-pointer");
                 perfilImg.alt = `${estudiante.nombreCompleto}`;
 
                 // Obtener la foto de perfil del estudiante usando su idUsuario
                 const fotoPerfil = await loadFotoPerfil(estudiante.idUsuario);
-                perfilImg.src = fotoPerfil ? fotoPerfil : `${window.location.origin}/img/default-profile.jpg`; // Ruta absoluta basada en el origen
+                perfilImg.src = fotoPerfil ? fotoPerfil : `${window.location.origin}/img/default-profile.jpg`;
+
+                // Añadir evento para abrir la imagen en el modal ampliado
+                perfilImg.onclick = () => openImageModal(perfilImg.src);
 
                 // Crear el contenedor de información
                 const infoContainer = document.createElement("div");
@@ -241,6 +238,22 @@ function openEstudiantesModal(idCurso) {
     });
 }
 
+// Función para abrir el modal de imagen ampliada
+function openImageModal(imageSrc) {
+    document.getElementById("modalProfileImage").src = imageSrc;
+    document.getElementById("imageModal").classList.remove("hidden");
+}
+
+// Función para cerrar el modal de imagen ampliada
+function closeImageModal() {
+    document.getElementById("imageModal").classList.add("hidden");
+}
+
+// Función para cerrar el modal de estudiantes matriculados
+function closeEstudiantesModal() {
+    document.getElementById("estudiantesModal").classList.add("hidden");
+}
+
 // Función para mostrar la notificación
 function showNotification(message, bgColor) {
     const notification = document.getElementById("notification");
@@ -264,3 +277,4 @@ window.enviarAnuncio = enviarAnuncio;
 // Hacer las nuevas funciones accesibles globalmente
 window.openEstudiantesModal = openEstudiantesModal;
 window.closeEstudiantesModal = closeEstudiantesModal;
+window.closeImageModal = closeImageModal;

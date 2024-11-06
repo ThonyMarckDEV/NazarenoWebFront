@@ -1,8 +1,8 @@
 import API_BASE_URL from './urlHelper.js';
 
-function updateLastActivity() {
-    const token = localStorage.getItem('jwt'); // Obtener el token de acceso
+const token = localStorage.getItem('jwt'); // Obtener el token de acceso
 
+function updateLastActivity() {
     if (token) {
         const decoded = jwt_decode(token);
         const userId = decoded.idUsuario;  // Asegúrate de que el payload del token tenga este campo

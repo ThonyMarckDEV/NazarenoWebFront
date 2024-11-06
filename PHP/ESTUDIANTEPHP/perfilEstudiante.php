@@ -34,14 +34,34 @@
         <h2 class="text-2xl font-semibold mb-4 text-white mt-10 text-center">Perfil Alumno</h2>
 
         <!-- Imagen de Perfil -->
-        <div class="flex justify-center mb-6 w-full max-w-xs sm:max-w-sm md:max-w-md lg:max-w-lg">
-            <form id="uploadForm" enctype="multipart/form-data" class="flex flex-col items-center w-full">
-                <input type="hidden" id="idUsuario" value="<!-- ID del docente cargado dinámicamente -->">
-                <img src="<!-- Ruta de imagen de perfil -->" alt="Perfil" id="profileImage" class="profile-img border-2 border-gray-300 shadow-md mb-3">
-                <input type="file" id="profileInput" name="perfil" accept="image/*" class="mt-2 block w-full">
-                <button type="button" onclick="uploadProfileImage()" class="w-full bg-black text-white font-semibold py-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-gray-400 mt-2">Actualizar Foto</button>
-            </form>
+    <div class="flex justify-center mb-6 w-full max-w-xs sm:max-w-sm md:max-w-md lg:max-w-lg">
+        <form id="uploadForm" enctype="multipart/form-data" class="flex flex-col items-center w-full">
+            <input type="hidden" id="idUsuario" value="<!-- ID del docente cargado dinámicamente -->">
+            <img src="<!-- Ruta de imagen de perfil -->" alt="Perfil" id="profileImage" class="profile-img border-2 border-gray-300 shadow-md mb-3 cursor-pointer" onclick="openImageModal()">
+            <input type="file" id="profileInput" name="perfil" accept="image/*" class="mt-2 block w-full">
+            <button type="button" onclick="uploadProfileImage()" class="w-full bg-black text-white font-semibold py-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-gray-400 mt-2">Actualizar Foto</button>
+        </form>
+    </div>
+
+    <!-- Modal de Imagen de Perfil -->
+    <div id="imageModal" class="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-50 hidden">
+        <div class="relative bg-white rounded-lg p-4 max-w-sm sm:max-w-md md:max-w-lg w-full mx-4">
+            <button onclick="closeImageModal()" class="absolute top-2 right-2 text-gray-700 hover:text-gray-900 text-xl font-bold">&times;</button>
+            <img src="<!-- Ruta de imagen de perfil -->" alt="Perfil Ampliado" id="modalProfileImage" class="w-full h-auto rounded-lg">
         </div>
+    </div>
+    
+    <script>
+    function openImageModal() {
+        // Establecer la imagen ampliada con la misma fuente que la imagen de perfil
+        document.getElementById("modalProfileImage").src = document.getElementById("profileImage").src;
+        document.getElementById("imageModal").classList.remove("hidden");
+    }
+
+    function closeImageModal() {
+        document.getElementById("imageModal").classList.add("hidden");
+    }
+</script>
 
         <!-- Formulario de Actualización de Datos -->
         <form id="updateForm" class="grid grid-cols-1 md:grid-cols-2 gap-4 bg-white p-4 sm:p-6 rounded-lg shadow-md w-full max-w-xs sm:max-w-lg md:max-w-2xl lg:max-w-4xl">
