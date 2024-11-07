@@ -53,6 +53,10 @@
         </li>
     </ul>
 </div>
+<!-- Incluir el Modal de Inactividad -->
+<?php include '../inactivity.php'; ?>
+<!-- <script Checka inactyividad Usuario></script> -->
+<script type="module" src="../../js/checkInactivity.js"></script>
   <!-- Loader -->
   <?php include '../loader.php'; ?>
 <!-- Overlay de Carga Fijo -->
@@ -68,6 +72,7 @@
 <!-- Cargar el archivo JavaScript en todas las páginas -->
 <script type="module" src="../../js/checkTokenInterval.js"></script>
 <script type="module" src="../../js/lastActivity.js"></script>
+
 
 
 

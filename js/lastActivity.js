@@ -1,17 +1,17 @@
 import API_BASE_URL from './urlHelper.js';
 
-const token = localStorage.getItem('jwt'); // Obtener el token de acceso
+const token = localStorage.getItem('jwt'); 
 
 function updateLastActivity() {
     if (token) {
         const decoded = jwt_decode(token);
-        const userId = decoded.idUsuario;  // Asegúrate de que el payload del token tenga este campo
+        const userId = decoded.idUsuario; 
 
         fetch(`${API_BASE_URL}/api/update-activity`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
-                'Authorization': `Bearer ${token}` // Incluye el token en el encabezado de autorización
+                'Authorization': `Bearer ${token}`
             },
             body: JSON.stringify({ idUsuario: userId })
         })

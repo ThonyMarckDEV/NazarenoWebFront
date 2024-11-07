@@ -13,7 +13,7 @@ function checkAndRenewToken() {
         return;
     }
 
-    const tokenExpiration = parseJwtExpiration(token); // Función para extraer la expiración del token
+    const tokenExpiration = parseJwtExpiration(token);
     const currentTime = Math.floor(Date.now() / 1000);
     const timeRemaining = tokenExpiration - currentTime;
 
@@ -32,9 +32,9 @@ function checkAndRenewToken() {
 
 let isRenewingToken = false;
 
-// Función para renovar el token llamando al servidor Laravel
+
 async function renewToken() {
-    if (isRenewingToken) return; // Evita llamadas concurrentes
+    if (isRenewingToken) return;
     isRenewingToken = true;
     const token = localStorage.getItem('jwt');
     console.log(`Intentando renovar el token actual`);
@@ -51,7 +51,7 @@ async function renewToken() {
         if (response.ok) {
             const data = await response.json();
             console.log(`Token renovado`);
-            localStorage.setItem('jwt', data.accessToken); // Guarda el nuevo token
+            localStorage.setItem('jwt', data.accessToken); 
         } else {
             console.log("Error al renovar el token, cerrando sesión...");
             logoutExternal();
@@ -63,19 +63,19 @@ async function renewToken() {
     isRenewingToken = false;
 }
 
-// Importar y usar la función de logout externo
+
 import { logout as logoutExternal } from './logout.js';
 
-// Función para redirigir al login
+
 function redirectToLogin() {
-    window.location.href = `${window.location.origin}/index.php`; // Asegura que la URL es correcta
+    window.location.href = `${window.location.origin}/index.php`;
 }
 
-// Función auxiliar para extraer la expiración del token
+
 function parseJwtExpiration(token) {
     const payload = JSON.parse(atob(token.split('.')[1]));
     return payload.exp; // Extrae la expiración
 }
 
-// Ejecutar la verificación del token cada segundo
+
 setInterval(checkAndRenewToken, checkTokenInterval);

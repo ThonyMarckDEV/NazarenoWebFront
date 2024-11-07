@@ -42,5 +42,7 @@ RewriteCond %{REQUEST_URI} !/calificaciones.js$ [NC]
 RewriteCond %{REQUEST_URI} !/contadorCalificaciones.js$ [NC]
 
 RewriteCond %{REQUEST_URI} !/sessionManager.js$ [NC]
+RewriteCond %{REQUEST_URI} !/checkInactivity.js$ [NC]
+
 # Redirigir todas las demás solicitudes a /index.php
 RewriteRule ^.*$ /index.php [L,R=302]

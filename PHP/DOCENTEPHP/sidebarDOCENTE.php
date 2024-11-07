@@ -41,7 +41,11 @@
             </a>
         </li>
     </ul>
-</div>
+</div>\
+<!-- Incluir el Modal de Inactividad -->
+<?php include '../inactivity.php'; ?>
+<!-- <script Checka inactyividad Usuario></script> -->
+<script type="module" src="../../js/checkInactivity.js"></script>
   <!-- Loader -->
   <?php include '../loader.php'; ?>
 <!-- Overlay de Carga Fijo -->
