@@ -201,6 +201,7 @@ function eliminarCurso(idCurso) {
             //=============================================================     
             // Reproducir el sonido success
             var sonido = new Audio('../../songs/success.mp3'); // Asegúrate de que la ruta sea correcta
+            sonido.volume = 1;
             sonido.play().catch(function(error) {
                 console.error("Error al reproducir el sonido:", error);
             });
