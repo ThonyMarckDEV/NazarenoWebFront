@@ -23,10 +23,24 @@ function submitForm() {
     .then(response => response.json())
     .then(data => {
         if (data.success) {
-            showNotification("Usuario registrado exitosamente", "bg-green-500");
+            //=============================================================     
+            // Reproducir el sonido success
+            var sonido = new Audio('../../songs/success.mp3'); // Asegúrate de que la ruta sea correcta
+            sonido.play().catch(function(error) {
+                console.error("Error al reproducir el sonido:", error);
+            });
+            //=============================================================
+            showNotification("Usuario registrado exitosamente", "bg-green-500");   
             form.reset();
             listUsers();  // Llamada para refrescar la tabla de usuarios
         } else {
+            //=============================================================
+             // Reproducir el sonido error
+             var sonido = new Audio('../../songs/error.mp3');
+             sonido.play().catch(function(error) {
+                 console.error("Error al reproducir el sonido:", error);
+             });           
+            //=============================================================
             showNotification(data.message || "Error al registrar usuario", "bg-red-500");
             form.reset();
         }
@@ -34,6 +48,13 @@ function submitForm() {
     .catch((error) => {
         console.error("Error:", error);
         showNotification("Error en la solicitud", "bg-red-500");
+            //=============================================================
+             // Reproducir el sonido error
+             var sonido = new Audio('../../songs/error.mp3');
+             sonido.play().catch(function(error) {
+                 console.error("Error al reproducir el sonido:", error);
+             });           
+            //=============================================================        
         form.reset();
     })
     .finally(()=>{
