@@ -57,23 +57,29 @@
             </button>
         </form>
 
-        <!-- Tabla de Cursos -->
-        <div class="overflow-x-auto mt-10">
-            <table class="min-w-full bg-white shadow-md rounded-lg text-sm sm:text-base">
-                <thead>
-                    <tr class="bg-gray-200 text-gray-600 uppercase leading-normal">
-                        <th class="p-2 sm:p-3 text-left">ID</th>
-                        <th class="p-2 sm:p-3 text-left">Curso</th>
-                        <th class="p-2 sm:p-3 text-left">Especialidad</th>
-                        <th class="p-2 sm:p-3 text-left">Grado - Sección</th>
-                        <th class="p-2 sm:p-3 text-left">Acciones</th>
-                    </tr>
-                </thead>
-                <tbody id="cursosTableBody" class="text-gray-700 font-light">
-                    <!-- Contenido dinámico generado por JavaScript -->
-                </tbody>
-            </table>
-        </div>
+    <!-- Tabla de Cursos -->
+    <div class="overflow-x-auto mt-4">
+
+    <h3 class="text-xl font-semibold mb-4 mt-10 text-white">Curso agregados</h3>
+    <!-- Campo de búsqueda para la tabla de cursos -->
+    <div class="mb-4">
+        <input type="text" id="searchCursosInput" placeholder="Buscar cursos..." class="border p-2 rounded w-full sm:w-1/2">
+    </div>
+
+        <table class="min-w-full bg-white shadow-md rounded-lg text-sm sm:text-base">
+            <thead>
+                <tr class="bg-gray-200 text-gray-600 uppercase leading-normal">
+                    <th class="p-2 sm:p-3 text-left">ID</th>
+                    <th class="p-2 sm:p-3 text-left">Curso</th>
+                    <th class="p-2 sm:p-3 text-left">Especialidad</th>
+                    <th class="p-2 sm:p-3 text-left">Grado - Sección</th>
+                    <th class="p-2 sm:p-3 text-left">Acciones</th>
+                </tr>
+            </thead>
+            <tbody id="cursosTableBody" class="text-gray-700 font-light">
+                <!-- Contenido dinámico generado por JavaScript -->
+            </tbody>
+        </table>
     </div>
 
     <!-- Script para enviar datos en formato JSON y obtener las listas -->

@@ -109,6 +109,9 @@ function cargarGrados() {
     });
 }
 
+// Variable global para almacenar las asignaciones
+let asignaciones = [];
+
 // Función para listar todas las asignaciones
 function listarAsignaciones() {
     fetch(`${API_BASE_URL}/api/asignaciones`, {
@@ -120,22 +123,22 @@ function listarAsignaciones() {
     })
     .then(response => response.json())
     .then(data => {
-        const container = document.getElementById("asignacionesContainer");
-        container.innerHTML = ""; // Limpiar asignaciones previas
+        asignaciones = data.data; // Guardar las asignaciones en la variable global
+        renderAsignacionesTable(asignaciones); // Renderizar la tabla con todas las asignaciones
 
-        data.data.forEach(asignacion => {
-            const row = document.createElement("tr");
-
-            row.innerHTML = `
-                <td class="p-3 border-b">${asignacion.idAsignacion}</td>
-                <td class="p-3 border-b">${asignacion.nombreDocente}</td>
-                <td class="p-3 border-b">${asignacion.nombreAula} - ${asignacion.seccion}</td>
-                <td class="p-3 border-b text-center">
-                    <button onclick="eliminarAsignacion(${asignacion.idAsignacion})" class="bg-red-500 hover:bg-red-600 text-white px-3 py-1 rounded">Eliminar</button>
-                </td>
-            `;
-
-            container.appendChild(row);
+        // Añadir evento al campo de búsqueda
+        const searchInput = document.getElementById("searchAsignacionesInput");
+        searchInput.addEventListener("input", function() {
+            const searchTerm = this.value.toLowerCase();
+            const filteredAsignaciones = asignaciones.filter(asignacion => {
+                return (
+                    asignacion.idAsignacion.toString().includes(searchTerm) ||
+                    asignacion.nombreDocente.toLowerCase().includes(searchTerm) ||
+                    asignacion.nombreAula.toLowerCase().includes(searchTerm) ||
+                    asignacion.seccion.toLowerCase().includes(searchTerm)
+                );
+            });
+            renderAsignacionesTable(filteredAsignaciones);
         });
     })
     .catch(error => {
@@ -143,6 +146,33 @@ function listarAsignaciones() {
         showNotification("Error al listar asignaciones", "bg-red-500");
     });
 }
+
+// Función para renderizar la tabla de asignaciones
+function renderAsignacionesTable(asignacionesList) {
+    const container = document.getElementById("asignacionesContainer");
+    container.innerHTML = ""; // Limpiar asignaciones previas
+
+    asignacionesList.forEach(asignacion => {
+        const row = document.createElement("tr");
+
+        row.innerHTML = `
+            <td class="p-3 border-b">${asignacion.idAsignacion}</td>
+            <td class="p-3 border-b">${asignacion.nombreDocente}</td>
+            <td class="p-3 border-b">${asignacion.nombreAula} - ${asignacion.seccion}</td>
+            <td class="p-3 border-b text-center">
+                <button onclick="eliminarAsignacion(${asignacion.idAsignacion})" class="bg-red-500 hover:bg-red-600 text-white px-3 py-1 rounded">Eliminar</button>
+            </td>
+        `;
+
+        container.appendChild(row);
+    });
+}
+
+// Inicializar la carga de asignaciones al cargar la página
+document.addEventListener("DOMContentLoaded", function() {
+    listarAsignaciones();
+});
+
 
 // Función para eliminar una asignación
 function eliminarAsignacion(idAsignacion) {

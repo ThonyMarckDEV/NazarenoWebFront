@@ -3,6 +3,9 @@ import API_BASE_URL from './urlHelper.js';
 // Obtener el token JWT del localStorage
 const token = localStorage.getItem("jwt");
 
+// Variable global para almacenar los usuarios
+let usuarios = [];
+
 // Función para listar usuarios
 export function listUsers() {
     fetch(`${API_BASE_URL}/api/listarUsuarios`, {
@@ -18,11 +21,36 @@ export function listUsers() {
         return response.json();
     })
     .then(data => {
-        const userTableBody = document.getElementById("userTableBody");
-        userTableBody.innerHTML = ""; // Limpiar el contenido existente en la tabla
-        data.data.forEach(user => {
-            const row = document.createElement("tr");
-            row.innerHTML = `
+        usuarios = data.data; // Guardar los usuarios en la variable global
+        renderUserTable(usuarios); // Renderizar la tabla con todos los usuarios
+
+        // Añadir evento al campo de búsqueda
+        const searchInput = document.getElementById("searchInput");
+        searchInput.addEventListener("input", function() {
+            const searchTerm = this.value.toLowerCase();
+            const filteredUsers = usuarios.filter(user => {
+                return (
+                    user.username.toLowerCase().includes(searchTerm) ||
+                    user.rol.toLowerCase().includes(searchTerm) ||
+                    user.correo.toLowerCase().includes(searchTerm)
+                );
+            });
+            renderUserTable(filteredUsers);
+        });
+    })
+    .catch(error => {
+        console.error("Error al cargar usuarios:", error);
+        showNotification("Error en la solicitud", "bg-red-500");
+    });
+}
+
+// Función para renderizar la tabla de usuarios
+function renderUserTable(users) {
+    const userTableBody = document.getElementById("userTableBody");
+    userTableBody.innerHTML = ""; // Limpiar el contenido existente en la tabla
+    users.forEach(user => {
+        const row = document.createElement("tr");
+        row.innerHTML = `
             <td class="p-3 border-b">${user.idUsuario}</td>
             <td class="p-3 border-b">
                 <input type="text" value="${user.username}" class="border p-1 rounded-md w-full" id="username-${user.idUsuario}">
@@ -39,13 +67,8 @@ export function listUsers() {
                     <button onclick="deleteUser(${user.idUsuario})" class="action-button bg-red-500 text-white px-3 py-1 rounded">Eliminar</button>
                 </div>
             </td>
-            `;
-            userTableBody.appendChild(row);
-        });
-    })
-    .catch(error => {
-        console.error("Error al cargar usuarios:", error);
-        showNotification("Error en la solicitud", "bg-red-500");
+        `;
+        userTableBody.appendChild(row);
     });
 }
 

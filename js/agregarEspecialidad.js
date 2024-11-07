@@ -39,6 +39,9 @@ function submitSpecialtyForm() {
    });
 }
 
+// Variable global para almacenar las especialidades
+let especialidades = [];
+
 // Función para listar las especialidades
 function listEspecialidades() {
 
@@ -51,23 +54,39 @@ function listEspecialidades() {
     })
     .then(response => response.json())
     .then(data => {
-        const especialidadesTableBody = document.getElementById("especialidadesTableBody");
-        especialidadesTableBody.innerHTML = ""; // Limpiar el contenido anterior
-        data.data.forEach(especialidad => {
-            const row = document.createElement("tr");
-            row.innerHTML = `
-                <td class="p-3 border-b">${especialidad.idEspecialidad}</td>
-                <td class="p-3 border-b">${especialidad.nombreEspecialidad}</td>
-                <td class="p-3 border-b">
-                    <button onclick="eliminarEspecialidad(${especialidad.idEspecialidad})" class="bg-red-500 hover:bg-red-600 text-white px-3 py-1 rounded">Eliminar</button>
-                </td>
-            `;
-            especialidadesTableBody.appendChild(row);
+        especialidades = data.data; // Guardamos las especialidades en la variable global
+        renderEspecialidadesTable(especialidades); // Renderizamos la tabla con todas las especialidades
+
+        // Añadimos el evento al campo de búsqueda
+        const searchInput = document.getElementById("searchEspecialidadesInput");
+        searchInput.addEventListener("input", function() {
+            const searchTerm = this.value.toLowerCase();
+            const filteredEspecialidades = especialidades.filter(especialidad => {
+                return especialidad.nombreEspecialidad.toLowerCase().includes(searchTerm);
+            });
+            renderEspecialidadesTable(filteredEspecialidades);
         });
     })
     .catch(error => {
         console.error("Error al cargar especialidades:", error);
         showNotification("Error al cargar especialidades", "bg-red-500");
+    });
+}
+
+// Función para renderizar la tabla de especialidades
+function renderEspecialidadesTable(especialidadesList) {
+    const especialidadesTableBody = document.getElementById("especialidadesTableBody");
+    especialidadesTableBody.innerHTML = ""; // Limpiar el contenido anterior
+    especialidadesList.forEach(especialidad => {
+        const row = document.createElement("tr");
+        row.innerHTML = `
+            <td class="p-3 border-b">${especialidad.idEspecialidad}</td>
+            <td class="p-3 border-b">${especialidad.nombreEspecialidad}</td>
+            <td class="p-3 border-b">
+                <button onclick="eliminarEspecialidad(${especialidad.idEspecialidad})" class="bg-red-500 hover:bg-red-600 text-white px-3 py-1 rounded">Eliminar</button>
+            </td>
+        `;
+        especialidadesTableBody.appendChild(row);
     });
 }
 

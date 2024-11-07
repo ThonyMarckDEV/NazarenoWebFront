@@ -43,6 +43,12 @@
 
         <!-- Tabla de Especialidades -->
         <h3 class="text-xl font-semibold mb-4 mt-10 text-white">Especialidades Agregadas</h3>
+
+        <!-- Campo de búsqueda -->
+        <div class="mb-4">
+            <input type="text" id="searchEspecialidadesInput" placeholder="Buscar especialidades..." class="border p-2 rounded w-full sm:w-1/2">
+        </div>
+
         <div class="overflow-x-auto">
             <table class="min-w-full bg-white shadow-md rounded-lg text-sm sm:text-base">
                 <thead>
@@ -57,7 +63,6 @@
                 </tbody>
             </table>
         </div>
-    </div>
 
     <!-- Script para manejar las especialidades -->
     <script type="module" src="../../js/agregarEspecialidad.js"></script>

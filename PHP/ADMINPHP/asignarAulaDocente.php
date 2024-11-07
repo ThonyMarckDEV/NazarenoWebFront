@@ -51,17 +51,23 @@
 
         <!-- Tabla de Asignaciones Actuales -->
         <h3 class="text-xl font-semibold mb-4 mt-10 text-white">Asignaciones Actuales</h3>
+
+        <!-- Campo de búsqueda para la tabla de asignaciones -->
+        <div class="mb-4">
+            <input type="text" id="searchAsignacionesInput" placeholder="Buscar asignaciones..." class="border p-2 rounded w-full sm:w-1/2">
+        </div>
+
         <div class="overflow-x-auto">
-            <table class="min-w-full bg-white shadow-md rounded-lg">
+            <table class="min-w-full bg-white shadow-md rounded-lg text-sm sm:text-base">
                 <thead>
-                    <tr class="bg-gray-200 text-gray-600 uppercase text-sm leading-normal">
+                    <tr class="bg-gray-200 text-gray-600 uppercase leading-normal">
                         <th class="p-3 text-left">ID</th>
                         <th class="p-3 text-left">Docente</th>
                         <th class="p-3 text-left">Grado - Sección</th>
                         <th class="p-3 text-left">Acciones</th>
                     </tr>
                 </thead>
-                <tbody id="asignacionesContainer" class="text-gray-700 text-sm font-light">
+                <tbody id="asignacionesContainer" class="text-gray-700 font-light">
                     <!-- Contenido dinámico generado por JavaScript -->
                 </tbody>
             </table>

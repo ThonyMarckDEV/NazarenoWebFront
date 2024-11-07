@@ -53,8 +53,14 @@
             </button>
         </form>
 
-         <!-- Tabla de Estudiantes Matriculados -->
-         <h3 class="text-xl font-semibold mb-4 mt-10 text-white">Estudiantes Matriculados</h3>
+        <!-- Tabla de Estudiantes Matriculados -->
+        <h3 class="text-xl font-semibold mb-4 mt-10 text-white">Estudiantes Matriculados</h3>
+
+        <!-- Campo de búsqueda para la tabla de matrículas -->
+        <div class="mb-4">
+            <input type="text" id="searchMatriculasInput" placeholder="Buscar matrículas..." class="border p-2 rounded w-full sm:w-1/2">
+        </div>
+
         <div class="overflow-x-auto">
             <table class="min-w-full bg-white shadow-md rounded-lg">
                 <thead>
@@ -71,6 +77,9 @@
                 </tbody>
             </table>
         </div>
+
+
+
     </div>
 
     <style>

@@ -62,6 +62,10 @@ function loadGrados() {
     });
 }
 
+// Variable global para almacenar las matrículas
+let matriculas = [];
+
+// Función para listar todas las matrículas
 function listMatriculas() {
     fetch(`${API_BASE_URL}/api/listarMatriculas`, {
         method: "GET",
@@ -72,21 +76,23 @@ function listMatriculas() {
     })
     .then(response => response.json())
     .then(data => {
-        const matriculasTableBody = document.getElementById("matriculasTableBody");
-        matriculasTableBody.innerHTML = ""; // Limpiar contenido anterior
-        data.data.forEach(matricula => {
-            const row = document.createElement("tr");
-            row.innerHTML = `
-                <td class="p-3 border-b">${matricula.idMatricula}</td>
-                <td class="p-3 border-b">${matricula.nombre_completo}</td>
-                <td class="p-3 border-b">${matricula.grado.nombreGrado} - ${matricula.grado.seccion}</td> <!-- Mostrar nombre y sección del grado -->
-                <td class="p-3 border-b">${matricula.fechaMatricula}</td>
-                <td class="p-3 border-b">
-                    <button onclick="eliminarMatricula(${matricula.idMatricula})" 
-                        class="bg-red-500 text-white px-3 py-1 rounded">Eliminar</button>
-                </td>
-            `;
-            matriculasTableBody.appendChild(row);
+        matriculas = data.data; // Guardar las matrículas en la variable global
+        renderMatriculasTable(matriculas); // Renderizar la tabla con todas las matrículas
+
+        // Añadir evento al campo de búsqueda
+        const searchInput = document.getElementById("searchMatriculasInput");
+        searchInput.addEventListener("input", function() {
+            const searchTerm = this.value.toLowerCase();
+            const filteredMatriculas = matriculas.filter(matricula => {
+                return (
+                    matricula.idMatricula.toString().includes(searchTerm) ||
+                    matricula.nombre_completo.toLowerCase().includes(searchTerm) ||
+                    matricula.grado.nombreGrado.toLowerCase().includes(searchTerm) ||
+                    matricula.grado.seccion.toLowerCase().includes(searchTerm) ||
+                    matricula.fechaMatricula.toLowerCase().includes(searchTerm)
+                );
+            });
+            renderMatriculasTable(filteredMatriculas);
         });
     })
     .catch(error => {
@@ -95,6 +101,25 @@ function listMatriculas() {
     });
 }
 
+// Función para renderizar la tabla de matrículas
+function renderMatriculasTable(matriculasList) {
+    const matriculasTableBody = document.getElementById("matriculasTableBody");
+    matriculasTableBody.innerHTML = ""; // Limpiar contenido anterior
+
+    matriculasList.forEach(matricula => {
+        const row = document.createElement("tr");
+        row.innerHTML = `
+            <td class="p-3 border-b">${matricula.idMatricula}</td>
+            <td class="p-3 border-b">${matricula.nombre_completo}</td>
+            <td class="p-3 border-b">${matricula.grado.nombreGrado} - ${matricula.grado.seccion}</td>
+            <td class="p-3 border-b">${matricula.fechaMatricula}</td>
+            <td class="p-3 border-b">
+                <button onclick="eliminarMatricula(${matricula.idMatricula})" class="bg-red-500 hover:bg-red-600 text-white px-3 py-1 rounded">Eliminar</button>
+            </td>
+        `;
+        matriculasTableBody.appendChild(row);
+    });
+}
 
 // Eliminar matricula con token
 function eliminarMatricula(idMatricula) {

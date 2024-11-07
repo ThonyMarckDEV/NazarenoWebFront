@@ -135,8 +135,16 @@
             </button>
         </form>
 
+
         <!-- Tabla de Usuarios -->
         <h3 class="text-xl font-semibold mb-4 mt-10 text-white">Listado de Usuarios</h3>
+
+        
+        <!-- Campo de búsqueda -->
+        <div class="mb-4">
+            <input type="text" id="searchInput" placeholder="Buscar usuarios..." class="border p-2 rounded w-full sm:w-1/2">
+        </div>
+        
         <div class="overflow-x-auto sm:px-4">
             <table class="min-w-full bg-white shadow-md rounded-lg overflow-hidden text-sm sm:text-base">
                 <thead>
@@ -153,6 +161,8 @@
                 </tbody>
             </table>
         </div>
+
+
     </div>
     <!-- Script para enviar datos en formato JSON -->
     <script type="module" src="../../js/register.js"></script>

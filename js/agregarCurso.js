@@ -102,6 +102,8 @@ function loadGrados() {
     });
 }
 
+// Variable global para almacenar los cursos
+let cursos = [];
 
 // Función para listar los cursos
 function listCursos() {
@@ -110,32 +112,51 @@ function listCursos() {
         headers: {
             "Authorization": `Bearer ${token}`,
             "ngrok-skip-browser-warning": "69420",
-            "bypass-tunnel-reminder": "true" // O usa un encabezado personalizado
+            "bypass-tunnel-reminder": "true"
         }
     })
     .then(response => response.json())
     .then(data => {
-        const cursosTableBody = document.getElementById("cursosTableBody");
-        cursosTableBody.innerHTML = ""; 
-        data.data.forEach(curso => {
-            const row = document.createElement("tr");
-            row.innerHTML = `
-                <td class="p-3 border-b">${curso.idCurso}</td>
-                <td class="p-3 border-b">${curso.nombreCurso}</td>
-                <td class="p-3 border-b">${curso.especialidad.nombreEspecialidad}</td>
-                <td class="p-3 border-b">${curso.grado.nombreGrado} - ${curso.grado.seccion}</td>
-                <td class="p-3 border-b">
-                    <button onclick="eliminarCurso(${curso.idCurso})" class="bg-red-500 hover:bg-red-600 text-white px-3 py-1 rounded">Eliminar</button>
-                </td>
-            `;
-            cursosTableBody.appendChild(row);
+        cursos = data.data; // Guardamos los cursos en la variable global
+        renderCursosTable(cursos); // Renderizamos la tabla con todos los cursos
+
+        // Añadimos el evento al campo de búsqueda
+        const searchInput = document.getElementById("searchCursosInput");
+        searchInput.addEventListener("input", function() {
+            const searchTerm = this.value.toLowerCase();
+            const filteredCursos = cursos.filter(curso => {
+                return (
+                    curso.nombreCurso.toLowerCase().includes(searchTerm) ||
+                    curso.especialidad.nombreEspecialidad.toLowerCase().includes(searchTerm) ||
+                    curso.grado.nombreGrado.toLowerCase().includes(searchTerm) ||
+                    curso.grado.seccion.toLowerCase().includes(searchTerm)
+                );
+            });
+            renderCursosTable(filteredCursos);
         });
     })
-    .catch(
-      error => console.error("Error al cargar cursos:", error
-
-    ));
+    .catch(error => console.error("Error al cargar cursos:", error));
 }
+
+// Función para renderizar la tabla de cursos
+function renderCursosTable(cursosList) {
+    const cursosTableBody = document.getElementById("cursosTableBody");
+    cursosTableBody.innerHTML = "";
+    cursosList.forEach(curso => {
+        const row = document.createElement("tr");
+        row.innerHTML = `
+            <td class="p-3 border-b">${curso.idCurso}</td>
+            <td class="p-3 border-b">${curso.nombreCurso}</td>
+            <td class="p-3 border-b">${curso.especialidad.nombreEspecialidad}</td>
+            <td class="p-3 border-b">${curso.grado.nombreGrado} - ${curso.grado.seccion}</td>
+            <td class="p-3 border-b">
+                <button onclick="eliminarCurso(${curso.idCurso})" class="bg-red-500 hover:bg-red-600 text-white px-3 py-1 rounded">Eliminar</button>
+            </td>
+        `;
+        cursosTableBody.appendChild(row);
+    });
+}
+
 
 // Función para eliminar un curso
 function eliminarCurso(idCurso) {
