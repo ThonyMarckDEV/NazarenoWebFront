@@ -292,6 +292,13 @@ function revisarTarea(idTarea) {
     .then(response => response.json())
     .then(data => {
         if (data.success) {
+            //=============================================================     
+            // Reproducir el sonido success
+            var sonido = new Audio('../../songs/success.mp3'); // Asegúrate de que la ruta sea correcta
+            sonido.play().catch(function(error) {
+                console.error("Error al reproducir el sonido:", error);
+            });
+            //=============================================================
             showNotification("Tarea revisada correctamente", "bg-green-500");
 
             // Espera 2 segundos para que el usuario vea la notificación, luego recarga la página
@@ -299,6 +306,13 @@ function revisarTarea(idTarea) {
                 location.reload();
             }, 1000); // Espera 2 segundos antes de recargar
         } else {
+             //=============================================================
+             // Reproducir el sonido error
+             var sonido = new Audio('../../songs/error.mp3');
+             sonido.play().catch(function(error) {
+                 console.error("Error al reproducir el sonido:", error);
+             });           
+            //=============================================================
             showNotification("Error al revisar la tarea", "bg-red-500");
         }
     })

@@ -73,9 +73,23 @@ function asignarEspecialidad() {
     .then(response => response.json())
     .then(data => {
         if (data.success) {
+            //=============================================================     
+            // Reproducir el sonido success
+            var sonido = new Audio('../../songs/success.mp3'); // Asegúrate de que la ruta sea correcta
+            sonido.play().catch(function(error) {
+                console.error("Error al reproducir el sonido:", error);
+            });
+            //=============================================================
             showNotification("Asignación realizada con éxito", "bg-green-500");
             loadAsignaciones(); // Recargar lista de asignaciones
         } else {
+             //=============================================================
+             // Reproducir el sonido error
+             var sonido = new Audio('../../songs/error.mp3');
+             sonido.play().catch(function(error) {
+                 console.error("Error al reproducir el sonido:", error);
+             });           
+            //=============================================================
             showNotification(data.message, "bg-red-500");
         }
     })
@@ -136,9 +150,23 @@ function eliminarAsignacion(id) {
     .then(response => response.json())
     .then(data => {
         if (data.success) {
+            //=============================================================     
+            // Reproducir el sonido success
+            var sonido = new Audio('../../songs/success.mp3'); // Asegúrate de que la ruta sea correcta
+            sonido.play().catch(function(error) {
+                console.error("Error al reproducir el sonido:", error);
+            });
+            //=============================================================
             showNotification("Asignación eliminada exitosamente", "bg-green-500");
             loadAsignaciones(); // Recargar la lista después de eliminar
         } else {
+            //=============================================================
+             // Reproducir el sonido error
+             var sonido = new Audio('../../songs/error.mp3');
+             sonido.play().catch(function(error) {
+                 console.error("Error al reproducir el sonido:", error);
+             });           
+            //=============================================================
             showNotification(data.message || "Error al eliminar asignación", "bg-red-500");
         }
     })

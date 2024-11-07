@@ -22,15 +22,37 @@ function submitCursoForm() {
     .then(response => response.json())
     .then(data => {
         if (data.success) {
+            //=============================================================     
+            // Reproducir el sonido success
+            var sonido = new Audio('../../songs/success.mp3'); // Asegúrate de que la ruta sea correcta
+            sonido.volume = 1; // Ajusta el volumen (0.0 a 1.0)
+            sonido.play().catch(function(error) {
+                console.error("Error al reproducir el sonido:", error);
+            });
+            //=============================================================
             showNotification("Curso registrado exitosamente", "bg-green-500");
             form.reset();
             listCursos();
         } else {
+             //=============================================================
+             // Reproducir el sonido error
+             var sonido = new Audio('../../songs/error.mp3');
+             sonido.play().catch(function(error) {
+                 console.error("Error al reproducir el sonido:", error);
+             });           
+            //=============================================================
             showNotification(data.message || "Error al registrar curso", "bg-red-500");
         }
     })
     .catch((error) => {
         console.error("Error:", error);
+             //=============================================================
+             // Reproducir el sonido error
+             var sonido = new Audio('../../songs/error.mp3');
+             sonido.play().catch(function(error) {
+                 console.error("Error al reproducir el sonido:", error);
+             });           
+            //=============================================================
         showNotification("Error en la solicitud", "bg-red-500");
     })    
     .finally(()=>{
@@ -176,8 +198,24 @@ function eliminarCurso(idCurso) {
     .then(data => {
         showNotification(data.message, data.success ? "bg-green-500" : "bg-red-500");
         if (data.success) {
+            //=============================================================     
+            // Reproducir el sonido success
+            var sonido = new Audio('../../songs/success.mp3'); // Asegúrate de que la ruta sea correcta
+            sonido.play().catch(function(error) {
+                console.error("Error al reproducir el sonido:", error);
+            });
+            //=============================================================
             listCursos(); 
-        }
+        }else {
+            //=============================================================
+            // Reproducir el sonido error
+            var sonido = new Audio('../../songs/error.mp3');
+            sonido.play().catch(function(error) {
+                console.error("Error al reproducir el sonido:", error);
+            });           
+           //=============================================================
+           showNotification(data.message || "Error al eliminar curso", "bg-red-500");
+       }
     })
     .catch(
         error => console.error("Error al eliminar curso:", error

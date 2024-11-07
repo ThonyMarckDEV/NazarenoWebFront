@@ -66,3 +66,7 @@
 <script type="module"  src="../../js/lastActivity.js"></script>
 <!-- Script para actualizar el contador de anuncios no vistos -->
 <script type="module" src="../../js/contadorCalificaciones.js"></script>
+<!-- Incluir el script al final del body para mejorar la carga -->
+<script type="module" src="../../js/click-sound.js"></script>
+<!-- Incluir el script al final del body para mejorar la carga -->
+<script type="module" src="../../js/typing-sound.js"></script>

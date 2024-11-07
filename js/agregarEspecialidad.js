@@ -22,15 +22,36 @@ function submitSpecialtyForm() {
     .then(response => response.json())
     .then(data => {
         if (data.success) {
+            //=============================================================     
+            // Reproducir el sonido success
+            var sonido = new Audio('../../songs/success.mp3'); // Asegúrate de que la ruta sea correcta
+            sonido.play().catch(function(error) {
+                console.error("Error al reproducir el sonido:", error);
+            });
+            //=============================================================
             showNotification("Especialidad registrada exitosamente", "bg-green-500");
             form.reset();
             listEspecialidades();
         } else {
+             //=============================================================
+             // Reproducir el sonido error
+             var sonido = new Audio('../../songs/error.mp3');
+             sonido.play().catch(function(error) {
+                 console.error("Error al reproducir el sonido:", error);
+             });           
+            //=============================================================
             showNotification(data.message || "Error al registrar especialidad", "bg-red-500");
         }
     })
     .catch((error) => {
         console.error("Error:", error);
+            //=============================================================
+             // Reproducir el sonido error
+             var sonido = new Audio('../../songs/error.mp3');
+             sonido.play().catch(function(error) {
+                 console.error("Error al reproducir el sonido:", error);
+             });           
+            //=============================================================
         showNotification("Error en la solicitud", "bg-red-500");
     })
     .finally(()=>{
@@ -107,11 +128,25 @@ function eliminarEspecialidad(idEspecialidad) {
     .then(data => {
         showNotification(data.message, data.success ? "bg-green-500" : "bg-red-500");
         if (data.success) {
+             //=============================================================     
+            // Reproducir el sonido success
+            var sonido = new Audio('../../songs/success.mp3'); // Asegúrate de que la ruta sea correcta
+            sonido.play().catch(function(error) {
+                console.error("Error al reproducir el sonido:", error);
+            });
+            //=============================================================
             listEspecialidades(); // Refrescar la lista de especialidades
         }
     })
     .catch(error => {
         console.error("Error al eliminar especialidad:", error);
+           //=============================================================
+             // Reproducir el sonido error
+             var sonido = new Audio('../../songs/error.mp3');
+             sonido.play().catch(function(error) {
+                 console.error("Error al reproducir el sonido:", error);
+             });           
+            //=============================================================
         showNotification("Error al eliminar especialidad", "bg-red-500");
     })
     .finally(()=>{

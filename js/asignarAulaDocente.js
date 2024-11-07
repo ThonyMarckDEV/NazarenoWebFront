@@ -21,6 +21,13 @@ function asignarAulaDocente() {
     const idAula = document.getElementById("idAula").value;
 
     if (!idDocente || !idAula) {
+             //=============================================================
+             // Reproducir el sonido error
+             var sonido = new Audio('../../songs/error.mp3');
+             sonido.play().catch(function(error) {
+                 console.error("Error al reproducir el sonido:", error);
+             });           
+            //=============================================================
         showNotification("Seleccione un docente y un aula para realizar la asignación.", "bg-red-500");
         return;
     }
@@ -39,14 +46,35 @@ function asignarAulaDocente() {
     .then(response => response.json())
     .then(data => {
         if (data.success) {
+             //=============================================================     
+            // Reproducir el sonido success
+            var sonido = new Audio('../../songs/success.mp3'); // Asegúrate de que la ruta sea correcta
+            sonido.play().catch(function(error) {
+                console.error("Error al reproducir el sonido:", error);
+            });
+            //=============================================================
             listarAsignaciones(); // Refresca la lista de asignaciones
             showNotification(data.message, "bg-green-500");
         } else {
+            //=============================================================
+             // Reproducir el sonido error
+             var sonido = new Audio('../../songs/error.mp3');
+             sonido.play().catch(function(error) {
+                 console.error("Error al reproducir el sonido:", error);
+             });           
+            //=============================================================
             showNotification(data.message, "bg-red-500");
         }
     })
     .catch(error => {
         console.error('Error:', error);
+             //=============================================================
+             // Reproducir el sonido error
+             var sonido = new Audio('../../songs/error.mp3');
+             sonido.play().catch(function(error) {
+                 console.error("Error al reproducir el sonido:", error);
+             });           
+            //=============================================================
         showNotification("Error en la solicitud", "bg-red-500");
     })
     .finally(()=>{
@@ -192,14 +220,35 @@ function eliminarAsignacion(idAsignacion) {
     .then(response => response.json())
     .then(data => {
         if (data.success) {
+            //=============================================================     
+            // Reproducir el sonido success
+            var sonido = new Audio('../../songs/success.mp3'); // Asegúrate de que la ruta sea correcta
+            sonido.play().catch(function(error) {
+                console.error("Error al reproducir el sonido:", error);
+            });
+            //=============================================================
             listarAsignaciones(); // Refresca la lista de asignaciones
             showNotification(data.message, "bg-green-500");
         } else {
+             //=============================================================
+             // Reproducir el sonido error
+             var sonido = new Audio('../../songs/error.mp3');
+             sonido.play().catch(function(error) {
+                 console.error("Error al reproducir el sonido:", error);
+             });           
+            //=============================================================
             showNotification(data.message, "bg-red-500");
         }
     })
     .catch(error => {
         console.error('Error al eliminar asignación:', error);
+        //=============================================================
+             // Reproducir el sonido error
+             var sonido = new Audio('../../songs/error.mp3');
+             sonido.play().catch(function(error) {
+                 console.error("Error al reproducir el sonido:", error);
+             });           
+            //=============================================================
         showNotification("Error al eliminar asignación", "bg-red-500");
     })
     .finally(()=>{

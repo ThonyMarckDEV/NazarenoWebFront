@@ -81,9 +81,23 @@ function uploadProfileImage() {
     .then(response => response.json())
     .then(data => {
         if (data.success) {
+             //=============================================================     
+            // Reproducir el sonido success
+            var sonido = new Audio('../../songs/success.mp3'); // Asegúrate de que la ruta sea correcta
+            sonido.play().catch(function(error) {
+                console.error("Error al reproducir el sonido:", error);
+            });
+            //=============================================================
             document.getElementById("profileImage").src = `${API_BASE_URL}/storage/profiles/${idUsuario}/${data.filename}`;
             showNotification("Foto de perfil actualizada correctamente", "bg-green-500");
         } else {
+            //=============================================================
+             // Reproducir el sonido error
+             var sonido = new Audio('../../songs/error.mp3');
+             sonido.play().catch(function(error) {
+                 console.error("Error al reproducir el sonido:", error);
+             });           
+            //=============================================================
             showNotification(data.message, "bg-red-500");
         }
     })
@@ -127,8 +141,22 @@ function updateDocente() {
     .then(response => response.json())
     .then(data => {
         if (data.success) {
+             //=============================================================     
+            // Reproducir el sonido success
+            var sonido = new Audio('../../songs/success.mp3'); // Asegúrate de que la ruta sea correcta
+            sonido.play().catch(function(error) {
+                console.error("Error al reproducir el sonido:", error);
+            });
+            //=============================================================
             showNotification("Datos actualizados correctamente", "bg-green-500");
         } else {
+             //=============================================================
+             // Reproducir el sonido error
+             var sonido = new Audio('../../songs/error.mp3');
+             sonido.play().catch(function(error) {
+                 console.error("Error al reproducir el sonido:", error);
+             });           
+            //=============================================================
             showNotification(data.message, "bg-red-500");
         }
     })

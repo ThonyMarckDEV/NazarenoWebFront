@@ -72,7 +72,10 @@
 <!-- Cargar el archivo JavaScript en todas las páginas -->
 <script type="module" src="../../js/checkTokenInterval.js"></script>
 <script type="module" src="../../js/lastActivity.js"></script>
-
+<!-- Incluir el script al final del body para mejorar la carga -->
+<script type="module" src="../../js/click-sound.js"></script>
+<!-- Incluir el script al final del body para mejorar la carga -->
+<script type="module" src="../../js/typing-sound.js"></script>
 
 
 

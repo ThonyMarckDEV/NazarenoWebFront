@@ -138,15 +138,36 @@ function eliminarMatricula(idMatricula) {
     .then(response => response.json())
     .then(data => {
         if (data.success) {
+            //=============================================================     
+            // Reproducir el sonido success
+            var sonido = new Audio('../../songs/success.mp3'); // Asegúrate de que la ruta sea correcta
+            sonido.play().catch(function(error) {
+                console.error("Error al reproducir el sonido:", error);
+            });
+            //=============================================================
             showNotification(data.message, "bg-green-500");
             listMatriculas(); // Recargar lista de matriculas
             loadGrados(); 
         } else {
+                         //=============================================================
+             // Reproducir el sonido error
+             var sonido = new Audio('../../songs/error.mp3');
+             sonido.play().catch(function(error) {
+                 console.error("Error al reproducir el sonido:", error);
+             });           
+            //=============================================================
             showNotification(data.message || "Error al eliminar matrícula", "bg-red-500");
         }
     })
     .catch(error => {
         console.error("Error al eliminar matrícula:", error);
+                     //=============================================================
+             // Reproducir el sonido error
+             var sonido = new Audio('../../songs/error.mp3');
+             sonido.play().catch(function(error) {
+                 console.error("Error al reproducir el sonido:", error);
+             });           
+            //=============================================================
         showNotification("Error en la solicitud", "bg-red-500");
     })
     .finally(()=>{
@@ -176,14 +197,38 @@ function submitMatricula() {
     })
     .then(response => response.json())
     .then(data => {
-        showNotification(data.message, data.success ? "bg-green-500" : "bg-red-500");
+
         if (data.success) {
+            //=============================================================     
+            // Reproducir el sonido success
+            var sonido = new Audio('../../songs/success.mp3'); // Asegúrate de que la ruta sea correcta
+            sonido.play().catch(function(error) {
+                console.error("Error al reproducir el sonido:", error);
+            });
+            //=============================================================
+            showNotification(data.message, data.success ? "bg-green-500" : "bg-red-500");
             loadGrados(); 
             listMatriculas(); // Recargar lista de matriculas
+        }else{
+             //=============================================================
+             // Reproducir el sonido error
+             var sonido = new Audio('../../songs/error.mp3');
+             sonido.play().catch(function(error) {
+                 console.error("Error al reproducir el sonido:", error);
+             });           
+            //=============================================================
+            showNotification(data.message, "bg-red-500");
         }
     })
     .catch(error => {
         console.error("Error:", error);
+                     //=============================================================
+             // Reproducir el sonido error
+             var sonido = new Audio('../../songs/error.mp3');
+             sonido.play().catch(function(error) {
+                 console.error("Error al reproducir el sonido:", error);
+             });           
+            //=============================================================
         showNotification("Error en la solicitud", "bg-red-500");
     })
     .finally(()=>{

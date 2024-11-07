@@ -295,11 +295,25 @@ function enviarTarea() {
     const idUsuario = getIdUsuarioFromToken();
 
     if (!archivo) {
+                    //=============================================================
+             // Reproducir el sonido error
+             var sonido = new Audio('../../songs/error.mp3');
+             sonido.play().catch(function(error) {
+                 console.error("Error al reproducir el sonido:", error);
+             });           
+            //=============================================================
         showNotification("Selecciona un archivo para subir", "bg-red-500");
         return;
     }
 
     if (!idUsuario || !actividadSeleccionada) {
+                    //=============================================================
+             // Reproducir el sonido error
+             var sonido = new Audio('../../songs/error.mp3');
+             sonido.play().catch(function(error) {
+                 console.error("Error al reproducir el sonido:", error);
+             });           
+            //=============================================================
         showNotification("Datos de usuario o actividad no encontrados", "bg-red-500");
         return;
     }
@@ -327,6 +341,13 @@ function enviarTarea() {
     })
     .then(data => {
         cerrarSubirTareaModal(); // Cierra el modal primero
+                     //=============================================================     
+            // Reproducir el sonido success
+            var sonido = new Audio('../../songs/success.mp3'); // Asegúrate de que la ruta sea correcta
+            sonido.play().catch(function(error) {
+                console.error("Error al reproducir el sonido:", error);
+            });
+            //=============================================================
         showNotification(data.message, "bg-green-500"); // Luego muestra la notificación
 
         // Llama a loadMaterialesYActividades para actualizar el estado de las actividades
@@ -334,6 +355,13 @@ function enviarTarea() {
     })
     .catch(error => {
         console.error("Error al subir tarea:", error);
+                    //=============================================================
+             // Reproducir el sonido error
+             var sonido = new Audio('../../songs/error.mp3');
+             sonido.play().catch(function(error) {
+                 console.error("Error al reproducir el sonido:", error);
+             });           
+            //=============================================================
         showNotification("Error al subir tarea", "bg-red-500");
     })
     .finally(()=>{

@@ -266,13 +266,31 @@ function marcarTareaComoVista(idTarea, idUsuario) {
     .then(response => response.json())
     .then(data => {
         if (data.success) {
+                         //=============================================================     
+            // Reproducir el sonido success
+            var sonido = new Audio('../../songs/success.mp3'); // Asegúrate de que la ruta sea correcta
+            sonido.play().catch(function(error) {
+                console.error("Error al reproducir el sonido:", error);
+            });
+            //=============================================================
             console.log("Tarea marcada como vista:", data.message);
             location.reload(); // Recarga la página si la tarea fue marcada como vista correctamente
         } else {
+                        //=============================================================
+             // Reproducir el sonido error
+             var sonido = new Audio('../../songs/error.mp3');
+             sonido.play().catch(function(error) {
+                 console.error("Error al reproducir el sonido:", error);
+             });           
+            //=============================================================
             console.error("Error al marcar tarea como vista:", data.message);
+            showNotification(data.message, "bg-red-500");
         }
     })
-    .catch(error => console.error("Error en la solicitud:", error));
+    .catch(
+        error => console.error("Error en la solicitud:", error)
+        
+    );
 }
 
 function closeMaterialActividadModal() {

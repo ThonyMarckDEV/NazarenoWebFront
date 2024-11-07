@@ -251,6 +251,13 @@ function enviarActividad() {
 
     // Validar que la fecha de vencimiento no esté vacía
     if (!fecha_vencimiento) {
+                    //=============================================================
+             // Reproducir el sonido error
+             var sonido = new Audio('../../songs/error.mp3');
+             sonido.play().catch(function(error) {
+                 console.error("Error al reproducir el sonido:", error);
+             });           
+            //=============================================================
         showNotification("La fecha de vencimiento es requerida", "bg-red-500");
         return;
     }
@@ -268,12 +275,26 @@ function enviarActividad() {
     })
     .then(response => {
         if (!response.ok) {
+             //=============================================================
+             // Reproducir el sonido error
+             var sonido = new Audio('../../songs/error.mp3');
+             sonido.play().catch(function(error) {
+                 console.error("Error al reproducir el sonido:", error);
+             });           
+            //=============================================================
             throw new Error("Error en la respuesta del servidor");
         }
         return response.json();
     })
     .then(data => {
         closeActividadModal(); // Cerrar el modal al enviar la actividad
+         //=============================================================     
+            // Reproducir el sonido success
+            var sonido = new Audio('../../songs/success.mp3'); // Asegúrate de que la ruta sea correcta
+             sonido.play().catch(function(error) {
+                console.error("Error al reproducir el sonido:", error);
+            });
+        //=============================================================
         showNotification(data.message, "bg-green-500");
         limpiarCamposActividad(); // Llama a la función para limpiar los campos
 
@@ -286,6 +307,13 @@ function enviarActividad() {
 
         // Validar que los datos estén presentes antes de enviar el anuncio
         if (!nombreCurso || !seccion || !nombreModulo) {
+              //=============================================================
+             // Reproducir el sonido error
+             var sonido = new Audio('../../songs/error.mp3');
+             sonido.play().catch(function(error) {
+                 console.error("Error al reproducir el sonido:", error);
+             });           
+            //=============================================================
             showNotification("Faltan datos del curso, sección o módulo para el anuncio", "bg-red-500");
             return;
         }
@@ -309,24 +337,59 @@ function enviarActividad() {
         })
         .then(response => {
             if (!response.ok) {
+              //=============================================================
+             // Reproducir el sonido error
+             var sonido = new Audio('../../songs/error.mp3');
+             sonido.play().catch(function(error) {
+                 console.error("Error al reproducir el sonido:", error);
+             });           
+            //=============================================================
                 throw new Error('Error en la respuesta del servidor al enviar el anuncio');
             }
             return response.json();
         })
         .then(data => {
             if (data.success) {
+                //=============================================================     
+                // Reproducir el sonido success
+                var sonido = new Audio('../../songs/success.mp3'); // Asegúrate de que la ruta sea correcta
+                sonido.play().catch(function(error) {
+                    console.error("Error al reproducir el sonido:", error);
+                });
+                //=============================================================
                 showNotification("Anuncio creado correctamente", "bg-green-500");
             } else {
+                //=============================================================
+                // Reproducir el sonido error
+                var sonido = new Audio('../../songs/error.mp3');
+                sonido.play().catch(function(error) {
+                    console.error("Error al reproducir el sonido:", error);
+                });           
+                //=============================================================
                 showNotification("Error al crear el anuncio", "bg-red-500");
             }
         })
         .catch(error => {
             console.error('Error al enviar anuncio:', error);
+                 //=============================================================
+                // Reproducir el sonido error
+                var sonido = new Audio('../../songs/error.mp3');
+                sonido.play().catch(function(error) {
+                    console.error("Error al reproducir el sonido:", error);
+                });           
+                //=============================================================
             showNotification("Error al enviar anuncio", "bg-red-500");
         });
     })
     .catch(error => {
         console.error('Error al asignar actividad:', error);
+             //=============================================================
+                // Reproducir el sonido error
+                var sonido = new Audio('../../songs/error.mp3');
+                sonido.play().catch(function(error) {
+                    console.error("Error al reproducir el sonido:", error);
+                });           
+            //=============================================================
         showNotification("Error al enviar actividad", "bg-red-500");
     })
     .finally(()=>{
@@ -344,6 +407,13 @@ function enviarMaterial() {
     const idDocente = getIdUsuarioFromToken();
 
     if (!archivo) {
+            //=============================================================
+                // Reproducir el sonido error
+                var sonido = new Audio('../../songs/error.mp3');
+                sonido.play().catch(function(error) {
+                    console.error("Error al reproducir el sonido:", error);
+                });           
+            //=============================================================
         showNotification("Selecciona un archivo para subir", "bg-red-500");
         return;
     }
@@ -363,12 +433,26 @@ function enviarMaterial() {
     })
     .then(response => {
         if (!response.ok) {
+                  //=============================================================
+                // Reproducir el sonido error
+                var sonido = new Audio('../../songs/error.mp3');
+                sonido.play().catch(function(error) {
+                    console.error("Error al reproducir el sonido:", error);
+                });           
+                //=============================================================
             throw new Error("Error en la respuesta del servidor al enviar material");
         }
         return response.json();
     })
     .then(data => {
         closeMaterialModal();
+                        //=============================================================     
+                // Reproducir el sonido success
+                var sonido = new Audio('../../songs/success.mp3'); // Asegúrate de que la ruta sea correcta
+                sonido.play().catch(function(error) {
+                    console.error("Error al reproducir el sonido:", error);
+                });
+                //=============================================================
         showNotification(data.message, "bg-green-500");
         limpiarCamposMaterial();
 
@@ -385,6 +469,13 @@ function enviarMaterial() {
 
         // Verificar que los datos estén presentes
         if (!nombreCurso || !seccion || !nombreModulo) {
+                         //=============================================================
+                // Reproducir el sonido error
+                var sonido = new Audio('../../songs/error.mp3');
+                sonido.play().catch(function(error) {
+                    console.error("Error al reproducir el sonido:", error);
+                });           
+                //=============================================================
             showNotification("Faltan datos del curso, sección o módulo para el anuncio", "bg-red-500");
             return;
         }
@@ -406,24 +497,59 @@ function enviarMaterial() {
         })
         .then(response => {
             if (!response.ok) {
+                //=============================================================
+                // Reproducir el sonido error
+                var sonido = new Audio('../../songs/error.mp3');
+                sonido.play().catch(function(error) {
+                    console.error("Error al reproducir el sonido:", error);
+                });           
+                //=============================================================
                 throw new Error('Error en la respuesta del servidor al enviar el anuncio');
             }
             return response.json();
         })
         .then(data => {
             if (data.success) {
+                //=============================================================     
+                // Reproducir el sonido success
+                var sonido = new Audio('../../songs/success.mp3'); // Asegúrate de que la ruta sea correcta
+                sonido.play().catch(function(error) {
+                    console.error("Error al reproducir el sonido:", error);
+                });
+                //=============================================================
                 showNotification("Anuncio creado correctamente", "bg-green-500");
             } else {
+                //=============================================================
+                // Reproducir el sonido error
+                var sonido = new Audio('../../songs/error.mp3');
+                sonido.play().catch(function(error) {
+                    console.error("Error al reproducir el sonido:", error);
+                });           
+                //=============================================================
                 showNotification("Error al crear el anuncio", "bg-red-500");
             }
         })
         .catch(error => {
             console.error('Error al enviar anuncio:', error);
+               //=============================================================
+                // Reproducir el sonido error
+                var sonido = new Audio('../../songs/error.mp3');
+                sonido.play().catch(function(error) {
+                    console.error("Error al reproducir el sonido:", error);
+                });           
+                //=============================================================
             showNotification("Error al enviar anuncio", "bg-red-500");
         });
     })
     .catch(error => {
         console.error("Error al agregar material:", error);
+                //=============================================================
+                // Reproducir el sonido error
+                var sonido = new Audio('../../songs/error.mp3');
+                sonido.play().catch(function(error) {
+                    console.error("Error al reproducir el sonido:", error);
+                });           
+                //=============================================================       
         showNotification("Error al agregar material", "bg-red-500");
     })
     .finally(()=>{
@@ -534,6 +660,13 @@ function verModulo(idModulo) {
 function eliminarMaterial(idMaterial) {
     if (!idMaterial) {
         console.error("idMaterial no definido");
+                 //=============================================================
+                // Reproducir el sonido error
+                var sonido = new Audio('../../songs/error.mp3');
+                sonido.play().catch(function(error) {
+                    console.error("Error al reproducir el sonido:", error);
+                });           
+                //=============================================================
         showNotification("Error: idMaterial no está definido", "bg-red-500");
         return;
     }
@@ -552,11 +685,25 @@ function eliminarMaterial(idMaterial) {
         return response.json();
     })
     .then(data => {
+                     //=============================================================     
+            // Reproducir el sonido success
+            var sonido = new Audio('../../songs/success.mp3'); // Asegúrate de que la ruta sea correcta
+            sonido.play().catch(function(error) {
+                console.error("Error al reproducir el sonido:", error);
+            });
+            //=============================================================
         showNotification(data.message, "bg-green-500");
         verModulo(currentModuloId); // Recargar el módulo para reflejar los cambios
     })
     .catch(error => {
         console.error("Error al eliminar el material:", error);
+                               //=============================================================
+                // Reproducir el sonido error
+                var sonido = new Audio('../../songs/error.mp3');
+                sonido.play().catch(function(error) {
+                    console.error("Error al reproducir el sonido:", error);
+                });           
+                //=============================================================
         showNotification("Error al eliminar el material", "bg-red-500");
     })
     .finally(()=>{
@@ -568,6 +715,13 @@ function eliminarMaterial(idMaterial) {
 function eliminarActividad(idActividad) {
     if (!idActividad) {
         console.error("idActividad no definido");
+            //=============================================================
+            // Reproducir el sonido error
+                var sonido = new Audio('../../songs/error.mp3');
+                sonido.play().catch(function(error) {
+                    console.error("Error al reproducir el sonido:", error);
+                });           
+            //=============================================================
         showNotification("Error: idActividad no está definido", "bg-red-500");
         return;
     }
@@ -586,11 +740,25 @@ function eliminarActividad(idActividad) {
         return response.json();
     })
     .then(data => {
+             //=============================================================     
+            // Reproducir el sonido success
+            var sonido = new Audio('../../songs/success.mp3'); // Asegúrate de que la ruta sea correcta
+            sonido.play().catch(function(error) {
+                console.error("Error al reproducir el sonido:", error);
+            });
+            //=============================================================
         showNotification(data.message, "bg-green-500");
         verModulo(currentModuloId); // Recargar el módulo para reflejar los cambios
     })
     .catch(error => {
         console.error("Error al eliminar la actividad:", error);
+                 //=============================================================
+                // Reproducir el sonido error
+                var sonido = new Audio('../../songs/error.mp3');
+                sonido.play().catch(function(error) {
+                    console.error("Error al reproducir el sonido:", error);
+                });           
+                //=============================================================
         showNotification("Error al eliminar la actividad", "bg-red-500");
     })    
     .finally(()=>{
@@ -625,15 +793,36 @@ function guardarActividadActualizada() {
     })
     .then(data => {
         if (data.success) {
+            //=============================================================     
+            // Reproducir el sonido success
+            var sonido = new Audio('../../songs/success.mp3'); // Asegúrate de que la ruta sea correcta
+            sonido.play().catch(function(error) {
+                console.error("Error al reproducir el sonido:", error);
+            });
+            //=============================================================
             showNotification(data.message, "bg-green-500");
             cerrarModal('modalActualizarActividad');
             verModulo(idModulo);
         } else {
+               //=============================================================
+                // Reproducir el sonido error
+                var sonido = new Audio('../../songs/error.mp3');
+                sonido.play().catch(function(error) {
+                    console.error("Error al reproducir el sonido:", error);
+                });           
+                //=============================================================
             showNotification(data.message, "bg-red-500");
         }
     })
     .catch(error => {
         console.error("Error al actualizar la actividad:", error);
+                //=============================================================
+                // Reproducir el sonido error
+                var sonido = new Audio('../../songs/error.mp3');
+                sonido.play().catch(function(error) {
+                    console.error("Error al reproducir el sonido:", error);
+                });           
+                //=============================================================
         showNotification("Error al actualizar la actividad", "bg-red-500");
     })
     .finally(()=>{

@@ -105,13 +105,34 @@ function enviarAnuncio() {
     .then(data => {
         if (data.success) {
             closeAnuncioModal();
+            //=============================================================     
+            // Reproducir el sonido success
+            var sonido = new Audio('../../songs/success.mp3'); // Asegúrate de que la ruta sea correcta
+            sonido.play().catch(function(error) {
+                console.error("Error al reproducir el sonido:", error);
+            });
+            //=============================================================
             showNotification(data.message, "bg-green-500");
         } else {
+             //=============================================================
+             // Reproducir el sonido error
+             var sonido = new Audio('../../songs/error.mp3');
+             sonido.play().catch(function(error) {
+                 console.error("Error al reproducir el sonido:", error);
+             });           
+            //=============================================================
             showNotification("Error al crear el anuncio", "bg-red-500");
         }
     })
     .catch(error => {
         console.error('Error al enviar Anuncio:', error);
+            //=============================================================
+             // Reproducir el sonido error
+             var sonido = new Audio('../../songs/error.mp3');
+             sonido.play().catch(function(error) {
+                 console.error("Error al reproducir el sonido:", error);
+             });           
+            //=============================================================
         showNotification("Error al enviar Anuncio", "bg-red-500");
     })
     .finally(() => {
