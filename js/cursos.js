@@ -104,15 +104,7 @@ function loadModulos(idCurso, nombreCurso, seccion) {
                     </div>
                 </div>
             `;
-        // <div class="flex flex-col h-full relative">
-        //     <span class="font-semibold text-xl mb-2">${modulo.nombre}</span>
-        //      <div class="flex justify-end items-center space-x-2 space-x-reverse mt-auto">
-        //         <button onclick="openMaterialActividadModal(${modulo.idModulo}, '${nombreCurso}', '${seccion}', '${modulo.nombre}')"
-        //             class="bg-black text-white px-4 py-2 rounded text-sm sm:text-base order-2">
-        //             Ver Materiales y Actividades
-        //         </button>
-        //     </div>
-        // </div>
+
             moduloContainer.appendChild(moduloCard);
         });
     })
@@ -121,6 +113,7 @@ function loadModulos(idCurso, nombreCurso, seccion) {
         showNotification("Error al cargar los módulos", "bg-red-500");
     });
 }
+
 
 // Abrir el modal de módulos
 function openModuloModal(idCurso, nombreCurso, seccion) {

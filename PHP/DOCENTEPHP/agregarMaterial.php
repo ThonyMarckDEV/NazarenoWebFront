@@ -35,11 +35,11 @@
         </div>
     </div>
 
- <!-- Modal para mostrar módulos del curso -->
+<!-- Modal para mostrar módulos del curso -->
 <div id="modulosModal" style="display: none;" class="fixed inset-0 bg-gray-800 bg-opacity-75 flex items-center justify-center z-50">
     <div class="bg-white p-4 rounded-lg w-full max-w-xs mx-4 ml-auto sm:mx-auto sm:max-w-lg sm:p-6 sm:mt-32">
         <h2 class="text-lg sm:text-xl font-semibold mb-4 text-center">Módulos del Curso</h2>
-        <div id="moduloContainer" class="space-y-2">
+        <div id="moduloContainer" class="max-h-64 sm:max-h-96 overflow-y-auto space-y-2">
             <!-- Aquí se cargarán los módulos dinámicamente -->
         </div>
         <div class="flex justify-center sm:justify-end mt-4">
@@ -47,7 +47,6 @@
         </div>
     </div>
 </div>
-
 <!-- Modal para agregar Material -->
 <div id="materialModal" style="display: none;" class="fixed inset-0 bg-gray-800 bg-opacity-75 flex items-center justify-center z-50">
     <div class="bg-white p-4 rounded-lg w-full max-w-xs mx-4 ml-auto sm:mx-auto sm:max-w-md sm:p-6 sm:mt-32">

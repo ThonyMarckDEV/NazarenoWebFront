@@ -86,13 +86,13 @@ function seleccionarCurso(idCurso) {
     openModulosModal(idCurso);
 }
 
+
 function loadModulos(idCurso) {
     console.log("Cargando módulos para idCurso:", idCurso);
     if (!idCurso) {
         showNotification("Error: idCurso no está definido en loadModulos", "bg-red-500");
         return;
     }
-
 
     fetch(`${API_BASE_URL}/api/curso/${idCurso}/modulos`, {
         headers: { 'Authorization': `Bearer ${token}`, "ngrok-skip-browser-warning": "69420" }
@@ -119,25 +119,25 @@ function loadModulos(idCurso) {
             );
 
             moduloCard.innerHTML = `
-            <div>
-                <span class="font-semibold block">${modulo.nombre}</span>
-                <div class="flex flex-row sm:flex-row space-x-2 mt-1 sm:mt-2">
-                    <button onclick="openMaterialModal(${modulo.idModulo})" 
-                        class="bg-black text-white px-2 py-1 sm:px-4 sm:py-2 rounded text-xs sm:text-base">
-                        Agregar Material
-                    </button>
-                    <button onclick="openActividadModal(${modulo.idModulo})" 
-                        class="bg-gray-300 text-gray-800 px-2 py-1 sm:px-4 sm:py-2 rounded text-xs sm:text-base">
-                        Asignar Actividad
-                    </button>
-                    <button onclick="verModulo(${modulo.idModulo})" 
-                        class="bg-blue-500 text-white px-2 py-1 sm:px-4 sm:py-2 rounded text-xs sm:text-base">
-                        Ver Módulo
-                    </button>
+                <div>
+                    <span class="font-semibold block">${modulo.nombre}</span>
+                    <div class="flex flex-row sm:flex-row space-x-2 mt-1 sm:mt-2">
+                        <button onclick="openMaterialModal(${modulo.idModulo})" 
+                            class="bg-black text-white px-2 py-1 sm:px-4 sm:py-2 rounded text-xs sm:text-base">
+                            Agregar Material
+                        </button>
+                        <button onclick="openActividadModal(${modulo.idModulo})" 
+                            class="bg-gray-300 text-gray-800 px-2 py-1 sm:px-4 sm:py-2 rounded text-xs sm:text-base">
+                            Asignar Actividad
+                        </button>
+                        <button onclick="verModulo(${modulo.idModulo})" 
+                            class="bg-blue-500 text-white px-2 py-1 sm:px-4 sm:py-2 rounded text-xs sm:text-base">
+                            Ver Módulo
+                        </button>
+                    </div>
                 </div>
-            </div>
-        `;
-        moduloContainer.appendChild(moduloCard);
+            `;
+            moduloContainer.appendChild(moduloCard);
         });
     })
     .catch(error => {

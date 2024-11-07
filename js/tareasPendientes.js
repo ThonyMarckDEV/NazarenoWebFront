@@ -151,18 +151,17 @@ function loadModulos(idCurso) {
                 "sm:mb-4"
             );
 
-
             moduloCard.innerHTML = `
-            <div class="flex flex-col h-full relative">
-                <span class="font-semibold text-xl mb-2">${modulo.nombre}</span>
-                <div class="flex justify-end items-center space-x-2 space-x-reverse mt-auto">
-                    <span id="contador-${modulo.idModulo}" class="bg-red-500 text-white rounded-full w-6 h-6 flex items-center justify-center text-xs font-bold order-1" style="display: none;">0</span>
-                    <button onclick="openTareasModal(${modulo.idModulo})" class="bg-black text-white px-4 py-2 rounded text-sm sm:text-base order-2">
-                        Ver Tareas
-                    </button>
+                <div class="flex flex-col h-full relative">
+                    <span class="font-semibold text-xl mb-2">${modulo.nombre}</span>
+                    <div class="flex justify-end items-center space-x-2 space-x-reverse mt-auto">
+                        <span id="contador-${modulo.idModulo}" class="bg-red-500 text-white rounded-full w-6 h-6 flex items-center justify-center text-xs font-bold order-1" style="display: none;">0</span>
+                        <button onclick="openTareasModal(${modulo.idModulo})" class="bg-black text-white px-4 py-2 rounded text-sm sm:text-base order-2">
+                            Ver Tareas
+                        </button>
+                    </div>
                 </div>
-            </div>
-        `;
+            `;
 
             // Llama a la función para cargar el contador de tareas pendientes por módulo
             cargarTareasPendientesPorModulo(modulo.idModulo, moduloCard);

@@ -122,7 +122,7 @@ function loadModulos(idCurso, nombreCurso, seccion) {
             <div>
                 <span class="font-semibold block">${modulo.nombre}</span>
                 <div class="flex flex-row sm:flex-row space-x-2 mt-1 sm:mt-2">
-                <span id="contador-${modulo.idModulo}" class="bg-red-500 text-white rounded-full w-6 h-6 flex items-center justify-center text-xs font-bold order-1" style="display: none;">0</span>
+                    <span id="contador-${modulo.idModulo}" class="bg-red-500 text-white rounded-full w-6 h-6 flex items-center justify-center text-xs font-bold order-1" style="display: none;">0</span>
                     <button onclick="openMaterialActividadModal(${modulo.idModulo}, '${nombreCurso}', '${seccion}', '${modulo.nombre}')" 
                         class="bg-black text-white px-2 py-1 sm:px-4 sm:py-2 rounded text-xs sm:text-base">
                         Ver Calificaciones
@@ -130,17 +130,6 @@ function loadModulos(idCurso, nombreCurso, seccion) {
                 </div>
             </div>
             `;
-
-        // <div>
-        //     <span class="font-semibold block">${modulo.nombre}</span>
-        //     <div class="flex flex-row sm:flex-row space-x-2 mt-1 sm:mt-2">
-        //     <span id="contador-${modulo.idModulo}" class="bg-red-500 text-white rounded-full w-6 h-6 flex items-center justify-center text-xs font-bold order-1" style="display: none;">0</span>
-        //         <button onclick="openMaterialActividadModal(${modulo.idModulo}, '${nombreCurso}', '${seccion}', '${modulo.nombre}')" 
-        //             class="bg-black text-white px-2 py-1 sm:px-4 sm:py-2 rounded text-xs sm:text-base">
-        //             Ver Calificaciones
-        //         </button>
-        //     </div>
-        // </div>
 
             // Obtener idUsuario y cargar el contador de tareas revisadas por módulo
             const idUsuario = getIdUsuarioFromToken();
@@ -153,7 +142,6 @@ function loadModulos(idCurso, nombreCurso, seccion) {
         showNotification("Error al cargar los módulos", "bg-red-500");
     });
 }
-
 // Función para cargar el contador de tareas revisadas por módulo con logs
 function cargarCalificacionesRevisadasPorModulo(idUsuario, idModulo, moduloCard) {
     console.log(`Cargando tareas revisadas para idUsuario: ${idUsuario}, idModulo: ${idModulo}`);
