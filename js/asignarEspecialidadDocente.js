@@ -3,8 +3,14 @@ import API_BASE_URL from './urlHelper.js';
 // Obtener el token JWT desde el localStorage
 const token = localStorage.getItem("jwt");
 
+import { verificarYRenovarToken } from './authToken.js';
+
 // Función para cargar especialidades
-function loadEspecialidades() {
+async function loadEspecialidades() {
+
+    // Verificar y renovar el token antes de cualquier solicitud
+    await verificarYRenovarToken();
+
     fetch(`${API_BASE_URL}/api/listarEspecialidades`, {
         method: "GET",
         headers: {
@@ -28,7 +34,11 @@ function loadEspecialidades() {
 }
 
 // Función para cargar docentes
-function loadDocentes() {
+async function loadDocentes() {
+
+    // Verificar y renovar el token antes de cualquier solicitud
+    await verificarYRenovarToken();
+
     fetch(`${API_BASE_URL}/api/listarDocentes`, {
         method: "GET",
         headers: {
@@ -52,7 +62,10 @@ function loadDocentes() {
 }
 
 // Función para asignar especialidad a docente (con token)
-function asignarEspecialidad() {
+async function asignarEspecialidad() {
+
+    // Verificar y renovar el token antes de cualquier solicitud
+    await verificarYRenovarToken();
 
     const idEspecialidad = document.getElementById("especialidad").value;
     const idDocente = document.getElementById("docente").value;
@@ -104,7 +117,11 @@ function asignarEspecialidad() {
 }
 
 // Función para cargar asignaciones de especialidades a docentes
-function loadAsignaciones() {
+async function loadAsignaciones() {
+
+    // Verificar y renovar el token antes de cualquier solicitud
+    await verificarYRenovarToken();
+
     fetch(`${API_BASE_URL}/api/listarAsignacionesDocente`, {
         method: "GET",
         headers: {
@@ -134,7 +151,10 @@ function loadAsignaciones() {
 }
 
 // Función para eliminar una asignación (con token)
-function eliminarAsignacion(id) {
+async function eliminarAsignacion(id) {
+
+    // Verificar y renovar el token antes de cualquier solicitud
+    await verificarYRenovarToken();
 
     // Mostrar el loader al enviar el formulario
     document.getElementById("loadingScreen").classList.remove("hidden");

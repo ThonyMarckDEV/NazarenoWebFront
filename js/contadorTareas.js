@@ -2,6 +2,9 @@ import API_BASE_URL from './urlHelper.js';
 
 const token = localStorage.getItem("jwt");
 
+import { verificarYRenovarToken } from './authToken.js';
+
+
 // Obtener el id del docente desde el token
 export function getIdUsuarioFromToken() {
     if (!token) return null;
@@ -11,7 +14,11 @@ export function getIdUsuarioFromToken() {
 }
 
 // Función para actualizar el contador de tareas pendientes
-export function actualizarContadorTareasPendientes() {
+export async function actualizarContadorTareasPendientes() {
+
+    // Verificar y renovar el token antes de cualquier solicitud
+    await verificarYRenovarToken();
+
     const idDocente = getIdUsuarioFromToken();
     if (!idDocente) return;
 

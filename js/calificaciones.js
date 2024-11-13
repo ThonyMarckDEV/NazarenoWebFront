@@ -2,6 +2,8 @@ import API_BASE_URL from './urlHelper.js';
 
 const token = localStorage.getItem("jwt");
 
+import { verificarYRenovarToken } from './authToken.js';
+
 // Obtener el id del usuario desde el token
 export function getIdUsuarioFromToken() {
     if (!token) return null;
@@ -11,7 +13,11 @@ export function getIdUsuarioFromToken() {
 }
 
 // Función para cargar los cursos del alumno
-function loadCursos() {
+async function loadCursos() {
+
+    // Verificar y renovar el token antes de cualquier solicitud
+    await verificarYRenovarToken();
+
     const idUsuario = getIdUsuarioFromToken();
     if (!idUsuario) {
         showNotification("No se encontró el ID del estudiante en el token.", "bg-red-500");
@@ -64,7 +70,11 @@ function loadCursos() {
 }
 
 // Función para actualizar el contador de tareas revisadas por curso
-function actualizarContadorCalificacionesRevisadasPorCurso(idUsuario) {
+async function actualizarContadorCalificacionesRevisadasPorCurso(idUsuario) {
+
+    // Verificar y renovar el token antes de cualquier solicitud
+    await verificarYRenovarToken();
+
     fetch(`${API_BASE_URL}/api/tareas-revisadas-por-curso/${idUsuario}`, {
         headers: {
             'Authorization': `Bearer ${token}`,
@@ -90,7 +100,11 @@ function actualizarContadorCalificacionesRevisadasPorCurso(idUsuario) {
     .catch(error => console.error("Error al obtener el contador de tareas revisadas por curso:", error));
 }
 
-function loadModulos(idCurso, nombreCurso, seccion) {
+async function loadModulos(idCurso, nombreCurso, seccion) {
+
+    // Verificar y renovar el token antes de cualquier solicitud
+    await verificarYRenovarToken();
+
     const moduloContainer = document.getElementById("moduloContainer");
 
     if (!idCurso || !moduloContainer) {
@@ -143,7 +157,11 @@ function loadModulos(idCurso, nombreCurso, seccion) {
     });
 }
 // Función para cargar el contador de tareas revisadas por módulo con logs
-function cargarCalificacionesRevisadasPorModulo(idUsuario, idModulo, moduloCard) {
+async function cargarCalificacionesRevisadasPorModulo(idUsuario, idModulo, moduloCard) {
+
+    // Verificar y renovar el token antes de cualquier solicitud
+    await verificarYRenovarToken();
+
     console.log(`Cargando tareas revisadas para idUsuario: ${idUsuario}, idModulo: ${idModulo}`);
 
     fetch(`${API_BASE_URL}/api/tareas-revisadas-por-modulo/${idUsuario}/${idModulo}`, {
@@ -190,7 +208,11 @@ function closeModulosModal() {
 }
 
 
-function openMaterialActividadModal(idModulo) {
+async function openMaterialActividadModal(idModulo) {
+
+    // Verificar y renovar el token antes de cualquier solicitud
+    await verificarYRenovarToken();
+    
     const idUsuario = getIdUsuarioFromToken();
     if (!idUsuario) {
         showNotification("No se encontró el ID del usuario en el token.", "bg-red-500");
@@ -255,7 +277,11 @@ function openMaterialActividadModal(idModulo) {
 
 
 // Función para marcar una tarea como vista y recargar el modal
-function marcarTareaComoVista(idTarea, idUsuario) {
+async function marcarTareaComoVista(idTarea, idUsuario) {
+
+    // Verificar y renovar el token antes de cualquier solicitud
+    await verificarYRenovarToken();
+    
     fetch(`${API_BASE_URL}/api/tareas/${idTarea}/${idUsuario}/marcar-visto`, {
         method: 'PUT',
         headers: {

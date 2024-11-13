@@ -2,6 +2,8 @@ import API_BASE_URL from './urlHelper.js';
 
 const token = localStorage.getItem("jwt");
 
+import { verificarYRenovarToken } from './authToken.js';
+
 // Función para decodificar el JWT y obtener el idUsuario
 function getIdUsuarioFromToken() {
     if (!token) return null;
@@ -12,7 +14,11 @@ function getIdUsuarioFromToken() {
 }
 
 // Función para cargar los cursos del docente
-function loadCursos() {
+async function loadCursos() {
+
+    // Verificar y renovar el token antes de cualquier solicitud
+    await verificarYRenovarToken();
+
     const idDocente = getIdUsuarioFromToken();
     if (!idDocente) {
         showNotification("No se encontró el ID del docente en el token.", "bg-red-500");
@@ -76,7 +82,11 @@ function closeAnuncioModal() {
 }
 
 // Función para enviar el anuncio usando los datos del modal
-function enviarAnuncio() {
+async function enviarAnuncio() {
+
+    // Verificar y renovar el token antes de cualquier solicitud
+    await verificarYRenovarToken();
+
     const idDocente = getIdUsuarioFromToken();
     const modal = document.getElementById("anuncioModal");
 
@@ -143,6 +153,10 @@ function enviarAnuncio() {
 
 // Función asincrónica para cargar la foto de perfil
 async function loadFotoPerfil(idUsuario) {
+
+    // Verificar y renovar el token antes de cualquier solicitud
+    await verificarYRenovarToken();
+
     try {
         const response = await fetch(`${API_BASE_URL}/api/alumnos/${idUsuario}/foto-perfil`, {
             method: "GET",
@@ -166,7 +180,11 @@ async function loadFotoPerfil(idUsuario) {
 }
 
 // Función para abrir el modal de estudiantes matriculados
-function openEstudiantesModal(idCurso) {
+async function openEstudiantesModal(idCurso) {
+
+    // Verificar y renovar el token antes de cualquier solicitud
+    await verificarYRenovarToken();
+    
     const modal = document.getElementById("estudiantesModal");
     const estudiantesContainer = document.getElementById("estudiantesContainer");
 

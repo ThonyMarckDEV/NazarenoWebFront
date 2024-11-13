@@ -2,8 +2,14 @@ import API_BASE_URL from './urlHelper.js';
 
 const token = localStorage.getItem("jwt");
 
+import { verificarYRenovarToken } from './authToken.js';
 
-function submitCursoForm() {
+
+async function submitCursoForm() {
+
+    // Verificar y renovar el token antes de cualquier solicitud
+    await verificarYRenovarToken();
+
     const form = document.getElementById("cursoForm");
     const formData = new FormData(form);
     const data = Object.fromEntries(formData.entries());
@@ -62,7 +68,11 @@ function submitCursoForm() {
 }
 
 // Cargar las opciones de especialidades
-function loadEspecialidades() {
+async function loadEspecialidades() {
+
+    // Verificar y renovar el token antes de cualquier solicitud
+    await verificarYRenovarToken();
+
     fetch(`${API_BASE_URL}/api/listarEspecialidades`, {
         method: "GET",
         headers: {
@@ -97,7 +107,11 @@ function loadEspecialidades() {
 }
 //
 // Cargar las opciones de grados con sus secciones
-function loadGrados() {
+async function loadGrados() {
+
+    // Verificar y renovar el token antes de cualquier solicitud
+    await verificarYRenovarToken();
+
     fetch(`${API_BASE_URL}/api/listarGrados`, {
         method: "GET",
         headers: {
@@ -128,7 +142,11 @@ function loadGrados() {
 let cursos = [];
 
 // Función para listar los cursos
-function listCursos() {
+async function listCursos() {
+
+    // Verificar y renovar el token antes de cualquier solicitud
+    await verificarYRenovarToken();
+
     fetch(`${API_BASE_URL}/api/listarCursos`, {
         method: "GET",
         headers: {
@@ -181,7 +199,10 @@ function renderCursosTable(cursosList) {
 
 
 // Función para eliminar un curso
-function eliminarCurso(idCurso) {
+async function eliminarCurso(idCurso) {
+
+    // Verificar y renovar el token antes de cualquier solicitud
+    await verificarYRenovarToken();
 
     // Mostrar el loader al enviar el formulario
     document.getElementById("loadingScreen").classList.remove("hidden");

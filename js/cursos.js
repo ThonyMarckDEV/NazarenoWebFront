@@ -2,6 +2,8 @@ import API_BASE_URL from './urlHelper.js';
 
 const token = localStorage.getItem("jwt");
 
+import { verificarYRenovarToken } from './authToken.js';
+
 // Obtener el id del usuario desde el token
 export function getIdUsuarioFromToken() {
     if (!token) return null;
@@ -11,7 +13,11 @@ export function getIdUsuarioFromToken() {
 }
 
 // Función para cargar los cursos del alumno
-function loadCursos() {
+async function loadCursos() {
+
+    // Verificar y renovar el token antes de cualquier solicitud
+    await verificarYRenovarToken();
+
     const idUsuario = getIdUsuarioFromToken();
     if (!idUsuario) {
         showNotification("No se encontró el ID del estudiante en el token.", "bg-red-500");
@@ -65,7 +71,11 @@ function loadCursos() {
     .catch(error => console.error("Error al cargar los cursos:", error));
 }
 
-function loadModulos(idCurso, nombreCurso, seccion) {
+async function loadModulos(idCurso, nombreCurso, seccion) {
+
+    // Verificar y renovar el token antes de cualquier solicitud
+    await verificarYRenovarToken();
+
     const moduloContainer = document.getElementById("moduloContainer");
 
     if (!idCurso || !moduloContainer) {
@@ -129,7 +139,11 @@ function closeModulosModal() {
 }
 
 
-function loadMaterialesYActividades(idModulo) {
+async function loadMaterialesYActividades(idModulo) {
+
+    // Verificar y renovar el token antes de cualquier solicitud
+    await verificarYRenovarToken();
+
     const idUsuario = getIdUsuarioFromToken();
     const materialContainer = document.getElementById("materialContainer");
     const actividadContainer = document.getElementById("actividadContainer");
@@ -222,7 +236,10 @@ function loadMaterialesYActividades(idModulo) {
 }
 
 // Función para descargar el archivo desde la API de descarga
-function descargarArchivo(url, nombreArchivo) {
+async function descargarArchivo(url, nombreArchivo) {
+
+    // Verificar y renovar el token antes de cualquier solicitud
+    await verificarYRenovarToken();
 
       // Mostrar el loader al enviar el formulario
       document.getElementById("loadingScreen").classList.remove("hidden");
@@ -290,7 +307,11 @@ function cerrarSubirTareaModal() {
     document.getElementById("archivoTarea").value = ""; // Limpiar selección de archivo
 }
 
-function enviarTarea() {
+async function enviarTarea() {
+
+    // Verificar y renovar el token antes de cualquier solicitud
+    await verificarYRenovarToken();
+
     const archivo = document.getElementById("archivoTarea").files[0];
     const idUsuario = getIdUsuarioFromToken();
 
@@ -372,6 +393,10 @@ function enviarTarea() {
 
 // Función asincrónica para cargar la foto de perfil
 async function loadFotoPerfil(idUsuario) {
+
+    // Verificar y renovar el token antes de cualquier solicitud
+    await verificarYRenovarToken();
+
     try {
         const response = await fetch(`${API_BASE_URL}/api/alumnos/${idUsuario}/foto-perfil`, {
             method: "GET",
@@ -395,7 +420,11 @@ async function loadFotoPerfil(idUsuario) {
 }
 
     // Función para abrir el modal de estudiantes matriculados
-    function openEstudiantesModal(idCurso) {
+    async function openEstudiantesModal(idCurso) {
+
+        // Verificar y renovar el token antes de cualquier solicitud
+        await verificarYRenovarToken();
+
         const modal = document.getElementById("estudiantesModal");
         const estudiantesContainer = document.getElementById("estudiantesContainer");
 

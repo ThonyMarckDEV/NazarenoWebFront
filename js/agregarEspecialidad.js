@@ -3,7 +3,13 @@ import API_BASE_URL from './urlHelper.js';
 // Obtener el JWT desde el localStorage en el ámbito global
 const token = localStorage.getItem("jwt");
 
-function submitSpecialtyForm() {
+import { verificarYRenovarToken } from './authToken.js';
+
+async function submitSpecialtyForm() {
+
+    // Verificar y renovar el token antes de cualquier solicitud
+    await verificarYRenovarToken();
+
     const form = document.getElementById("specialtyForm");
     const formData = new FormData(form);
     const data = Object.fromEntries(formData.entries());
@@ -64,7 +70,10 @@ function submitSpecialtyForm() {
 let especialidades = [];
 
 // Función para listar las especialidades
-function listEspecialidades() {
+async function listEspecialidades() {
+
+    // Verificar y renovar el token antes de cualquier solicitud
+    await verificarYRenovarToken();
 
     fetch(`${API_BASE_URL}/api/listarEspecialidades`, {
         method: "GET",
@@ -112,7 +121,10 @@ function renderEspecialidadesTable(especialidadesList) {
 }
 
 // Función para eliminar una especialidad
-function eliminarEspecialidad(idEspecialidad) {
+async function eliminarEspecialidad(idEspecialidad) {
+
+    // Verificar y renovar el token antes de cualquier solicitud
+    await verificarYRenovarToken();
 
     // Mostrar el loader al enviar el formulario
      document.getElementById("loadingScreen").classList.remove("hidden");

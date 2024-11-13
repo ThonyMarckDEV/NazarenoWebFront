@@ -54,14 +54,12 @@
 </div>
 <script src="../../js/loadingOverlay.js"></script>
 <!-- Incluir el script de autenticación y el script para el botón de menú -->
-<!-- <script type="module" src="../../js/authDocente.js"></script> -->
-<script type="module" src="../../js/checkRole.js"></script>
+<script type="module" src="../../js/checkRoleandtokenInterval.js"></script>
 <!-- Script para manejar el cierre de sesión -->
 <script type="module" src="../../js/logout.js"></script>
 <!-- Script para actualizar el contador de anuncios no vistos -->
 <script type="module" src="../../js/contadorTareas.js"></script>
 <!-- Cargar el archivo JavaScript en todas las páginas -->
-<script type="module"  src="../../js/checkTokenInterval.js"></script>
 <script type="module" src="../../js/lastActivity.js"></script>
 <!-- Incluir el script al final del body para mejorar la carga -->
 <script type="module" src="../../js/click-sound.js"></script>

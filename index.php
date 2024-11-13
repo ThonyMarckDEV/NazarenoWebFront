@@ -49,6 +49,8 @@
 
     <!-- Script de JavaScript para manejar la autenticación y redirección -->
     <script type="module" src="./js/login.js"></script>
+    <!-- Script de autenticación -->
+    <script type="module" src="./js/checkStorageTokenINDEX.js"></script>
     <!-- Incluir el script al final del body para mejorar la carga -->
 <script type="module" src="../../js/click-sound.js"></script>
 <!-- Incluir el script al final del body para mejorar la carga -->

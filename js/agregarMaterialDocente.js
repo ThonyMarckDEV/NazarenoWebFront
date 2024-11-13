@@ -2,6 +2,8 @@ import API_BASE_URL from './urlHelper.js';
 
 const token = localStorage.getItem("jwt");
 
+import { verificarYRenovarToken } from './authToken.js';
+
 // Obtener `idUsuario` desde el token
 function getIdUsuarioFromToken() {
     if (!token) return null;
@@ -12,7 +14,11 @@ function getIdUsuarioFromToken() {
 }
 
 // Función para cargar cursos
-function loadCursos() {
+async function loadCursos() {
+
+    // Verificar y renovar el token antes de cualquier solicitud
+    await verificarYRenovarToken();
+
     const idDocente = getIdUsuarioFromToken();
     if (!idDocente) {
         showNotification("No se encontró el ID del docente en el token.", "bg-red-500");
@@ -87,7 +93,11 @@ function seleccionarCurso(idCurso) {
 }
 
 
-function loadModulos(idCurso) {
+async function loadModulos(idCurso) {
+
+    // Verificar y renovar el token antes de cualquier solicitud
+    await verificarYRenovarToken();
+
     console.log("Cargando módulos para idCurso:", idCurso);
     if (!idCurso) {
         showNotification("Error: idCurso no está definido en loadModulos", "bg-red-500");
@@ -237,7 +247,11 @@ function limpiarCamposActividad() {
 }
 
 // Función para enviar actividad y crear un anuncio
-function enviarActividad() {
+async function enviarActividad() {
+
+    // Verificar y renovar el token antes de cualquier solicitud
+    await verificarYRenovarToken();
+
     const idModulo = document.getElementById("actividadIdModulo").value;
     const titulo = document.getElementById("actividadTitulo").value;
     const descripcion = document.getElementById("actividadDescripcion").value;
@@ -400,7 +414,11 @@ function enviarActividad() {
 
 
 // Función para enviar material y crear un anuncio
-function enviarMaterial() {
+async function enviarMaterial() {
+
+    // Verificar y renovar el token antes de cualquier solicitud
+    await verificarYRenovarToken();
+
     const idModulo = document.getElementById("modalIdModulo").value;
     const nombre = document.getElementById("materialNombre").value;
     const archivo = document.getElementById("materialArchivo").files[0];
@@ -573,7 +591,11 @@ function closeMaterialModal() {
 // Define una variable global al principio de tu archivo JavaScript
 let currentModuloId = null;
 
-function verModulo(idModulo) {
+async function verModulo(idModulo) {
+
+    // Verificar y renovar el token antes de cualquier solicitud
+    await verificarYRenovarToken();
+
     currentModuloId = idModulo; // Actualiza el id actual del módulo
     const materialContainer = document.getElementById("materialContainer");
     const actividadContainer = document.getElementById("actividadContainer");
@@ -657,7 +679,11 @@ function verModulo(idModulo) {
     if (modal) modal.style.display = "block";
 }
 
-function eliminarMaterial(idMaterial) {
+async function eliminarMaterial(idMaterial) {
+
+    // Verificar y renovar el token antes de cualquier solicitud
+    await verificarYRenovarToken();
+
     if (!idMaterial) {
         console.error("idMaterial no definido");
                  //=============================================================
@@ -712,7 +738,11 @@ function eliminarMaterial(idMaterial) {
    });
 }
 
-function eliminarActividad(idActividad) {
+async function eliminarActividad(idActividad) {
+
+    // Verificar y renovar el token antes de cualquier solicitud
+    await verificarYRenovarToken();
+
     if (!idActividad) {
         console.error("idActividad no definido");
             //=============================================================
@@ -767,7 +797,11 @@ function eliminarActividad(idActividad) {
    });
 }
 
-function guardarActividadActualizada() {
+async function guardarActividadActualizada() {
+
+    // Verificar y renovar el token antes de cualquier solicitud
+    await verificarYRenovarToken();
+
     const idActividad = document.getElementById("actividadIdActualizar").value;
     const idModulo = document.getElementById("actividadModuloIdActualizar").value;
     const titulo = document.getElementById("actividadTituloActualizar").value;
@@ -865,6 +899,10 @@ function closeMaterialActividadModal() {
 
 // Función asincrónica para cargar la foto de perfil
 async function loadFotoPerfil(idUsuario) {
+
+    // Verificar y renovar el token antes de cualquier solicitud
+    await verificarYRenovarToken();
+
     try {
         const response = await fetch(`${API_BASE_URL}/api/alumnos/${idUsuario}/foto-perfil`, {
             method: "GET",
@@ -888,7 +926,11 @@ async function loadFotoPerfil(idUsuario) {
 }
 
 // Función para abrir el modal de estudiantes matriculados
-function openEstudiantesModal(idCurso) {
+async function openEstudiantesModal(idCurso) {
+
+    // Verificar y renovar el token antes de cualquier solicitud
+    await verificarYRenovarToken();
+    
     const modal = document.getElementById("estudiantesModal");
     const estudiantesContainer = document.getElementById("estudiantesContainer");
 

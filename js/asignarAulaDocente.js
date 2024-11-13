@@ -3,6 +3,9 @@ import API_BASE_URL from './urlHelper.js';
 // Obtener el token JWT desde el localStorage
 const token = localStorage.getItem("jwt");
 
+
+import { verificarYRenovarToken } from './authToken.js';
+
 // Función para mostrar notificación
 function showNotification(message, bgColor) {
     const notification = document.getElementById("notification");
@@ -16,7 +19,11 @@ function showNotification(message, bgColor) {
 }
 
 // Función para asignar un aula a un docente seleccionado
-function asignarAulaDocente() {
+async function asignarAulaDocente() {
+
+    // Verificar y renovar el token antes de cualquier solicitud
+    await verificarYRenovarToken();
+
     const idDocente = document.getElementById("idDocente").value;
     const idAula = document.getElementById("idAula").value;
 
@@ -84,7 +91,11 @@ function asignarAulaDocente() {
 }
 
 // Función para cargar docentes en el select
-function cargarDocentes() {
+async function cargarDocentes() {
+
+    // Verificar y renovar el token antes de cualquier solicitud
+    await verificarYRenovarToken();
+
     fetch(`${API_BASE_URL}/api/listarDocentes`, {
         headers: { 
             'Authorization': `Bearer ${token}`,
@@ -111,7 +122,11 @@ function cargarDocentes() {
 }
 
 // Función para cargar grados en el select
-function cargarGrados() {
+async function cargarGrados() {
+
+    // Verificar y renovar el token antes de cualquier solicitud
+    await verificarYRenovarToken();
+
     fetch(`${API_BASE_URL}/api/listarGrados`, {
         headers: { 
             'Authorization': `Bearer ${token}`,
@@ -141,7 +156,11 @@ function cargarGrados() {
 let asignaciones = [];
 
 // Función para listar todas las asignaciones
-function listarAsignaciones() {
+async function listarAsignaciones() {
+
+    // Verificar y renovar el token antes de cualquier solicitud
+    await verificarYRenovarToken();
+    
     fetch(`${API_BASE_URL}/api/asignaciones`, {
         headers: { 
             'Authorization': `Bearer ${token}`,
@@ -203,7 +222,10 @@ document.addEventListener("DOMContentLoaded", function() {
 
 
 // Función para eliminar una asignación
-function eliminarAsignacion(idAsignacion) {
+async function eliminarAsignacion(idAsignacion) {
+
+    // Verificar y renovar el token antes de cualquier solicitud
+    await verificarYRenovarToken();
 
     // Mostrar el loader al enviar el formulario
     document.getElementById("loadingScreen").classList.remove("hidden");

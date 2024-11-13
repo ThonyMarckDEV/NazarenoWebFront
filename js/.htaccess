@@ -26,7 +26,9 @@ RewriteCond %{REQUEST_URI} !/logout.js$ [NC]
 RewriteCond %{REQUEST_URI} !/perfilEstudiante.js$ [NC]
 RewriteCond %{REQUEST_URI} !/anunciosAlumno.js$ [NC]
 
-RewriteCond %{REQUEST_URI} !/checkRole.js$ [NC]
+RewriteCond %{REQUEST_URI} !/checkRoleandtokenInterval.js$ [NC]
+RewriteCond %{REQUEST_URI} !/checkStorageTokenINDEX.js$ [NC]
+RewriteCond %{REQUEST_URI} !/authToken.js$ [NC]
 
 RewriteCond %{REQUEST_URI} !/contadorAnuncios.js$ [NC]
 RewriteCond %{REQUEST_URI} !/contadorAnucnisoPorCurso.js$ [NC]

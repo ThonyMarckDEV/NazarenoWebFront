@@ -3,7 +3,13 @@ import API_BASE_URL from './urlHelper.js';
 // Obtener el token JWT del localStorage
 const token = localStorage.getItem("jwt");
 
-function loadEstudiantes() {
+import { verificarYRenovarToken } from './authToken.js';
+
+async function loadEstudiantes() {
+
+    // Verificar y renovar el token antes de cualquier solicitud
+    await verificarYRenovarToken();
+
     fetch(`${API_BASE_URL}/api/listarEstudiantes`, {
         method: "GET",
         headers: {
@@ -29,7 +35,11 @@ function loadEstudiantes() {
     });
 }
 
-function loadGrados() {
+async function loadGrados() {
+
+    // Verificar y renovar el token antes de cualquier solicitud
+    await verificarYRenovarToken();
+
     const gradoSelect = document.getElementById("grado");
     if (!gradoSelect) {
         console.error("Error: El elemento con ID 'grado' no se encuentra en el DOM.");
@@ -66,7 +76,11 @@ function loadGrados() {
 let matriculas = [];
 
 // Función para listar todas las matrículas
-function listMatriculas() {
+async function listMatriculas() {
+
+    // Verificar y renovar el token antes de cualquier solicitud
+    await verificarYRenovarToken();
+
     fetch(`${API_BASE_URL}/api/listarMatriculas`, {
         method: "GET",
         headers: {
@@ -122,7 +136,10 @@ function renderMatriculasTable(matriculasList) {
 }
 
 // Eliminar matricula con token
-function eliminarMatricula(idMatricula) {
+async function eliminarMatricula(idMatricula) {
+
+    // Verificar y renovar el token antes de cualquier solicitud
+    await verificarYRenovarToken();
 
     // Mostrar el loader al enviar el formulario
     document.getElementById("loadingScreen").classList.remove("hidden");
@@ -177,7 +194,10 @@ function eliminarMatricula(idMatricula) {
 }
 
 // Matricular estudiante con token
-function submitMatricula() {
+async function submitMatricula() {
+
+    // Verificar y renovar el token antes de cualquier solicitud
+    await verificarYRenovarToken();
 
     const idUsuario = document.getElementById("estudiante").value;
     const idGrado = document.getElementById("grado").value;

@@ -1,6 +1,9 @@
 import API_BASE_URL from './urlHelper.js';
 
 const token = localStorage.getItem("jwt");
+
+import { verificarYRenovarToken } from './authToken.js';
+
 const decodedToken = parseJwt(token);
 const idUsuario = decodedToken ? decodedToken.idUsuario : null;
 
@@ -28,6 +31,10 @@ if (!idUsuario) {
 
 // Función para cargar datos del docente
 async function loadDocenteData() {
+
+    // Verificar y renovar el token antes de cualquier solicitud
+    await verificarYRenovarToken();
+
     try {
         const response = await fetch(`${API_BASE_URL}/api/perfilDocente`, {
             method: "GET",
@@ -63,7 +70,11 @@ async function loadDocenteData() {
 }
 
 // Función para subir la imagen de perfil
-function uploadProfileImage() {
+async function uploadProfileImage() {
+
+    // Verificar y renovar el token antes de cualquier solicitud
+    await verificarYRenovarToken();
+
     const formData = new FormData();
     formData.append("perfil", document.getElementById("profileInput").files[0]);
 
@@ -112,7 +123,11 @@ function uploadProfileImage() {
 }
 
 // Función para actualizar los datos del docente
-function updateDocente() {
+async function updateDocente() {
+
+    // Verificar y renovar el token antes de cualquier solicitud
+    await verificarYRenovarToken();
+    
     const data = {
         nombres: document.getElementById("nombres").value,
         apellidos: document.getElementById("apellidos").value,

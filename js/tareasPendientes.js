@@ -4,6 +4,8 @@ const token = localStorage.getItem("jwt");
 
 import { actualizarContadorTareasPendientes } from './contadorTareas.js';
 
+import { verificarYRenovarToken } from './authToken.js';
+
 // Obtener `idUsuario` desde el token
 function getIdUsuarioFromToken() {
     if (!token) return null;
@@ -14,7 +16,11 @@ function getIdUsuarioFromToken() {
 }
 
 // Función para cargar cursos
-function loadCursos() {
+async function loadCursos() {
+
+    // Verificar y renovar el token antes de cualquier solicitud
+    await verificarYRenovarToken();
+
     const idDocente = getIdUsuarioFromToken();
     if (!idDocente) {
         showNotification("No se encontró el ID del docente en el token.", "bg-red-500");
@@ -76,7 +82,11 @@ function loadCursos() {
     });
 }
 
-function actualizarContadorTareasPendientesPorCurso(idDocente) {
+async function actualizarContadorTareasPendientesPorCurso(idDocente) {
+
+    // Verificar y renovar el token antes de cualquier solicitud
+    await verificarYRenovarToken();
+
     fetch(`${API_BASE_URL}/api/docente/${idDocente}/tareas-pendientes`, {
         headers: {
             'Authorization': `Bearer ${token}`,
@@ -120,7 +130,11 @@ function seleccionarCurso(idCurso) {
     openModulosModal(idCurso);
 }
 
-function loadModulos(idCurso) {
+async function loadModulos(idCurso) {
+
+    // Verificar y renovar el token antes de cualquier solicitud
+    await verificarYRenovarToken();
+
     console.log("Cargando módulos para idCurso:", idCurso);
     if (!idCurso) {
         showNotification("Error: idCurso no está definido en loadModulos", "bg-red-500");
@@ -176,7 +190,10 @@ function loadModulos(idCurso) {
 }
 
 
-function cargarTareasPendientesPorModulo(idModulo, moduloCard) {
+async function cargarTareasPendientesPorModulo(idModulo, moduloCard) {
+
+    // Verificar y renovar el token antes de cualquier solicitud
+    await verificarYRenovarToken();
 
     fetch(`${API_BASE_URL}/api/modulo/${idModulo}/tareas-pendientes`, {
         headers: { 'Authorization': `Bearer ${token}`, "Content-Type": "application/json" }
@@ -226,7 +243,11 @@ function openModulosModal(idCurso) {
     if (modal) modal.style.display = "block";
 }
 
-function openTareasModal(idModulo) {
+async function openTareasModal(idModulo) {
+
+    // Verificar y renovar el token antes de cualquier solicitud
+    await verificarYRenovarToken();
+
     const tareasContainer = document.getElementById("tareasContainer");
     tareasContainer.innerHTML = ""; // Limpiar el contenedor antes de cargar nuevas tareas
     console.log("Token:", token);
@@ -274,7 +295,11 @@ function closeTareasModal() {
     if (modal) modal.style.display = "none";
 }
 
-function revisarTarea(idTarea) {
+async function revisarTarea(idTarea) {
+
+    // Verificar y renovar el token antes de cualquier solicitud
+    await verificarYRenovarToken();
+    
     const nota = document.getElementById(`nota-${idTarea}`).value;
     const idDocente = getIdUsuarioFromToken();
 

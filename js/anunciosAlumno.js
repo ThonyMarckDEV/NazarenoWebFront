@@ -4,6 +4,9 @@ const token = localStorage.getItem("jwt");
 
 import { actualizarContadorAnuncios } from './contadorAnuncios.js';
 
+
+import { verificarYRenovarToken } from './authToken.js';
+
 // Obtener el id del usuario desde el token
 export function getIdUsuarioFromToken() {
     if (!token) return null;
@@ -13,7 +16,12 @@ export function getIdUsuarioFromToken() {
 }
 
 // Función para cargar los cursos del alumno y actualizar el contador de anuncios no vistos por curso
-function loadCursos() {
+async function loadCursos() {
+
+    // Verificar y renovar el token antes de cualquier solicitud
+    await verificarYRenovarToken();
+
+
     const idUsuario = getIdUsuarioFromToken();
     if (!idUsuario) {
         showNotification("No se encontró el ID del estudiante en el token.", "bg-red-500");
@@ -66,7 +74,11 @@ function loadCursos() {
 }
 
 // Función para actualizar el contador de anuncios no vistos por curso
-function actualizarContadorAnunciosPorCurso(idAlumno) {
+async function actualizarContadorAnunciosPorCurso(idAlumno) {
+
+    // Verificar y renovar el token antes de cualquier solicitud
+    await verificarYRenovarToken();
+
     fetch(`${API_BASE_URL}/api/alumno/${idAlumno}/anuncios/no-vistos/por-curso`, {
         headers: {
             'Authorization': `Bearer ${token}`,
@@ -94,7 +106,11 @@ function actualizarContadorAnunciosPorCurso(idAlumno) {
 }
 
 // Función para abrir el modal de anuncios
-function openAnuncioModal(nombreCurso, seccion) {
+async function openAnuncioModal(nombreCurso, seccion) {
+
+    // Verificar y renovar el token antes de cualquier solicitud
+    await verificarYRenovarToken();
+
     const idAlumno = getIdUsuarioFromToken();
     document.getElementById("cursoNombre").textContent = `${nombreCurso} - ${seccion}`;
     const modal = document.getElementById("anuncioModal");
@@ -136,7 +152,11 @@ function openAnuncioModal(nombreCurso, seccion) {
 }
 
 // Función para marcar un anuncio como revisado
-function marcarRevisado(idAnuncio) {
+async function marcarRevisado(idAnuncio) {
+
+    // Verificar y renovar el token antes de cualquier solicitud
+    await verificarYRenovarToken();
+    
     const idUsuario = getIdUsuarioFromToken();
 
     // Mostrar el loader al enviar el formulario

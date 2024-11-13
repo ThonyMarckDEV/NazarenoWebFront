@@ -55,8 +55,6 @@
 </div>
 <!-- Incluir el Modal de Inactividad -->
 <?php include '../inactivity.php'; ?>
-<!-- <script Checka inactyividad Usuario></script> -->
-<script type="module" src="../../js/checkInactivity.js"></script>
   <!-- Loader -->
   <?php include '../loader.php'; ?>
 <!-- Overlay de Carga Fijo -->
@@ -65,17 +63,16 @@
 </div>
 <script src="../../js/loadingOverlay.js"></script>
 <!-- Incluir el script de autenticación y el script para el botón de menú -->
-<!-- <script type="module" src="../../js/authAdmin.js"></script> -->
-<script type="module" src="../../js/checkRole.js"></script>
+<script type="module" src="../../js/checkRoleandtokenInterval.js"></script>
 <!-- Script para manejar el cierre de sesión -->
 <script type="module" src="../../js/logout.js"></script>
 <!-- Cargar el archivo JavaScript en todas las páginas -->
-<script type="module" src="../../js/checkTokenInterval.js"></script>
 <script type="module" src="../../js/lastActivity.js"></script>
 <!-- Incluir el script al final del body para mejorar la carga -->
 <script type="module" src="../../js/click-sound.js"></script>
 <!-- Incluir el script al final del body para mejorar la carga -->
 <script type="module" src="../../js/typing-sound.js"></script>
-
+<!-- <script Checka inactyividad Usuario></script> -->
+<script type="module" src="../../js/checkInactivity.js"></script>
 
 
