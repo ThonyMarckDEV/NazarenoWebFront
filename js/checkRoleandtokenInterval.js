@@ -1,14 +1,17 @@
 import API_BASE_URL from './urlHelper.js';
 import { logout as logoutAndRedirect } from './logout.js';
 
-const token = localStorage.getItem("jwt");
 const checkTokenInterval = 60000; // Verificación cada 60 segundos
-const expirationThreshold = 120;   // Intento de renovación si quedan 2 minutos o menos
+const expirationThreshold = 120;   // Renovar si quedan 2 minutos o menos
+
+let isRenewingToken = false;
 
 document.addEventListener("DOMContentLoaded", function() {
     console.log("Iniciando verificación de token almacenado...");
 
     // Verificación inicial del token
+    const token = localStorage.getItem("jwt");
+
     if (!token) {
         console.log("No se encontró token en localStorage, redirigiendo al login...");
         redirectToLogin();
@@ -24,23 +27,26 @@ document.addEventListener("DOMContentLoaded", function() {
 
     async function checkUserStatus() {
         console.log("Verificando estado del usuario con la API...");
+
+        const token = localStorage.getItem('jwt'); // Obtén el token actualizado
+
         try {
             const response = await fetch(`${API_BASE_URL}/api/check-status`, {
                 method: "POST",
                 headers: {
-                    "Content-Type": "application/json"
+                    "Content-Type": "application/json",
+                    "Authorization": `Bearer ${token}` // Envía el token en el header
                 },
-                body: JSON.stringify({ idUsuario, token })
+                body: JSON.stringify({ idUsuario })
             });
-    
+
             if (response.ok) {
                 const data = await response.json();
                 console.log("Respuesta de estado recibida:", data);
-    
-                // Solo desloguea si el estado es loggedOff o el token es inválido y el usuario está activo
+
                 if (data.status === 'loggedOff' || (data.status === 'loggedOnInvalidToken' && !data.isTokenValid)) {
                     console.log("Estado del usuario/token inválido. Redirigiendo al login...");
-                    logoutAndRedirect();
+                   logoutAndRedirect();
                 } else if (data.status === 'loggedOn' && data.isTokenValid) {
                     console.log("Estado del usuario activo y token válido. Procediendo a verificar rol...");
                     verifyUserRole();
@@ -72,26 +78,33 @@ document.addEventListener("DOMContentLoaded", function() {
 
     function redirectToLogin() {
         console.log("Redirigiendo al login...");
-      //  window.location.href = "../../index.php";
+        // window.location.href = "../../index.php";
     }
 
     function parseJwt(token) {
-        const base64Url = token.split('.')[1];
-        const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
-        const jsonPayload = decodeURIComponent(
-            atob(base64).split('').map(c => '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2)).join('')
-        );
-        return JSON.parse(jsonPayload);
+        try {
+            const base64Url = token.split('.')[1];
+            const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+            const jsonPayload = decodeURIComponent(
+                atob(base64).split('').map(c => '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2)).join('')
+            );
+            return JSON.parse(jsonPayload);
+        } catch (error) {
+            console.error("Error al decodificar el token JWT:", error);
+            return null;
+        }
     }
 
     function parseJwtExpiration(token) {
-        const payload = JSON.parse(atob(token.split('.')[1]));
-        return payload.exp;
+        const payload = parseJwt(token);
+        return payload ? payload.exp : null;
     }
 
     async function renewToken() {
         if (isRenewingToken) return;
         isRenewingToken = true;
+
+        const token = localStorage.getItem('jwt'); // Asegúrate de obtener el token actualizado
 
         try {
             const response = await fetch(`${API_BASE_URL}/api/refresh-token`, {
@@ -105,7 +118,9 @@ document.addEventListener("DOMContentLoaded", function() {
             if (response.ok) {
                 const data = await response.json();
                 console.log("Token renovado");
-                localStorage.setItem('jwt', data.accessToken); 
+                const nuevoToken = data.accessToken;
+                localStorage.setItem('jwt', nuevoToken);
+                console.log("Nuevo token almacenado en localStorage.");
             } else {
                 console.log("Error al renovar el token, cerrando sesión...");
                 logoutAndRedirect();
@@ -113,8 +128,9 @@ document.addEventListener("DOMContentLoaded", function() {
         } catch (error) {
             console.error("Excepción al renovar el token:", error);
             logoutAndRedirect();
+        } finally {
+            isRenewingToken = false;
         }
-        isRenewingToken = false;
     }
 
     function checkAndRenewToken() {
@@ -128,6 +144,12 @@ document.addEventListener("DOMContentLoaded", function() {
         }
 
         const tokenExpiration = parseJwtExpiration(token);
+        if (!tokenExpiration) {
+            console.log("No se pudo obtener la expiración del token, cerrando sesión...");
+            logoutAndRedirect();
+            return;
+        }
+
         const currentTime = Math.floor(Date.now() / 1000);
         const timeRemaining = tokenExpiration - currentTime;
 
@@ -146,5 +168,3 @@ document.addEventListener("DOMContentLoaded", function() {
     checkUserStatus();
     setInterval(checkAndRenewToken, checkTokenInterval);
 });
-
-let isRenewingToken = false;

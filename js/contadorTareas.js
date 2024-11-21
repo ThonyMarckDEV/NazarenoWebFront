@@ -1,9 +1,8 @@
 import API_BASE_URL from './urlHelper.js';
 
-const token = localStorage.getItem("jwt");
-
 import { verificarYRenovarToken } from './authToken.js';
 
+const token = localStorage.getItem("jwt");
 
 // Obtener el id del docente desde el token
 export function getIdUsuarioFromToken() {

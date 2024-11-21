@@ -1,7 +1,5 @@
 import API_BASE_URL from './urlHelper.js';
 
-const token = localStorage.getItem("jwt");
-
 import { verificarYRenovarToken } from './authToken.js';
 
 // Obtener el id del alumno desde el token
@@ -14,6 +12,8 @@ export function getIdUsuarioFromToken() {
 
 // Función para actualizar el contador de anuncios no vistos
 export async function actualizarContadorAnuncios() {
+
+    const token = localStorage.getItem("jwt");
 
     // Verificar y renovar el token antes de cualquier solicitud
     await verificarYRenovarToken();

@@ -16,6 +16,8 @@ function getIdUsuarioFromToken() {
 // Función para cargar los cursos del docente
 async function loadCursos() {
 
+    const token = localStorage.getItem("jwt");
+
     // Verificar y renovar el token antes de cualquier solicitud
     await verificarYRenovarToken();
 
@@ -83,6 +85,8 @@ function closeAnuncioModal() {
 
 // Función para enviar el anuncio usando los datos del modal
 async function enviarAnuncio() {
+
+    const token = localStorage.getItem("jwt");
 
     // Verificar y renovar el token antes de cualquier solicitud
     await verificarYRenovarToken();
@@ -154,6 +158,8 @@ async function enviarAnuncio() {
 // Función asincrónica para cargar la foto de perfil
 async function loadFotoPerfil(idUsuario) {
 
+    const token = localStorage.getItem("jwt");
+
     // Verificar y renovar el token antes de cualquier solicitud
     await verificarYRenovarToken();
 
@@ -181,6 +187,8 @@ async function loadFotoPerfil(idUsuario) {
 
 // Función para abrir el modal de estudiantes matriculados
 async function openEstudiantesModal(idCurso) {
+
+    const token = localStorage.getItem("jwt");
 
     // Verificar y renovar el token antes de cualquier solicitud
     await verificarYRenovarToken();

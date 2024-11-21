@@ -1,7 +1,5 @@
 import API_BASE_URL from './urlHelper.js';
 
-const token = localStorage.getItem("jwt");
-
 import { verificarYRenovarToken } from './authToken.js';
 
 // Obtener `idUsuario` desde el token
@@ -15,6 +13,8 @@ function getIdUsuarioFromToken() {
 
 // Función para cargar cursos
 async function loadCursos() {
+
+    const token = localStorage.getItem("jwt");
 
     // Verificar y renovar el token antes de cualquier solicitud
     await verificarYRenovarToken();
@@ -94,6 +94,8 @@ function seleccionarCurso(idCurso) {
 
 
 async function loadModulos(idCurso) {
+
+    const token = localStorage.getItem("jwt");
 
     // Verificar y renovar el token antes de cualquier solicitud
     await verificarYRenovarToken();
@@ -248,6 +250,8 @@ function limpiarCamposActividad() {
 
 // Función para enviar actividad y crear un anuncio
 async function enviarActividad() {
+
+    const token = localStorage.getItem("jwt");
 
     // Verificar y renovar el token antes de cualquier solicitud
     await verificarYRenovarToken();
@@ -415,6 +419,8 @@ async function enviarActividad() {
 
 // Función para enviar material y crear un anuncio
 async function enviarMaterial() {
+
+    const token = localStorage.getItem("jwt");
 
     // Verificar y renovar el token antes de cualquier solicitud
     await verificarYRenovarToken();
@@ -593,6 +599,8 @@ let currentModuloId = null;
 
 async function verModulo(idModulo) {
 
+    const token = localStorage.getItem("jwt");
+
     // Verificar y renovar el token antes de cualquier solicitud
     await verificarYRenovarToken();
 
@@ -681,6 +689,8 @@ async function verModulo(idModulo) {
 
 async function eliminarMaterial(idMaterial) {
 
+    const token = localStorage.getItem("jwt");
+
     // Verificar y renovar el token antes de cualquier solicitud
     await verificarYRenovarToken();
 
@@ -740,6 +750,8 @@ async function eliminarMaterial(idMaterial) {
 
 async function eliminarActividad(idActividad) {
 
+    const token = localStorage.getItem("jwt");
+
     // Verificar y renovar el token antes de cualquier solicitud
     await verificarYRenovarToken();
 
@@ -798,6 +810,8 @@ async function eliminarActividad(idActividad) {
 }
 
 async function guardarActividadActualizada() {
+
+    const token = localStorage.getItem("jwt");
 
     // Verificar y renovar el token antes de cualquier solicitud
     await verificarYRenovarToken();
@@ -900,6 +914,8 @@ function closeMaterialActividadModal() {
 // Función asincrónica para cargar la foto de perfil
 async function loadFotoPerfil(idUsuario) {
 
+    const token = localStorage.getItem("jwt");
+
     // Verificar y renovar el token antes de cualquier solicitud
     await verificarYRenovarToken();
 
@@ -927,6 +943,8 @@ async function loadFotoPerfil(idUsuario) {
 
 // Función para abrir el modal de estudiantes matriculados
 async function openEstudiantesModal(idCurso) {
+
+    const token = localStorage.getItem("jwt");
 
     // Verificar y renovar el token antes de cualquier solicitud
     await verificarYRenovarToken();

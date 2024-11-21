@@ -1,6 +1,5 @@
 import API_BASE_URL from './urlHelper.js';
 
-const token = localStorage.getItem("jwt");
 
 import { verificarYRenovarToken } from './authToken.js';
 
@@ -14,6 +13,8 @@ export function getIdUsuarioFromToken() {
 
 // Función para cargar los cursos del alumno
 async function loadCursos() {
+
+    const token = localStorage.getItem("jwt");
 
     // Verificar y renovar el token antes de cualquier solicitud
     await verificarYRenovarToken();
@@ -72,6 +73,8 @@ async function loadCursos() {
 // Función para actualizar el contador de tareas revisadas por curso
 async function actualizarContadorCalificacionesRevisadasPorCurso(idUsuario) {
 
+    const token = localStorage.getItem("jwt");
+
     // Verificar y renovar el token antes de cualquier solicitud
     await verificarYRenovarToken();
 
@@ -101,6 +104,8 @@ async function actualizarContadorCalificacionesRevisadasPorCurso(idUsuario) {
 }
 
 async function loadModulos(idCurso, nombreCurso, seccion) {
+
+    const token = localStorage.getItem("jwt");
 
     // Verificar y renovar el token antes de cualquier solicitud
     await verificarYRenovarToken();
@@ -159,6 +164,8 @@ async function loadModulos(idCurso, nombreCurso, seccion) {
 // Función para cargar el contador de tareas revisadas por módulo con logs
 async function cargarCalificacionesRevisadasPorModulo(idUsuario, idModulo, moduloCard) {
 
+    const token = localStorage.getItem("jwt");
+
     // Verificar y renovar el token antes de cualquier solicitud
     await verificarYRenovarToken();
 
@@ -209,6 +216,8 @@ function closeModulosModal() {
 
 
 async function openMaterialActividadModal(idModulo) {
+
+    const token = localStorage.getItem("jwt");
 
     // Verificar y renovar el token antes de cualquier solicitud
     await verificarYRenovarToken();
@@ -278,6 +287,8 @@ async function openMaterialActividadModal(idModulo) {
 
 // Función para marcar una tarea como vista y recargar el modal
 async function marcarTareaComoVista(idTarea, idUsuario) {
+
+    const token = localStorage.getItem("jwt");
 
     // Verificar y renovar el token antes de cualquier solicitud
     await verificarYRenovarToken();

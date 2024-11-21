@@ -31,6 +31,8 @@ if (!idUsuario) {
 // Función para cargar datos del docente
 async function loadAlumnoData() {
 
+    const token = localStorage.getItem("jwt");
+
     // Verificar y renovar el token antes de cualquier solicitud
     await verificarYRenovarToken();
 
@@ -70,6 +72,8 @@ async function loadAlumnoData() {
 
 // Función para subir la imagen de perfil
 async function uploadProfileImage() {
+
+    const token = localStorage.getItem("jwt");
 
     // Verificar y renovar el token antes de cualquier solicitud
     await verificarYRenovarToken();
@@ -124,6 +128,8 @@ async function uploadProfileImage() {
 
 // Función para actualizar los datos del alumno
 async function updateAlumno() {
+
+    const token = localStorage.getItem("jwt");
 
     // Verificar y renovar el token antes de cualquier solicitud
     await verificarYRenovarToken();

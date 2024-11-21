@@ -1,11 +1,10 @@
 import API_BASE_URL from './urlHelper.js';
 
-// Obtener el JWT desde el localStorage en el ámbito global
-const token = localStorage.getItem("jwt");
-
 import { verificarYRenovarToken } from './authToken.js';
 
 async function submitSpecialtyForm() {
+
+    const token = localStorage.getItem("jwt");
 
     // Verificar y renovar el token antes de cualquier solicitud
     await verificarYRenovarToken();
@@ -72,6 +71,8 @@ let especialidades = [];
 // Función para listar las especialidades
 async function listEspecialidades() {
 
+    const token = localStorage.getItem("jwt");
+
     // Verificar y renovar el token antes de cualquier solicitud
     await verificarYRenovarToken();
 
@@ -122,6 +123,8 @@ function renderEspecialidadesTable(especialidadesList) {
 
 // Función para eliminar una especialidad
 async function eliminarEspecialidad(idEspecialidad) {
+
+    const token = localStorage.getItem("jwt");
 
     // Verificar y renovar el token antes de cualquier solicitud
     await verificarYRenovarToken();

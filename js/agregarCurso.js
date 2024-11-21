@@ -1,11 +1,13 @@
 import API_BASE_URL from './urlHelper.js';
 
-const token = localStorage.getItem("jwt");
+
 
 import { verificarYRenovarToken } from './authToken.js';
 
 
 async function submitCursoForm() {
+
+    const token = localStorage.getItem("jwt");
 
     // Verificar y renovar el token antes de cualquier solicitud
     await verificarYRenovarToken();
@@ -70,6 +72,8 @@ async function submitCursoForm() {
 // Cargar las opciones de especialidades
 async function loadEspecialidades() {
 
+    const token = localStorage.getItem("jwt");
+
     // Verificar y renovar el token antes de cualquier solicitud
     await verificarYRenovarToken();
 
@@ -109,6 +113,8 @@ async function loadEspecialidades() {
 // Cargar las opciones de grados con sus secciones
 async function loadGrados() {
 
+    const token = localStorage.getItem("jwt");
+
     // Verificar y renovar el token antes de cualquier solicitud
     await verificarYRenovarToken();
 
@@ -143,6 +149,8 @@ let cursos = [];
 
 // Función para listar los cursos
 async function listCursos() {
+
+    const token = localStorage.getItem("jwt");
 
     // Verificar y renovar el token antes de cualquier solicitud
     await verificarYRenovarToken();
@@ -200,6 +208,8 @@ function renderCursosTable(cursosList) {
 
 // Función para eliminar un curso
 async function eliminarCurso(idCurso) {
+
+    const token = localStorage.getItem("jwt");
 
     // Verificar y renovar el token antes de cualquier solicitud
     await verificarYRenovarToken();

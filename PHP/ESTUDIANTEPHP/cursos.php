@@ -29,7 +29,7 @@
  
      <!-- Contenido Principal -->
      <div class="flex-1 p-4 sm:p-6 overflow-auto h-full">
-        <h2 class="text-2xl font-semibold mb-6 text-white mt-10">Ver Anuncios Cursos</h2>
+        <h2 class="text-2xl font-semibold mb-6 text-white mt-10">Ver Cursos</h2>
         <div id="cursosContainer" class="bg-white p-4 sm:p-6 rounded-lg shadow-md">
             <!-- Aquí se cargarán los cursos y módulos dinámicamente con JavaScript -->
             <div id="cursosList"></div>

@@ -1,9 +1,5 @@
 import API_BASE_URL from './urlHelper.js';
 
-// Obtener el token JWT desde el localStorage
-const token = localStorage.getItem("jwt");
-
-
 import { verificarYRenovarToken } from './authToken.js';
 
 // Función para mostrar notificación
@@ -20,6 +16,8 @@ function showNotification(message, bgColor) {
 
 // Función para asignar un aula a un docente seleccionado
 async function asignarAulaDocente() {
+
+    const token = localStorage.getItem("jwt");
 
     // Verificar y renovar el token antes de cualquier solicitud
     await verificarYRenovarToken();
@@ -93,6 +91,8 @@ async function asignarAulaDocente() {
 // Función para cargar docentes en el select
 async function cargarDocentes() {
 
+    const token = localStorage.getItem("jwt");
+
     // Verificar y renovar el token antes de cualquier solicitud
     await verificarYRenovarToken();
 
@@ -123,6 +123,8 @@ async function cargarDocentes() {
 
 // Función para cargar grados en el select
 async function cargarGrados() {
+
+    const token = localStorage.getItem("jwt");
 
     // Verificar y renovar el token antes de cualquier solicitud
     await verificarYRenovarToken();
@@ -157,6 +159,8 @@ let asignaciones = [];
 
 // Función para listar todas las asignaciones
 async function listarAsignaciones() {
+
+    const token = localStorage.getItem("jwt");
 
     // Verificar y renovar el token antes de cualquier solicitud
     await verificarYRenovarToken();
@@ -223,6 +227,8 @@ document.addEventListener("DOMContentLoaded", function() {
 
 // Función para eliminar una asignación
 async function eliminarAsignacion(idAsignacion) {
+
+    const token = localStorage.getItem("jwt");
 
     // Verificar y renovar el token antes de cualquier solicitud
     await verificarYRenovarToken();

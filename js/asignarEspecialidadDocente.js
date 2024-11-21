@@ -1,12 +1,12 @@
 import API_BASE_URL from './urlHelper.js';
 
-// Obtener el token JWT desde el localStorage
-const token = localStorage.getItem("jwt");
 
 import { verificarYRenovarToken } from './authToken.js';
 
 // Función para cargar especialidades
 async function loadEspecialidades() {
+
+    const token = localStorage.getItem("jwt");
 
     // Verificar y renovar el token antes de cualquier solicitud
     await verificarYRenovarToken();
@@ -36,6 +36,8 @@ async function loadEspecialidades() {
 // Función para cargar docentes
 async function loadDocentes() {
 
+    const token = localStorage.getItem("jwt");
+
     // Verificar y renovar el token antes de cualquier solicitud
     await verificarYRenovarToken();
 
@@ -63,6 +65,8 @@ async function loadDocentes() {
 
 // Función para asignar especialidad a docente (con token)
 async function asignarEspecialidad() {
+
+    const token = localStorage.getItem("jwt");
 
     // Verificar y renovar el token antes de cualquier solicitud
     await verificarYRenovarToken();
@@ -119,6 +123,8 @@ async function asignarEspecialidad() {
 // Función para cargar asignaciones de especialidades a docentes
 async function loadAsignaciones() {
 
+    const token = localStorage.getItem("jwt");
+
     // Verificar y renovar el token antes de cualquier solicitud
     await verificarYRenovarToken();
 
@@ -152,6 +158,8 @@ async function loadAsignaciones() {
 
 // Función para eliminar una asignación (con token)
 async function eliminarAsignacion(id) {
+
+    const token = localStorage.getItem("jwt");
 
     // Verificar y renovar el token antes de cualquier solicitud
     await verificarYRenovarToken();

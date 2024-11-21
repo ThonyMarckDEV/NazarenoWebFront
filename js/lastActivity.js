@@ -1,8 +1,9 @@
 import API_BASE_URL from './urlHelper.js';
 
-const token = localStorage.getItem('jwt'); 
-
 function updateLastActivity() {
+
+    const token = localStorage.getItem("jwt");
+
     if (token) {
         const decoded = jwt_decode(token);
         const userId = decoded.idUsuario; 

@@ -1,7 +1,5 @@
 import API_BASE_URL from './urlHelper.js';
 
-const token = localStorage.getItem("jwt");
-
 import { verificarYRenovarToken } from './authToken.js';
 
 // Obtener el id del usuario desde el token
@@ -14,6 +12,8 @@ export function getIdUsuarioFromToken() {
 
 // Función para cargar los cursos del alumno
 async function loadCursos() {
+
+    const token = localStorage.getItem("jwt");
 
     // Verificar y renovar el token antes de cualquier solicitud
     await verificarYRenovarToken();
@@ -72,6 +72,8 @@ async function loadCursos() {
 }
 
 async function loadModulos(idCurso, nombreCurso, seccion) {
+
+    const token = localStorage.getItem("jwt");
 
     // Verificar y renovar el token antes de cualquier solicitud
     await verificarYRenovarToken();
@@ -140,6 +142,8 @@ function closeModulosModal() {
 
 
 async function loadMaterialesYActividades(idModulo) {
+
+    const token = localStorage.getItem("jwt");
 
     // Verificar y renovar el token antes de cualquier solicitud
     await verificarYRenovarToken();
@@ -238,6 +242,8 @@ async function loadMaterialesYActividades(idModulo) {
 // Función para descargar el archivo desde la API de descarga
 async function descargarArchivo(url, nombreArchivo) {
 
+    const token = localStorage.getItem("jwt");
+
     // Verificar y renovar el token antes de cualquier solicitud
     await verificarYRenovarToken();
 
@@ -308,6 +314,8 @@ function cerrarSubirTareaModal() {
 }
 
 async function enviarTarea() {
+
+    const token = localStorage.getItem("jwt");
 
     // Verificar y renovar el token antes de cualquier solicitud
     await verificarYRenovarToken();
@@ -394,6 +402,8 @@ async function enviarTarea() {
 // Función asincrónica para cargar la foto de perfil
 async function loadFotoPerfil(idUsuario) {
 
+    const token = localStorage.getItem("jwt");
+
     // Verificar y renovar el token antes de cualquier solicitud
     await verificarYRenovarToken();
 
@@ -421,6 +431,8 @@ async function loadFotoPerfil(idUsuario) {
 
     // Función para abrir el modal de estudiantes matriculados
     async function openEstudiantesModal(idCurso) {
+
+        const token = localStorage.getItem("jwt");
 
         // Verificar y renovar el token antes de cualquier solicitud
         await verificarYRenovarToken();

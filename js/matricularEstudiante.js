@@ -1,11 +1,10 @@
 import API_BASE_URL from './urlHelper.js';
 
-// Obtener el token JWT del localStorage
-const token = localStorage.getItem("jwt");
-
 import { verificarYRenovarToken } from './authToken.js';
 
 async function loadEstudiantes() {
+
+    const token = localStorage.getItem("jwt");
 
     // Verificar y renovar el token antes de cualquier solicitud
     await verificarYRenovarToken();
@@ -36,6 +35,8 @@ async function loadEstudiantes() {
 }
 
 async function loadGrados() {
+
+    const token = localStorage.getItem("jwt");
 
     // Verificar y renovar el token antes de cualquier solicitud
     await verificarYRenovarToken();
@@ -77,6 +78,8 @@ let matriculas = [];
 
 // Función para listar todas las matrículas
 async function listMatriculas() {
+
+    const token = localStorage.getItem("jwt");
 
     // Verificar y renovar el token antes de cualquier solicitud
     await verificarYRenovarToken();
@@ -138,6 +141,8 @@ function renderMatriculasTable(matriculasList) {
 // Eliminar matricula con token
 async function eliminarMatricula(idMatricula) {
 
+    const token = localStorage.getItem("jwt");
+
     // Verificar y renovar el token antes de cualquier solicitud
     await verificarYRenovarToken();
 
@@ -195,6 +200,8 @@ async function eliminarMatricula(idMatricula) {
 
 // Matricular estudiante con token
 async function submitMatricula() {
+
+    const token = localStorage.getItem("jwt");
 
     // Verificar y renovar el token antes de cualquier solicitud
     await verificarYRenovarToken();

@@ -1,8 +1,5 @@
 import API_BASE_URL from './urlHelper.js';
 
-// Obtener el token JWT del localStorage
-const token = localStorage.getItem("jwt");
-
 import { verificarYRenovarToken } from './authToken.js';
 
 // Variable global para almacenar los usuarios
@@ -10,6 +7,8 @@ let usuarios = [];
 
 // Función para listar usuarios
 export async function listUsers() {
+
+    const token = localStorage.getItem("jwt");
 
     // Verificar y renovar el token antes de cualquier solicitud
     await verificarYRenovarToken();
@@ -81,6 +80,8 @@ function renderUserTable(users) {
 // Función para eliminar usuario con token
 async function deleteUser(userId) {
 
+    const token = localStorage.getItem("jwt");
+
     // Verificar y renovar el token antes de cualquier solicitud
     await verificarYRenovarToken();
 
@@ -129,6 +130,8 @@ async function deleteUser(userId) {
 
 // Función para actualizar usuario con token
 async function updateUser(userId) {
+
+    const token = localStorage.getItem("jwt");
 
     // Verificar y renovar el token antes de cualquier solicitud
     await verificarYRenovarToken();

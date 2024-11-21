@@ -1,6 +1,5 @@
 import API_BASE_URL from './urlHelper.js';
 
-const token = localStorage.getItem("jwt");
 
 import { actualizarContadorAnuncios } from './contadorAnuncios.js';
 
@@ -17,6 +16,8 @@ export function getIdUsuarioFromToken() {
 
 // Función para cargar los cursos del alumno y actualizar el contador de anuncios no vistos por curso
 async function loadCursos() {
+
+    const token = localStorage.getItem("jwt");
 
     // Verificar y renovar el token antes de cualquier solicitud
     await verificarYRenovarToken();
@@ -76,6 +77,8 @@ async function loadCursos() {
 // Función para actualizar el contador de anuncios no vistos por curso
 async function actualizarContadorAnunciosPorCurso(idAlumno) {
 
+    const token = localStorage.getItem("jwt");
+
     // Verificar y renovar el token antes de cualquier solicitud
     await verificarYRenovarToken();
 
@@ -107,6 +110,8 @@ async function actualizarContadorAnunciosPorCurso(idAlumno) {
 
 // Función para abrir el modal de anuncios
 async function openAnuncioModal(nombreCurso, seccion) {
+
+    const token = localStorage.getItem("jwt");
 
     // Verificar y renovar el token antes de cualquier solicitud
     await verificarYRenovarToken();
@@ -153,6 +158,8 @@ async function openAnuncioModal(nombreCurso, seccion) {
 
 // Función para marcar un anuncio como revisado
 async function marcarRevisado(idAnuncio) {
+
+    const token = localStorage.getItem("jwt");
 
     // Verificar y renovar el token antes de cualquier solicitud
     await verificarYRenovarToken();

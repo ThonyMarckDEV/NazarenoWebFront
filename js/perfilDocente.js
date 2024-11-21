@@ -1,8 +1,8 @@
 import API_BASE_URL from './urlHelper.js';
 
-const token = localStorage.getItem("jwt");
-
 import { verificarYRenovarToken } from './authToken.js';
+
+const token = localStorage.getItem("jwt");
 
 const decodedToken = parseJwt(token);
 const idUsuario = decodedToken ? decodedToken.idUsuario : null;
@@ -31,6 +31,8 @@ if (!idUsuario) {
 
 // Función para cargar datos del docente
 async function loadDocenteData() {
+
+    const token = localStorage.getItem("jwt");
 
     // Verificar y renovar el token antes de cualquier solicitud
     await verificarYRenovarToken();
@@ -71,6 +73,8 @@ async function loadDocenteData() {
 
 // Función para subir la imagen de perfil
 async function uploadProfileImage() {
+
+    const token = localStorage.getItem("jwt");
 
     // Verificar y renovar el token antes de cualquier solicitud
     await verificarYRenovarToken();
@@ -124,6 +128,8 @@ async function uploadProfileImage() {
 
 // Función para actualizar los datos del docente
 async function updateDocente() {
+
+    const token = localStorage.getItem("jwt");
 
     // Verificar y renovar el token antes de cualquier solicitud
     await verificarYRenovarToken();
