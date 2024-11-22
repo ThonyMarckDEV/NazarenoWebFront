@@ -6,6 +6,8 @@ import { actualizarContadorAnuncios } from './contadorAnuncios.js';
 
 import { verificarYRenovarToken } from './authToken.js';
 
+const token = localStorage.getItem("jwt");
+
 // Obtener el id del usuario desde el token
 export function getIdUsuarioFromToken() {
     if (!token) return null;
@@ -18,6 +20,8 @@ export function getIdUsuarioFromToken() {
 async function loadCursos() {
 
     const token = localStorage.getItem("jwt");
+
+    showLoadingOverlay();
 
     // Verificar y renovar el token antes de cualquier solicitud
     await verificarYRenovarToken();
@@ -39,6 +43,7 @@ async function loadCursos() {
     .then(response => response.json())
     .then(data => {
         if (data.success && data.data.length > 0) {
+            hideLoadingOverlay();
             const cursosList = document.getElementById("cursosContainer");
             cursosList.innerHTML = ""; // Limpiar el contenedor antes de cargar los cursos
 
@@ -68,10 +73,15 @@ async function loadCursos() {
             // Llamar a la función para actualizar el contador de anuncios no vistos por curso
             actualizarContadorAnunciosPorCurso(idUsuario);
         } else {
+            hideLoadingOverlay();
             document.getElementById("cursosContainer").innerHTML = "<p class='text-center text-gray-600'>No hay cursos disponibles.</p>";
         }
     })
-    .catch(error => console.error("Error al cargar los cursos:", error));
+    .catch(
+        error => console.error("Error al cargar los cursos:", error
+    )).finally(()=>{
+        hideLoadingOverlay();
+    });
 }
 
 // Función para actualizar el contador de anuncios no vistos por curso

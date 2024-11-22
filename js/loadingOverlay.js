@@ -1,25 +1,20 @@
 // Script de Overlay de Carga
 document.addEventListener("DOMContentLoaded", () => {
-    const links = document.querySelectorAll('a'); // Selecciona todos los enlaces
+    const loadingOverlay = document.getElementById("loadingOverlay"); // Overlay de carga
 
-    links.forEach(link => {
-        // Excluir el enlace de logout (si tiene el atributo "onclick")
-        if (link.hasAttribute("onclick")) {
-            return; // Ignora este enlace
-        }
-
-        link.addEventListener("click", (e) => {
-            e.preventDefault();
-            const targetUrl = link.href;
-
-            // Muestra el overlay
-            const loadingOverlay = document.getElementById("loadingOverlay");
+    // Función global para mostrar el overlay
+    window.showLoadingOverlay = () => {
+        if (loadingOverlay) {
             loadingOverlay.classList.remove("hidden");
+        }
+    };
 
-            // Espera 1.5 segundos antes de redirigir a la nueva URL
+    // Función global para ocultar el overlay después de 2 segundos
+    window.hideLoadingOverlay = () => {
+        if (loadingOverlay) {
             setTimeout(() => {
-                window.location.href = targetUrl;
-            }, 1500);
-        });
-    });
+                loadingOverlay.classList.add("hidden");
+            }, 1000); // 2000 ms = 2 segundos
+        }
+    };
 });

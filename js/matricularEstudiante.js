@@ -6,6 +6,8 @@ async function loadEstudiantes() {
 
     const token = localStorage.getItem("jwt");
 
+    showLoadingOverlay();
+
     // Verificar y renovar el token antes de cualquier solicitud
     await verificarYRenovarToken();
 
@@ -18,6 +20,9 @@ async function loadEstudiantes() {
     })
     .then(response => response.json())
     .then(data => {
+
+        hideLoadingOverlay();
+
         const select = document.getElementById("estudiante");
         select.innerHTML = ''; 
 
@@ -29,6 +34,7 @@ async function loadEstudiantes() {
         });
     })
     .catch(error => {
+        hideLoadingOverlay();
         console.error("Error al cargar estudiantes:", error);
         showNotification("Error en la solicitud", "bg-red-500");
     });
@@ -38,11 +44,14 @@ async function loadGrados() {
 
     const token = localStorage.getItem("jwt");
 
+    showLoadingOverlay();
+
     // Verificar y renovar el token antes de cualquier solicitud
     await verificarYRenovarToken();
 
     const gradoSelect = document.getElementById("grado");
     if (!gradoSelect) {
+        hideLoadingOverlay();
         console.error("Error: El elemento con ID 'grado' no se encuentra en el DOM.");
         return;
     }
@@ -57,6 +66,9 @@ async function loadGrados() {
     })
     .then(response => response.json())
     .then(data => {
+
+        hideLoadingOverlay();
+
         gradoSelect.innerHTML = "<option value=''>Seleccione un aula</option>"; // Limpiar opciones previas
 
         data.data.forEach(grado => {
@@ -70,6 +82,7 @@ async function loadGrados() {
     .catch(error => {
         console.error("Error al cargar grados:", error);
         showNotification("Error en la solicitud", "bg-red-500");
+        hideLoadingOverlay();
     });
 }
 
@@ -80,6 +93,8 @@ let matriculas = [];
 async function listMatriculas() {
 
     const token = localStorage.getItem("jwt");
+
+    showLoadingOverlay();
 
     // Verificar y renovar el token antes de cualquier solicitud
     await verificarYRenovarToken();
@@ -93,6 +108,9 @@ async function listMatriculas() {
     })
     .then(response => response.json())
     .then(data => {
+
+        hideLoadingOverlay();
+
         matriculas = data.data; // Guardar las matrículas en la variable global
         renderMatriculasTable(matriculas); // Renderizar la tabla con todas las matrículas
 
@@ -113,6 +131,7 @@ async function listMatriculas() {
         });
     })
     .catch(error => {
+        hideLoadingOverlay();
         console.error("Error al cargar matriculas:", error);
         showNotification("Error en la solicitud", "bg-red-500");
     });

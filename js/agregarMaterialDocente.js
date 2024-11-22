@@ -2,6 +2,8 @@ import API_BASE_URL from './urlHelper.js';
 
 import { verificarYRenovarToken } from './authToken.js';
 
+const token = localStorage.getItem("jwt");
+
 // Obtener `idUsuario` desde el token
 function getIdUsuarioFromToken() {
     if (!token) return null;
@@ -14,6 +16,8 @@ function getIdUsuarioFromToken() {
 // Función para cargar cursos
 async function loadCursos() {
 
+    showLoadingOverlay();
+
     const token = localStorage.getItem("jwt");
 
     // Verificar y renovar el token antes de cualquier solicitud
@@ -22,6 +26,7 @@ async function loadCursos() {
     const idDocente = getIdUsuarioFromToken();
     if (!idDocente) {
         showNotification("No se encontró el ID del docente en el token.", "bg-red-500");
+        hideLoadingOverlay();
         return;
     }
 
@@ -33,6 +38,7 @@ async function loadCursos() {
     })
     .then(response => response.json())
     .then(data => {
+        hideLoadingOverlay();
         const container = document.getElementById("cursosContainer");
         container.innerHTML = ""; 
 
@@ -71,6 +77,7 @@ async function loadCursos() {
         });
     })
     .catch(error => {
+        hideLoadingOverlay();
         console.error("Error al cargar los cursos:", error);
         showNotification("Error al cargar los cursos", "bg-red-500");
     });
@@ -97,6 +104,7 @@ async function loadModulos(idCurso) {
 
     const token = localStorage.getItem("jwt");
 
+
     // Verificar y renovar el token antes de cualquier solicitud
     await verificarYRenovarToken();
 
@@ -111,6 +119,7 @@ async function loadModulos(idCurso) {
     })
     .then(response => response.json())
     .then(data => {
+
         const moduloContainer = document.getElementById("moduloContainer");
         moduloContainer.innerHTML = ""; 
 

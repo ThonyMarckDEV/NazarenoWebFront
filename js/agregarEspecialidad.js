@@ -71,6 +71,8 @@ let especialidades = [];
 // Función para listar las especialidades
 async function listEspecialidades() {
 
+    showLoadingOverlay();
+
     const token = localStorage.getItem("jwt");
 
     // Verificar y renovar el token antes de cualquier solicitud
@@ -85,6 +87,7 @@ async function listEspecialidades() {
     })
     .then(response => response.json())
     .then(data => {
+        hideLoadingOverlay();
         especialidades = data.data; // Guardamos las especialidades en la variable global
         renderEspecialidadesTable(especialidades); // Renderizamos la tabla con todas las especialidades
 

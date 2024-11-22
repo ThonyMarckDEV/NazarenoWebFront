@@ -93,6 +93,8 @@ async function cargarDocentes() {
 
     const token = localStorage.getItem("jwt");
 
+    showLoadingOverlay();
+
     // Verificar y renovar el token antes de cualquier solicitud
     await verificarYRenovarToken();
 
@@ -105,6 +107,7 @@ async function cargarDocentes() {
     })
     .then(response => response.json())
     .then(data => {
+        hideLoadingOverlay();
         const docenteSelect = document.getElementById("idDocente");
         docenteSelect.innerHTML = "<option value=''>Seleccione un docente</option>"; // Limpiar opciones previas
 
@@ -116,6 +119,7 @@ async function cargarDocentes() {
         });
     })
     .catch(error => {
+        hideLoadingOverlay();
         console.error('Error al cargar docentes:', error);
         showNotification("Error al cargar docentes", "bg-red-500");
     });
@@ -125,6 +129,8 @@ async function cargarDocentes() {
 async function cargarGrados() {
 
     const token = localStorage.getItem("jwt");
+
+    showLoadingOverlay();
 
     // Verificar y renovar el token antes de cualquier solicitud
     await verificarYRenovarToken();
@@ -138,6 +144,9 @@ async function cargarGrados() {
     })
     .then(response => response.json())
     .then(data => {
+
+        hideLoadingOverlay();
+
         const gradoSelect = document.getElementById("idAula");
         gradoSelect.innerHTML = "<option value=''>Seleccione un aula</option>"; // Limpiar opciones previas
 
@@ -149,6 +158,7 @@ async function cargarGrados() {
         });
     })
     .catch(error => {
+        hideLoadingOverlay();
         console.error('Error al cargar grados:', error);
         showNotification("Error al cargar grados", "bg-red-500");
     });
@@ -162,6 +172,8 @@ async function listarAsignaciones() {
 
     const token = localStorage.getItem("jwt");
 
+    showLoadingOverlay();
+
     // Verificar y renovar el token antes de cualquier solicitud
     await verificarYRenovarToken();
     
@@ -174,6 +186,9 @@ async function listarAsignaciones() {
     })
     .then(response => response.json())
     .then(data => {
+
+        hideLoadingOverlay();
+
         asignaciones = data.data; // Guardar las asignaciones en la variable global
         renderAsignacionesTable(asignaciones); // Renderizar la tabla con todas las asignaciones
 
@@ -193,6 +208,7 @@ async function listarAsignaciones() {
         });
     })
     .catch(error => {
+        hideLoadingOverlay();
         console.error('Error al listar asignaciones:', error);
         showNotification("Error al listar asignaciones", "bg-red-500");
     });

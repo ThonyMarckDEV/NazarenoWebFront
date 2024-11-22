@@ -4,6 +4,8 @@ import API_BASE_URL from './urlHelper.js';
 import { verificarYRenovarToken } from './authToken.js'; 
 
 document.addEventListener('DOMContentLoaded', async () => {
+
+    showLoadingOverlay();
     
     await verificarYRenovarToken();
 
@@ -21,6 +23,9 @@ document.addEventListener('DOMContentLoaded', async () => {
     fetch(`${API_BASE_URL}/api/grados`)
         .then(response => response.json())
         .then(data => {
+
+            hideLoadingOverlay();
+
             gradoTableBody.innerHTML = data
                 .map(grado => `
                     <tr class="border-b hover:bg-gray-100">
@@ -114,5 +119,10 @@ document.addEventListener('DOMContentLoaded', async () => {
                 });
             });
         })
-        .catch(error => console.error('Error al cargar grados:', error));
+        .catch(
+            error => console.error('Error al cargar grados:', error
+
+        )).finally(()=>{
+            hideLoadingOverlay();
+       });
 });

@@ -18,11 +18,14 @@ function getIdUsuarioFromToken() {
 // Función para cargar cursos
 async function loadCursos() {
 
+    showLoadingOverlay();
+
     // Verificar y renovar el token antes de cualquier solicitud
     await verificarYRenovarToken();
 
     const idDocente = getIdUsuarioFromToken();
     if (!idDocente) {
+        hideLoadingOverlay();
         showNotification("No se encontró el ID del docente en el token.", "bg-red-500");
         return;
     }
@@ -35,14 +38,19 @@ async function loadCursos() {
     })
     .then(response => response.json())
     .then(data => {
+        hideLoadingOverlay();
         const container = document.getElementById("cursosContainer");
         container.innerHTML = ""; 
         if (data.success && data.data.length > 0) {
+
+            hideLoadingOverlay();
+
             const cursosList = document.getElementById("cursosContainer");
             cursosList.innerHTML = ""; 
 
             data.data.forEach(curso => {
                 if (!curso.idCurso) {
+                    hideLoadingOverlay();
                     console.warn("idCurso no está definido en el curso:", curso);
                     showNotification("Error: idCurso no existe para un curso", "bg-red-500");
                     return;
@@ -73,12 +81,14 @@ async function loadCursos() {
             // Llamar a la función para actualizar el contador de tareas pendientes por curso
             actualizarContadorTareasPendientesPorCurso(idDocente);
         } else {
+            hideLoadingOverlay();
             document.getElementById("cursosContainer").innerHTML = "<p class='text-center text-gray-600'>No hay cursos disponibles.</p>";
         }
     })
     .catch(error => {
         console.error("Error al cargar los cursos:", error);
         showNotification("Error al cargar los cursos", "bg-red-500");
+        hideLoadingOverlay();
     });
 }
 

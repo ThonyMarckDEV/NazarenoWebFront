@@ -10,6 +10,8 @@ export async function listUsers() {
 
     const token = localStorage.getItem("jwt");
 
+    showLoadingOverlay();
+
     // Verificar y renovar el token antes de cualquier solicitud
     await verificarYRenovarToken();
 
@@ -21,11 +23,15 @@ export async function listUsers() {
     })
     .then(response => {
         if (!response.ok) {
+            hideLoadingOverlay();
             throw new Error(`HTTP error! status: ${response.status}`);
         }
         return response.json();
     })
     .then(data => {
+
+        hideLoadingOverlay();
+
         usuarios = data.data; // Guardar los usuarios en la variable global
         renderUserTable(usuarios); // Renderizar la tabla con todos los usuarios
 
@@ -46,6 +52,7 @@ export async function listUsers() {
     .catch(error => {
         console.error("Error al cargar usuarios:", error);
         showNotification("Error en la solicitud", "bg-red-500");
+        hideLoadingOverlay();
     });
 }
 

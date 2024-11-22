@@ -8,6 +8,8 @@ async function loadEspecialidades() {
 
     const token = localStorage.getItem("jwt");
 
+    showLoadingOverlay();
+
     // Verificar y renovar el token antes de cualquier solicitud
     await verificarYRenovarToken();
 
@@ -20,6 +22,9 @@ async function loadEspecialidades() {
     })
     .then(response => response.json())
     .then(data => {
+
+        hideLoadingOverlay();
+
         const select = document.getElementById("especialidad");
         select.innerHTML = ''; // Limpiar opciones anteriores
 
@@ -30,13 +35,20 @@ async function loadEspecialidades() {
             select.appendChild(option);
         });
     })
-    .catch(error => console.error("Error al cargar especialidades:", error));
+    .catch(
+        error => console.error("Error al cargar especialidades:", error
+
+    )).finally(()=>{
+        hideLoadingOverlay();
+   });
 }
 
 // Función para cargar docentes
 async function loadDocentes() {
 
     const token = localStorage.getItem("jwt");
+
+    showLoadingOverlay();
 
     // Verificar y renovar el token antes de cualquier solicitud
     await verificarYRenovarToken();
@@ -50,6 +62,9 @@ async function loadDocentes() {
     })
     .then(response => response.json())
     .then(data => {
+
+        hideLoadingOverlay();
+
         const select = document.getElementById("docente");
         select.innerHTML = ''; // Limpiar opciones anteriores
 
@@ -60,7 +75,12 @@ async function loadDocentes() {
             select.appendChild(option);
         });
     })
-    .catch(error => console.error("Error al cargar docentes:", error));
+    .catch(
+        error => console.error("Error al cargar docentes:", error
+        
+    )).finally(()=>{
+        hideLoadingOverlay();
+   });
 }
 
 // Función para asignar especialidad a docente (con token)
@@ -125,6 +145,8 @@ async function loadAsignaciones() {
 
     const token = localStorage.getItem("jwt");
 
+    showLoadingOverlay();
+
     // Verificar y renovar el token antes de cualquier solicitud
     await verificarYRenovarToken();
 
@@ -137,6 +159,9 @@ async function loadAsignaciones() {
     })
     .then(response => response.json())
     .then(data => {
+
+        hideLoadingOverlay();
+
         const tableBody = document.getElementById("asignacionesTableBody");
         tableBody.innerHTML = ''; // Limpiar las asignaciones previas
 
@@ -153,7 +178,12 @@ async function loadAsignaciones() {
             tableBody.appendChild(row);
         });
     })
-    .catch(error => console.error("Error al cargar asignaciones:", error));
+    .catch(
+        error => console.error("Error al cargar asignaciones:", error
+
+    )).finally(()=>{
+        hideLoadingOverlay();
+   });
 }
 
 // Función para eliminar una asignación (con token)

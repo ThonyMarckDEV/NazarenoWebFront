@@ -18,6 +18,8 @@ async function loadCursos() {
 
     const token = localStorage.getItem("jwt");
 
+    showLoadingOverlay();
+
     // Verificar y renovar el token antes de cualquier solicitud
     await verificarYRenovarToken();
 
@@ -35,6 +37,9 @@ async function loadCursos() {
     })
     .then(response => response.json())
     .then(data => {
+
+        hideLoadingOverlay();
+
         const container = document.getElementById("cursosContainer");
         container.innerHTML = ""; // Limpiar contenido previo
 
@@ -64,6 +69,7 @@ async function loadCursos() {
         });
     })
     .catch(error => {
+        hideLoadingOverlay();
         console.error("Error al cargar los cursos:", error);
         showNotification("Error al cargar los cursos", "bg-red-500");
     });

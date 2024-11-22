@@ -72,6 +72,7 @@ async function submitCursoForm() {
 // Cargar las opciones de especialidades
 async function loadEspecialidades() {
     
+    showLoadingOverlay();
 
     const token = localStorage.getItem("jwt");
 
@@ -87,6 +88,8 @@ async function loadEspecialidades() {
     })
     .then(response => response.json())
     .then(data => {
+        hideLoadingOverlay();
+
         const select = document.getElementById("idEspecialidad");
         select.innerHTML = ''; // Limpiar opciones anteriores
 
@@ -107,12 +110,15 @@ async function loadEspecialidades() {
     })
     .catch((error) => {
         console.error("Error:", error);
+        hideLoadingOverlay();
         showNotification("Error en la solicitud", "bg-red-500");
     });
 }
 //
 // Cargar las opciones de grados con sus secciones
 async function loadGrados() {
+
+    showLoadingOverlay();
 
     const token = localStorage.getItem("jwt");
 
@@ -128,6 +134,8 @@ async function loadGrados() {
     })
     .then(response => response.json())
     .then(data => {
+        hideLoadingOverlay();
+
         const select = document.getElementById("idGrado");
         select.innerHTML = 'Seleccione un grado:'; // Valor vacío para opción no seleccionable
 
@@ -138,9 +146,11 @@ async function loadGrados() {
             option.textContent = `${item.nombreGrado} - ${item.seccion}`;
             select.appendChild(option);
         });
+        
     })
     .catch((error) => {
         console.error("Error:", error);
+        hideLoadingOverlay();
         showNotification("Error en la solicitud", "bg-red-500");
     });
 }
@@ -150,6 +160,8 @@ let cursos = [];
 
 // Función para listar los cursos
 async function listCursos() {
+
+    showLoadingOverlay();
 
     const token = localStorage.getItem("jwt");
 
@@ -166,6 +178,9 @@ async function listCursos() {
     })
     .then(response => response.json())
     .then(data => {
+
+        hideLoadingOverlay();
+        
         cursos = data.data; // Guardamos los cursos en la variable global
         renderCursosTable(cursos); // Renderizamos la tabla con todos los cursos
 
@@ -184,7 +199,11 @@ async function listCursos() {
             renderCursosTable(filteredCursos);
         });
     })
-    .catch(error => console.error("Error al cargar cursos:", error));
+    .catch(
+      error => console.error("Error al cargar cursos:", error
+    )).finally(()=>{
+        hideLoadingOverlay();
+   });
 }
 
 // Función para renderizar la tabla de cursos

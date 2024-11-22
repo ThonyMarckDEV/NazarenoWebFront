@@ -34,6 +34,8 @@ async function loadDocenteData() {
 
     const token = localStorage.getItem("jwt");
 
+    showLoadingOverlay();
+
     // Verificar y renovar el token antes de cualquier solicitud
     await verificarYRenovarToken();
 
@@ -48,8 +50,11 @@ async function loadDocenteData() {
         });
 
         if (!response.ok) {
+            hideLoadingOverlay();
             throw new Error(`HTTP error! status: ${response.status}`);
         }
+
+        hideLoadingOverlay();
 
         const data = await response.json();
         document.getElementById("nombres").value = data.data.nombres;
@@ -67,6 +72,7 @@ async function loadDocenteData() {
         // Si no hay imagen, cargar la imagen por defecto del frontend en /img/default-profile.jpg
         document.getElementById("profileImage").src = data.data.perfil || '../../img/default-profile.jpg';
     } catch (error) {
+        hideLoadingOverlay();
         console.error("Error al cargar datos del docente:", error);
     }
 }

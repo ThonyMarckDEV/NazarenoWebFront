@@ -1,8 +1,8 @@
 import API_BASE_URL from './urlHelper.js';
 
-
 import { verificarYRenovarToken } from './authToken.js';
 
+const token = localStorage.getItem("jwt");
 // Obtener el id del usuario desde el token
 export function getIdUsuarioFromToken() {
     if (!token) return null;
@@ -16,11 +16,14 @@ async function loadCursos() {
 
     const token = localStorage.getItem("jwt");
 
+    showLoadingOverlay();
+
     // Verificar y renovar el token antes de cualquier solicitud
     await verificarYRenovarToken();
 
     const idUsuario = getIdUsuarioFromToken();
     if (!idUsuario) {
+        hideLoadingOverlay();
         showNotification("No se encontró el ID del estudiante en el token.", "bg-red-500");
         return;
     }
@@ -36,11 +39,14 @@ async function loadCursos() {
         const cursosList = document.getElementById("cursosContainer");
         if (!cursosList) {
             console.error("El contenedor de cursos no está en el DOM.");
+            hideLoadingOverlay();
             return;
         }
         cursosList.innerHTML = "";
 
         if (data.success && data.data.length > 0) {
+            hideLoadingOverlay();
+
             data.data.forEach(curso => {
                 const courseCard = document.createElement("div");
                 courseCard.classList.add("bg-gray-100", "p-4", "rounded-lg", "shadow-md", "mb-4");
@@ -64,10 +70,14 @@ async function loadCursos() {
                    // Llamar a la función para actualizar el contador de tareas pendientes por curso
                    actualizarContadorCalificacionesRevisadasPorCurso(idUsuario);
         } else {
+            hideLoadingOverlay();
             cursosList.innerHTML = "<p class='text-center text-gray-600'>No hay cursos disponibles.</p>";
         }
     })
-    .catch(error => console.error("Error al cargar los cursos:", error));
+    .catch(
+        error => console.error("Error al cargar los cursos:", error
+
+    ));
 }
 
 // Función para actualizar el contador de tareas revisadas por curso
