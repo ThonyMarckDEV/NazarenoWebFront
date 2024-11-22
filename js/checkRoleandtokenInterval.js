@@ -7,13 +7,14 @@ const expirationThreshold = 120;   // Renovar si quedan 2 minutos o menos
 let isRenewingToken = false;
 
 document.addEventListener("DOMContentLoaded", function() {
-    console.log("Iniciando verificación de token almacenado...");
+   // console.log("Iniciando verificación de token almacenado...");
 
     // Verificación inicial del token
     const token = localStorage.getItem("jwt");
 
     if (!token) {
-        console.log("No se encontró token en localStorage, redirigiendo al login...");
+    //    console.log("No se encontró token en localStorage, redirigiendo al login...");
+       alert("No se encontró token en localStorage, redirigiendo al login...");
         redirectToLogin();
         return;
     }
@@ -22,11 +23,11 @@ document.addEventListener("DOMContentLoaded", function() {
     const rol = decodedToken.rol;
     const idUsuario = decodedToken.idUsuario;
 
-    console.log("Rol del usuario:", rol);
-    console.log("ID de usuario:", idUsuario);
+   // console.log("Rol del usuario:", rol);
+   // console.log("ID de usuario:", idUsuario);
 
     async function checkUserStatus() {
-        console.log("Verificando estado del usuario con la API...");
+      //  console.log("Verificando estado del usuario con la API...");
 
         const token = localStorage.getItem('jwt'); // Obtén el token actualizado
 
@@ -42,44 +43,47 @@ document.addEventListener("DOMContentLoaded", function() {
 
             if (response.ok) {
                 const data = await response.json();
-                console.log("Respuesta de estado recibida:", data);
+               // console.log("Respuesta de estado recibida:", data);
 
                 if (data.status === 'loggedOff' || (data.status === 'loggedOnInvalidToken' && !data.isTokenValid)) {
-                    console.log("Estado del usuario/token inválido. Redirigiendo al login...");
+                  //  console.log("Estado del usuario/token inválido. Redirigiendo al login...");
+                    alert("Estado del usuario/token inválido. Redirigiendo al login...");
                    logoutAndRedirect();
                 } else if (data.status === 'loggedOn' && data.isTokenValid) {
-                    console.log("Estado del usuario activo y token válido. Procediendo a verificar rol...");
+                  //  console.log("Estado del usuario activo y token válido. Procediendo a verificar rol...");
                     verifyUserRole();
                 }
             } else {
-                console.log("Error en la respuesta al verificar el estado, redirigiendo...");
+               // console.log("Error en la respuesta al verificar el estado, redirigiendo...");
+                alert("Error en la respuesta al verificar el estado, redirigiendo...");
                 logoutAndRedirect();
             }
         } catch (error) {
-            console.error("Error en la solicitud de verificación del estado del usuario:", error);
+           // console.error("Error en la solicitud de verificación del estado del usuario:", error);
+            alert("Error en la solicitud de verificación del estado del usuario:", error);
             logoutAndRedirect();
         }
     }
 
     function verifyUserRole() {
         const currentPath = window.location.pathname;
-        console.log("Verificando rol del usuario con la ruta actual:", currentPath);
+        //console.log("Verificando rol del usuario con la ruta actual:", currentPath);
 
         if ((currentPath.includes("/ADMINPHP") && rol !== "admin") ||
             (currentPath.includes("/ESTUDIANTEPHP") && rol !== "estudiante") ||
             (currentPath.includes("/DOCENTEPHP") && rol !== "docente")) {
-            console.log("Acceso no autorizado: usuario sin rol adecuado. Redirigiendo...");
+          //  console.log("Acceso no autorizado: usuario sin rol adecuado. Redirigiendo...");
             alert("Acceso no autorizado. Redirigiendo...");
             logoutAndRedirect();
         } else {
-            console.log("Acceso autorizado para el rol:", rol);
+           // console.log("Acceso autorizado para el rol:", rol);
         }
     }
 
-    function redirectToLogin() {
-        console.log("Redirigiendo al login...");
-        // window.location.href = "../../index.php";
-    }
+    // function redirectToLogin() {
+    //     console.log("Redirigiendo al login...");
+    //   //  window.location.href = "../../index.php";
+    // }
 
     function parseJwt(token) {
         try {
@@ -90,7 +94,7 @@ document.addEventListener("DOMContentLoaded", function() {
             );
             return JSON.parse(jsonPayload);
         } catch (error) {
-            console.error("Error al decodificar el token JWT:", error);
+           // console.error("Error al decodificar el token JWT:", error);
             return null;
         }
     }
@@ -120,13 +124,15 @@ document.addEventListener("DOMContentLoaded", function() {
                 console.log("Token renovado");
                 const nuevoToken = data.accessToken;
                 localStorage.setItem('jwt', nuevoToken);
-                console.log("Nuevo token almacenado en localStorage.");
+               // console.log("Nuevo token almacenado en localStorage.");
             } else {
-                console.log("Error al renovar el token, cerrando sesión...");
+               // console.log("Error al renovar el token, cerrando sesión...");
+                alert("Hubo un problema al renovar el token. Por seguridad, se cerrará la sesión.");
                 logoutAndRedirect();
             }
         } catch (error) {
-            console.error("Excepción al renovar el token:", error);
+           // console.error("Excepción al renovar el token:", error);
+            alert("Excepción al renovar el token:", error);
             logoutAndRedirect();
         } finally {
             isRenewingToken = false;
@@ -134,18 +140,20 @@ document.addEventListener("DOMContentLoaded", function() {
     }
 
     function checkAndRenewToken() {
-        console.log("Verificando Token almacenado");
+        //console.log("Verificando Token almacenado");
         const token = localStorage.getItem('jwt');
 
         if (!token) {
-            console.log("No hay token");
-            redirectToLogin();
+           // console.log("No hay token");
+             alert("No hay token");
+             redirectToLogin();
             return;
         }
 
         const tokenExpiration = parseJwtExpiration(token);
         if (!tokenExpiration) {
-            console.log("No se pudo obtener la expiración del token, cerrando sesión...");
+           // console.log("No se pudo obtener la expiración del token, cerrando sesión...");
+            alert("No se pudo obtener la expiración del token, cerrando sesión...");
             logoutAndRedirect();
             return;
         }
@@ -155,13 +163,13 @@ document.addEventListener("DOMContentLoaded", function() {
 
         if (timeRemaining <= 0) {
             alert("Tu sesión ha caducado, serás redirigido para iniciar sesión nuevamente.");
-            console.log("El token ha expirado, cerrando sesión...");
+           // console.log("El token ha expirado, cerrando sesión...");
             logoutAndRedirect();
         } else if (timeRemaining <= expirationThreshold) {
-            console.log(`Renovando el token, tiempo restante hasta expiración: ${timeRemaining} segundos.`);
+           // console.log(`Renovando el token, tiempo restante hasta expiración: ${timeRemaining} segundos.`);
             renewToken();
         } else {
-            console.log(`No es necesario renovar aún, tiempo restante hasta expiración: ${timeRemaining} segundos.`);
+            //console.log(`No es necesario renovar aún, tiempo restante hasta expiración: ${timeRemaining} segundos.`);
         }
     }
 

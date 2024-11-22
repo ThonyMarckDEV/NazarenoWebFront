@@ -8,19 +8,57 @@
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     <style>
         .background-image {
-            background-image: url('./img/cebe.jpeg'); /* Cambia esta ruta */
-            background-size: cover;
-            background-position: center;
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            z-index: -1;
+        }
+
+        .carousel-image {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            opacity: 0;
+            transition: opacity 1s ease-in-out;
+        }
+
+        .carousel-image.active {
+            opacity: 1;
+        }
+
+        .background-filter {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(3px);
+            z-index: 0;
         }
     </style>
-    <script src="https://cdn.jsdelivr.net/npm/jwt-decode@3.1.2/build/jwt-decode.min.js"></script> <!-- Incluye jwt-decode -->
+    <script src="https://cdn.jsdelivr.net/npm/jwt-decode@3.1.2/build/jwt-decode.min.js"></script>
 </head>
-<body class="background-image h-screen flex items-center justify-center">
+<body class="relative h-screen flex items-center justify-center">
+
+    <!-- Fondo del carrusel -->
+    <div class="background-image">
+        <img src="./img/cebemain.jpeg" alt="Fondo 1" class="carousel-image active">
+        <img src="./img/cebe2.jpeg" alt="Fondo 2" class="carousel-image">
+        <img src="./img/cebe3.jpeg" alt="Fondo 3" class="carousel-image">
+    </div>
+
+    <!-- Filtro de fondo -->
+    <div class="background-filter"></div>
 
     <!-- Contenedor del formulario -->
-    <div class="bg-black bg-opacity-60 p-8 rounded-lg shadow-lg w-full max-w-md mx-4 md:mx-0 text-center">
+    <div class="bg-black bg-opacity-60 p-8 rounded-lg shadow-lg w-full max-w-md mx-4 md:mx-0 text-center z-10">
         <!-- Título -->
-        <h1 class="text-3xl font-bold text-white mb-4">C.E.B.E</h1>
+        <h1 class="text-3xl font-bold text-white mb-4">C.E.B.E - Jesús de Nazareno</h1>
         <h2 class="text-xl text-white mb-6">Iniciar Sesión</h2>
 
         <!-- Formulario -->
@@ -43,6 +81,20 @@
             </button>
         </form>
     </div>
+
+    <!-- Script del carrusel -->
+    <script>
+        const images = document.querySelectorAll('.carousel-image');
+        let currentIndex = 0;
+
+        function changeImage() {
+            images[currentIndex].classList.remove('active');
+            currentIndex = (currentIndex + 1) % images.length;
+            images[currentIndex].classList.add('active');
+        }
+
+        setInterval(changeImage, 5000); // Cambiar imagen cada 5 segundos
+    </script>
 
   <!-- Loader -->
     <?php include './PHP/loader.php'; ?>

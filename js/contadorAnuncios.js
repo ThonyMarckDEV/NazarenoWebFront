@@ -2,6 +2,8 @@ import API_BASE_URL from './urlHelper.js';
 
 import { verificarYRenovarToken } from './authToken.js';
 
+const token = localStorage.getItem("jwt");
+
 // Obtener el id del alumno desde el token
 export function getIdUsuarioFromToken() {
     if (!token) return null;

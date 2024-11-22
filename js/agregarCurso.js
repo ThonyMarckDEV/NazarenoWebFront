@@ -71,6 +71,7 @@ async function submitCursoForm() {
 
 // Cargar las opciones de especialidades
 async function loadEspecialidades() {
+    
 
     const token = localStorage.getItem("jwt");
 

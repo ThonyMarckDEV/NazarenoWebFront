@@ -6,7 +6,7 @@ import { logout as logoutAndRedirect } from './logout.js';
 function tokenExpirado() {
     const token = localStorage.getItem('jwt');
     if (!token) {
-        console.log("Token no encontrado en localStorage.");
+       // console.log("Token no encontrado en localStorage.");
         return true;
     }
 
@@ -14,11 +14,11 @@ function tokenExpirado() {
     const exp = payload.exp * 1000; // Convertir a milisegundos
     const isExpiring = Date.now() > exp - 120000; // Renovar 2 minutos antes de expirar
 
-    console.log(`Verificación de token: expira en ${(exp - Date.now()) / 1000} segundos.`);
+    //console.log(`Verificación de token: expira en ${(exp - Date.now()) / 1000} segundos.`);
     if (isExpiring) {
-        console.log("El token está próximo a expirar, se intentará renovar.");
+       // console.log("El token está próximo a expirar, se intentará renovar.");
     } else {
-        console.log("El token aún es válido, no se requiere renovación.");
+        //console.log("El token aún es válido, no se requiere renovación.");
     }
     
     return isExpiring;
@@ -26,7 +26,7 @@ function tokenExpirado() {
 
 // Función para renovar el token
 export async function renovarToken() {
-    console.log("Intentando renovar el token...");
+   // console.log("Intentando renovar el token...");
     const token = localStorage.getItem('jwt');
 
     try {
@@ -42,30 +42,34 @@ export async function renovarToken() {
             const data = await response.json();
             const nuevoToken = data.accessToken;
             localStorage.setItem('jwt', nuevoToken); // Guarda el nuevo token inmediatamente
-            console.log("Token renovado exitosamente y guardado en localStorage.");
+           // console.log("Token renovado exitosamente y guardado en localStorage.");
             return nuevoToken;
         } else {
-            console.error("No se pudo renovar el token. Redirigiendo al login...");
+            //console.error("No se pudo renovar el token. Redirigiendo al login...");
+            alert("No se pudo renovar el token. Redirigiendo al login... Auth");
             logoutAndRedirect();
         }
     } catch (error) {
-        console.error("Error al intentar renovar el token:", error);
+       // console.error("Error al intentar renovar el token:", error);
+         alert("Error al intentar renovar el token: Auth", error);
         logoutAndRedirect();
     }
 }
 
 // Función que verifica y renueva el token si es necesario
 export async function verificarYRenovarToken() {
-    console.log("Verificando si el token necesita renovación...");
+    //console.log("Verificando si el token necesita renovación...");
     if (tokenExpirado()) {
         const nuevoToken = await renovarToken();
         if (nuevoToken) {
-            console.log("Renovación completada, el nuevo token se utilizará en la siguiente solicitud.");
+            //console.log("Renovación completada, el nuevo token se utilizará en la siguiente solicitud.");
         } else {
-            console.log("No se pudo renovar el token, redirigiendo al login...");
+           // console.log("No se pudo renovar el token, redirigiendo al login...");
+            alert("No se pudo renovar el token, redirigiendo al login... auth");
+            logoutAndRedirect();
         }
     } else {
-        console.log("El token es válido y no necesita renovación.");
+        //console.log("El token es válido y no necesita renovación.");
     }
 }
 
