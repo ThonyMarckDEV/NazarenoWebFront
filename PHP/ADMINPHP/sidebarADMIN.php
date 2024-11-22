@@ -46,6 +46,15 @@
             </a>
         </li>
         <li>
+            <a href="reportes.php" class="flex items-center space-x-2 text-gray-700 hover:bg-gray-200 hover:text-gray-900 p-2 rounded">
+                <!-- Icono de Heroicons para reportes -->
+                <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-gray-700" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M9 12h6m-6 4h6M4 6h16M4 6a2 2 0 012-2h12a2 2 0 012 2M4 6v12a2 2 0 002 2h12a2 2 0 002-2V6" />
+                </svg>
+                <span>Reportes</span>
+            </a>
+        </li>
+        <li>
             <a onclick="logout()" class="flex items-center space-x-2 text-gray-700 hover:bg-gray-200 hover:text-gray-900 p-2 rounded cursor-pointer">
                 <img src="../../img/logout.png" alt="Cerrar Sesión" class="w-5 h-5">
                 <span>Cerrar Sesión</span>
