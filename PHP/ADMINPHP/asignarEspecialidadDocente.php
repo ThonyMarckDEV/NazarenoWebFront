@@ -52,8 +52,11 @@
             </button>
         </form>
 
-        <!-- Tabla de Especialidades Asignadas -->
         <h3 class="text-xl font-semibold mb-4 mt-10 text-white">Especialidades Asignadas</h3>
+        <!-- Campo de búsqueda para la tabla -->
+        <div class="mb-4">
+            <input type="text" id="searchAsignacionesDocenteEspecialidadInput" placeholder="Buscar asignaciones..." class="border p-2 rounded w-full sm:w-1/2">
+        </div>
         <div class="overflow-x-auto">
             <table class="min-w-full bg-white shadow-md rounded-lg">
                 <thead>
@@ -65,10 +68,29 @@
                     </tr>
                 </thead>
                 <tbody id="asignacionesTableBody" class="text-gray-700 text-sm font-light">
-                    <!-- Contenido dinámico generado por JavaScript -->
+                    <!-- Ejemplo de contenido dinámico -->
+                    <tr>
+                        <td class="p-3">1</td>
+                        <td class="p-3">Juan Pérez</td>
+                        <td class="p-3">Matemáticas</td>
+                        <td class="p-3">
+                            <button class="bg-blue-500 text-white px-2 py-1 rounded">Editar</button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="p-3">2</td>
+                        <td class="p-3">Ana López</td>
+                        <td class="p-3">Historia</td>
+                        <td class="p-3">
+                            <button class="bg-blue-500 text-white px-2 py-1 rounded">Editar</button>
+                        </td>
+                    </tr>
                 </tbody>
             </table>
         </div>
+
+
+
     </div>
 
     <style>
@@ -80,7 +102,30 @@
 
     </div>
 
-    <!-- Script para manejar la asignación -->
-    <script type="module" src="../../js/asignarEspecialidadDocente.js"></script>
 </body>
 </html>
+<script>
+    document.addEventListener("DOMContentLoaded", () => {
+    const searchInput = document.getElementById('searchAsignacionesDocenteEspecialidadInput');
+    const tableBody = document.getElementById('asignacionesTableBody');
+
+    // Función para filtrar las filas de la tabla
+    searchInput.addEventListener('input', () => {
+        const filter = searchInput.value.toLowerCase(); // Texto a buscar
+        const rows = tableBody.querySelectorAll('tr'); // Todas las filas de la tabla
+
+        rows.forEach(row => {
+            // Convierte el texto de todas las celdas de la fila en un string para buscar coincidencias
+            const rowText = row.textContent.toLowerCase();
+            if (rowText.includes(filter)) {
+                row.style.display = ''; // Muestra la fila si coincide
+            } else {
+                row.style.display = 'none'; // Oculta la fila si no coincide
+            }
+        });
+    });
+});
+
+</script>
+    <!-- Script para manejar la asignación -->
+    <script type="module" src="../../js/asignarEspecialidadDocente.js"></script>

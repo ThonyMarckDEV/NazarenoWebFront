@@ -30,7 +30,7 @@
         <li>
             <a href="asignarEspecialidadDocente.php" class="flex items-center space-x-2 text-gray-700 hover:bg-gray-200 hover:text-gray-900 p-2 rounded">
                 <img src="../../img/asignar.png" alt="Asignar Especialidad Docente" class="w-5 h-5">
-                <span>Asignar Especialidad Docente</span>
+                <span>Asignar Especialidad al Docente</span>
             </a>
         </li>
         <li>
@@ -83,5 +83,6 @@
 <script type="module" src="../../js/typing-sound.js"></script>
 <!-- <script Checka inactyividad Usuario></script> -->
 <script type="module" src="../../js/checkInactivity.js"></script>
+
 
 
