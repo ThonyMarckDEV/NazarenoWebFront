@@ -4,12 +4,15 @@ import { listUsers } from './gestionarUsuarios.js';
    // Obtener el JWT del localStorage
    const token = localStorage.getItem("jwt");
    
-function submitForm() {
+   function submitForm() {
     const form = document.getElementById("userForm");
     const formData = new FormData(form);
     const data = Object.fromEntries(formData.entries());
 
-    // Mostrar el loader al enviar el formulario
+    // Limpiar mensajes de error anteriores
+    document.querySelectorAll(".error-message").forEach((el) => el.remove());
+
+    // Mostrar loader
     document.getElementById("loadingScreen").classList.remove("hidden");
 
     fetch(`${API_BASE_URL}/api/register`, {
@@ -23,43 +26,39 @@ function submitForm() {
     .then(response => response.json())
     .then(data => {
         if (data.success) {
-            //=============================================================     
-            // Reproducir el sonido success
-            var sonido = new Audio('../../songs/success.mp3'); // Asegúrate de que la ruta sea correcta
-            sonido.play().catch(function(error) {
-                console.error("Error al reproducir el sonido:", error);
-            });
-            //=============================================================
-            showNotification("Usuario registrado exitosamente", "bg-green-500");   
+            // Reproducir sonido de éxito
+            new Audio('../../songs/success.mp3').play().catch(console.error);
+            showNotification("Usuario registrado exitosamente", "bg-green-500");
             form.reset();
-            listUsers();  // Llamada para refrescar la tabla de usuarios
+            listUsers();
         } else {
-            //=============================================================
-             // Reproducir el sonido error
-             var sonido = new Audio('../../songs/error.mp3');
-             sonido.play().catch(function(error) {
-                 console.error("Error al reproducir el sonido:", error);
-             });           
-            //=============================================================
-            showNotification(data.message || "Error al registrar usuario", "bg-red-500");
-            form.reset();
+            // Reproducir sonido de error
+            new Audio('../../songs/error.mp3').play().catch(console.error);
+
+            if (data.errors) {
+                // Mostrar errores en los campos correspondientes
+                Object.entries(data.errors).forEach(([field, messages]) => {
+                    const input = document.querySelector(`[name="${field}"]`);
+                    if (input) {
+                        const errorDiv = document.createElement("div");
+                        errorDiv.className = "text-red-500 text-sm mt-1 error-message";
+                        errorDiv.textContent = messages[0];
+                        input.parentElement.appendChild(errorDiv);
+                    }
+                });
+            } else {
+                showNotification(data.message || "Error al registrar usuario", "bg-red-500");
+            }
         }
     })
     .catch((error) => {
         console.error("Error:", error);
+        new Audio('../../songs/error.mp3').play().catch(console.error);
         showNotification("Error en la solicitud", "bg-red-500");
-            //=============================================================
-             // Reproducir el sonido error
-             var sonido = new Audio('../../songs/error.mp3');
-             sonido.play().catch(function(error) {
-                 console.error("Error al reproducir el sonido:", error);
-             });           
-            //=============================================================        
-        form.reset();
     })
-    .finally(()=>{
-         // Ocultar el loader después de la operación
-         document.getElementById("loadingScreen").classList.add("hidden");
+    .finally(() => {
+        // Ocultar loader
+        document.getElementById("loadingScreen").classList.add("hidden");
     });
 }
 

@@ -31,60 +31,88 @@
         <!-- Formulario -->
         <form id="userForm" class="bg-white p-4 sm:p-6 rounded-lg shadow-md space-y-4 w-full md:w-auto sm:mx-auto"> <!-- Tamaño más pequeño en móviles -->
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
-               <!-- Username (solo lectura) -->
-                <div>
-                    <label for="username" class="block text-gray-700 font-semibold">Nombre de Usuario</label>
-                    <input type="text" id="username" name="username" readonly class="w-full px-2 py-1 sm:px-4 sm:py-2 border rounded-lg bg-gray-200 text-gray-600 cursor-not-allowed focus:outline-none">
-                </div>
 
-                <!-- Campos adicionales con ajustes de tamaño para móviles -->
-                <div>
-                    <label for="rol" class="block text-gray-700 font-semibold">Rol</label>
-                    <select id="rol" name="rol" required class="w-full px-2 py-1 sm:px-4 sm:py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
-                        <option value="admin">admin</option>
-                        <option value="estudiante">estudiante</option>
-                        <option value="docente">docente</option>
-                    </select>
-                </div>
+         <!-- Nombre de Usuario (Solo lectura) -->
+            <div>
+                <label for="username" class="block text-gray-700 font-semibold">Nombre de Usuario</label>
+                <input type="text" id="username" name="username" readonly class="w-full px-2 py-1 sm:px-4 sm:py-2 border rounded-lg bg-gray-200 text-gray-600 cursor-not-allowed focus:outline-none">
+            </div>
 
-                <!-- Campos adicionales... -->
-                <!-- Nombres -->
-                <div>
-                    <label for="nombres" class="block text-gray-700 font-semibold">Nombres</label>
-                    <input type="text" id="nombres" name="nombres" required class="w-full px-2 py-1 sm:px-4 sm:py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
-                </div>
+            <!-- Rol (Obligatorio) -->
+            <div>
+                <label for="rol" class="block text-gray-700 font-semibold">Rol</label>
+                <select id="rol" name="rol" required class="w-full px-2 py-1 sm:px-4 sm:py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                    <option value="admin">admin</option>
+                    <option value="estudiante">estudiante</option>
+                    <option value="docente">docente</option>
+                </select>
+            </div>
 
-                <!-- Apellidos -->
-                <div>
-                    <label for="apellidos" class="block text-gray-700 font-semibold">Apellidos</label>
-                    <input type="text" id="apellidos" name="apellidos" required class="w-full px-2 py-1 sm:px-4 sm:py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
-                </div>
+            <!-- Nombres (Obligatorio) -->
+            <div>
+                <label for="nombres" class="block text-gray-700 font-semibold">Nombres <span class="text-red-500">*</span></label>
+                <input type="text" id="nombres" name="nombres" required class="w-full px-2 py-1 sm:px-4 sm:py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+            </div>
 
-                <!-- DNI -->
-                <div>
-                    <label for="dni" class="block text-gray-700 font-semibold">DNI</label>
-                    <input type="text" id="dni" name="dni" maxlength="8" required class="w-full px-2 py-1 sm:px-4 sm:py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
-                </div>
+           <!-- Apellidos (Obligatorio) -->
+            <div>
+                <label for="apellidos" class="block text-gray-700 font-semibold">Apellidos <span class="text-red-500">*</span></label>
+                <input 
+                    type="text" 
+                    id="apellidos" 
+                    name="apellidos" 
+                    required 
+                    pattern="^[a-zA-ZÀ-ÿ]+(\s[a-zA-ZÀ-ÿ]+)+$" 
+                    title="Debe ingresar dos apellidos separados por un espacio" 
+                    class="w-full px-2 py-1 sm:px-4 sm:py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                >
+            </div>
 
-                <!-- Correo -->
-                <div>
-                    <label for="correo" class="block text-gray-700 font-semibold">Correo</label>
-                    <input type="email" id="correo" name="correo" required class="w-full px-2 py-1 sm:px-4 sm:py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
-                </div>
-                 <!-- Edad -->
-                <div>
-                    <label for="edad" class="block text-gray-700 font-semibold">Edad</label>
-                    <input type="text" id="edad" name="edad" required class="w-full px-2 py-1 sm:px-4 sm:py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
-                </div>
-                <!-- Teléfono -->
-                <div>
-                    <label for="telefono" class="block text-gray-700 font-semibold">Teléfono</label>
-                    <input type="text" id="telefono" name="telefono" required class="w-full px-2 py-1 sm:px-4 sm:py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
-                </div>
+            <!-- DNI (Obligatorio) -->
+            <div>
+                <label for="dni" class="block text-gray-700 font-semibold">DNI <span class="text-red-500">*</span></label>
+                <input 
+                    type="text" 
+                    id="dni" 
+                    name="dni" 
+                    maxlength="8" 
+                    required 
+                    pattern="\d{8}" 
+                    class="w-full px-2 py-1 sm:px-4 sm:py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" 
+                    oninput="this.value = this.value.replace(/[^0-9]/g, '')"
+                >
+            </div>
+
+            <!-- Correo (Obligatorio) -->
+            <div>
+                <label for="correo" class="block text-gray-700 font-semibold">Correo <span class="text-red-500">*</span></label>
+                <input type="email" id="correo" name="correo" required class="w-full px-2 py-1 sm:px-4 sm:py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+            </div>
+
+            <!-- Edad (Opcional) -->
+            <div>
+                <label for="edad" class="block text-gray-700 font-semibold">Edad <span class="text-gray-500">(Opcional)</span></label>
+                <input type="text" id="edad" name="edad" class="w-full px-2 py-1 sm:px-4 sm:py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+            </div>
+
+            <!-- Teléfono (Opcional) -->
+            <div>
+                <label for="telefono" class="block text-gray-700 font-semibold">Teléfono <span class="text-gray-500">(Opcional)</span></label>
+                <input 
+                    type="text" 
+                    id="telefono" 
+                    name="telefono" 
+                    maxlength="9" 
+                    pattern="\d{9}" 
+                    class="w-full px-2 py-1 sm:px-4 sm:py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" 
+                    oninput="this.value = this.value.replace(/[^0-9]/g, '')"
+                >
+            </div>
+
 
                 <!-- Departamento -->
                 <div>
-                    <label for="departamento" class="block text-gray-700 font-semibold">Departamento</label>
+                    <label for="departamento" class="block text-gray-700 font-semibold">Departamento (Opcional)</label>
                     <select id="departamento" name="departamento" required class="w-full px-2 py-1 sm:px-4 sm:py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
                         <option value="">Seleccione un Departamento</option>
                         <option value="Amazonas">Amazonas</option>
@@ -115,16 +143,36 @@
                     </select>
                 </div>
 
-                <!-- Contraseña -->
+               <!-- Contraseña (Obligatoria) -->
                 <div>
-                    <label for="password" class="block text-gray-700 font-semibold">Contraseña</label>
-                    <input type="password" id="password" name="password" required class="w-full px-2 py-1 sm:px-4 sm:py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                    <label for="password" class="block text-gray-700 font-semibold">
+                        Contraseña <span class="text-red-500">*</span>
+                    </label>
+                    <input 
+                        type="password" 
+                        id="password" 
+                        name="password" 
+                        required 
+                        minlength="8" 
+                        class="w-full px-2 py-1 sm:px-4 sm:py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                        placeholder="Mínimo 6 caracteres"
+                    >
                 </div>
 
-                <!-- Confirmar Contraseña -->
+                <!-- Confirmar Contraseña (Obligatoria) -->
                 <div>
-                    <label for="password_confirmation" class="block text-gray-700 font-semibold">Confirmar Contraseña</label>
-                    <input type="password" id="password_confirmation" name="password_confirmation" required class="w-full px-2 py-1 sm:px-4 sm:py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                    <label for="password_confirmation" class="block text-gray-700 font-semibold">
+                        Confirmar Contraseña <span class="text-red-500">*</span>
+                    </label>
+                    <input 
+                        type="password" 
+                        id="password_confirmation" 
+                        name="password_confirmation" 
+                        required 
+                        minlength="8" 
+                        class="w-full px-2 py-1 sm:px-4 sm:py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                        placeholder="Repite la contraseña"
+                    >
                 </div>
 
             </div>
