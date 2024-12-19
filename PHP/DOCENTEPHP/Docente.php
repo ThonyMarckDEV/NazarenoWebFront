@@ -12,17 +12,33 @@
             background-size: cover;
             background-position: center;
             background-repeat: no-repeat;
-            height: 100%; /* Para asegurar la altura total */
+            position: fixed; /* Fija el fondo */
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1; /* Envía el fondo al fondo de la capa */
+        }
+        /* Fondo suave detrás del bloque de texto */
+        .highlighted-text {
+            background-color: rgba(0, 0, 0, 0.6); /* Fondo negro con opacidad */
+            padding: 1rem; /* Espaciado alrededor del texto */
+            border-radius: 0.5rem; /* Bordes redondeados */
+            display: inline-block; /* Ajusta el fondo solo al ancho del bloque de texto */
+            color: white; /* Asegura que el texto sea blanco */
         }
     </style>
 </head>
-<body class="background-image min-h-screen flex flex-col">
+<body class=" flex">
+
+  <!-- Fondo Fijo -->
+  <div class="background-image"></div>
 
     <!-- Sidebar -->
     <?php include 'sidebarDOCENTE.php'; ?>
 
-    <!-- Contenido Principal -->
-    <div class="flex-1 p-4">
+   <!-- Contenido Principal -->
+    <div class="flex-1 p-4 ml-0 md:ml-10 lg:ml-5">
         <!-- Bloque con fondo para el texto de bienvenida -->
         <div class="bg-white p-4 sm:p-6 rounded-lg shadow-md">
             <h2 class="text-2xl font-semibold">Bienvenido, <span id="usernameDisplay"></span></h2>
