@@ -39,30 +39,36 @@ async function loadCursos() {
     .then(data => {
 
         hideLoadingOverlay();
-
+    
         const container = document.getElementById("cursosContainer");
         container.innerHTML = ""; // Limpiar contenido previo
-
+    
+        // Verifica si no hay cursos
+        if (data.data.length === 0) {
+            container.innerHTML = `<p class="text-center text-gray-400 text-lg font-semibold">No hay cursos disponibles</p>`;
+            return; // Termina la ejecución si no hay cursos
+        }
+    
         data.data.forEach(curso => {
             const courseCard = document.createElement("div");
             courseCard.classList.add("bg-gray-100", "p-4", "rounded-lg", "shadow-md", "mb-4");
-        
-           // HTML estructurado para que el enlace esté encima en móviles y al costado en pantallas grandes
+    
+            // HTML estructurado para que el enlace esté encima en móviles y al costado en pantallas grandes
             courseCard.innerHTML = `
-            <div class="flex flex-col sm:flex-row sm:justify-between sm:items-center">
-                <div>
-                    <h3 class="text-lg font-semibold text-gray-800">${curso.nombreCurso}</h3>
-                    <p class="text-sm text-gray-600 mb-2 sm:mb-0">Grado: ${curso.nombreGrado} - Sección: ${curso.seccion}</p>
+                <div class="flex flex-col sm:flex-row sm:justify-between sm:items-center">
+                    <div>
+                        <h3 class="text-lg font-semibold text-gray-800">${curso.nombreCurso}</h3>
+                        <p class="text-sm text-gray-600 mb-2 sm:mb-0">Grado: ${curso.nombreGrado} - Sección: ${curso.seccion}</p>
+                    </div>
+                    <div class="flex flex-col sm:flex-row sm:items-center sm:space-x-2 mt-2 sm:mt-0">
+                        <button onclick="openEstudiantesModal(${curso.idCurso})" class="text-gray-500 hover:text-gray-600 text-sm sm:text-base mb-2 sm:mb-0 no-underline">
+                            Estudiantes matriculados
+                        </button>
+                        <button onclick="openAnuncioModal('${curso.nombreCurso}', '${curso.seccion}')" class="bg-black text-white px-3 py-1 rounded">
+                            Anunciar
+                        </button>
+                    </div>
                 </div>
-                <div class="flex flex-col sm:flex-row sm:items-center sm:space-x-2 mt-2 sm:mt-0">
-                    <button onclick="openEstudiantesModal(${curso.idCurso})" class="text-gray-500 hover:text-gray-600 text-sm sm:text-base mb-2 sm:mb-0 no-underline">
-                        Estudiantes matriculados
-                    </button>
-                    <button onclick="openAnuncioModal('${curso.nombreCurso}', '${curso.seccion}')" class="bg-black text-white px-3 py-1 rounded">
-                        Anunciar
-                    </button>
-                </div>
-            </div>
             `;
         
             container.appendChild(courseCard);

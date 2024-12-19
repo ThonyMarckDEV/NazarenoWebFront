@@ -12,10 +12,19 @@
             background-size: cover;
             background-position: center;
             background-repeat: no-repeat;
+            position: fixed; /* Fondo fijo */
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1; /* Envía al fondo */
         }
     </style>
 </head>
-<body class="background-image bg-gray-100 flex">
+<body class="bg-gray-100 flex">
+
+    <!-- Fondo Fijo -->
+    <div class="background-image"></div>
 
     <!-- Notificación -->
     <div id="notification" style="display: none;" class="fixed top-4 left-1/2 transform -translate-x-1/2 px-4 py-2 text-white font-semibold text-center rounded shadow-md"></div>
@@ -24,7 +33,7 @@
     <?php include 'sidebarAdmin.php'; ?>
 
     <!-- Contenido Principal -->
-    <div class="flex-1 p-4 ml-0 md:ml-10 lg:ml-5">
+    <div class="main-content flex-1 p-4 ml-0 md:ml-10 lg:ml-5">
         <h2 class="text-2xl font-semibold mb-6 text-white mt-10">Asignación de Aulas a Docentes</h2>
 
         <!-- Formulario para Asignar Aula a Docente -->
@@ -72,7 +81,7 @@
                 </tbody>
             </table>
         </div>
-
+    </div>
 
     <style>
         /* Asegura que la tabla se desplace horizontalmente en pantallas pequeñas */

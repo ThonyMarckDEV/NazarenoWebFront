@@ -7,30 +7,22 @@
     <title>Panel de Administración</title>
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     <style>
-        /* Estilos para la imagen de fondo */
         .background-image {
-            background-image: url('../../img/cebe.jpeg'); /* Cambia la ruta de la imagen */
+            background-image: url('../../img/cebe.jpeg');
             background-size: cover;
             background-position: center;
             background-repeat: no-repeat;
-        }
-        /* Fondo suave detrás del bloque de texto */
-        .highlighted-text {
-            background-color: rgba(0, 0, 0, 0.6); /* Fondo negro con opacidad */
-            padding: 1rem; /* Espaciado alrededor del texto */
-            border-radius: 0.5rem; /* Bordes redondeados */
-            display: inline-block; /* Ajusta el fondo solo al ancho del bloque de texto */
-            color: white; /* Asegura que el texto sea blanco */
+            height: 100%; /* Para asegurar la altura total */
         }
     </style>
 </head>
-<body class="bg-gray-100 flex background-image">
+<body class="background-image min-h-screen flex flex-col">
 
     <!-- Sidebar -->
     <?php include 'sidebarAdmin.php'; ?>
 
     <!-- Contenido Principal -->
-    <div class="flex-1 p-10 ml-0 md:ml-20 lg:ml-5">
+    <div class="flex-1 p-4">
         <!-- Bloque con fondo para el texto de bienvenida -->
         <div class="bg-white p-4 sm:p-6 rounded-lg shadow-md">
             <h2 class="text-2xl font-semibold">Bienvenido, <span id="usernameDisplay"></span></h2>

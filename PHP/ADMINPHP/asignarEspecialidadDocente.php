@@ -12,10 +12,19 @@
             background-size: cover;
             background-position: center;
             background-repeat: no-repeat;
+            position: fixed; /* Fondo fijo para evitar movimientos */
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1; /* Envía el fondo al nivel más bajo */
         }
-    </style>
+    </style>    
 </head>
-<body class="background-image bg-gray-100 flex">
+<body class="bg-gray-100 flex">
+
+    <!-- Fondo Fijo -->
+    <div class="background-image"></div>
 
     <!-- Notificación -->
     <div id="notification" style="display: none;" class="fixed top-4 left-1/2 transform -translate-x-1/2 px-4 py-2 text-white font-semibold text-center rounded shadow-md"></div>
@@ -23,11 +32,10 @@
     <!-- Sidebar -->
     <?php include 'sidebarAdmin.php'; ?>
 
-     <!-- Contenido Principal -->
-     <div class="flex-1 p-4 ml-0 md:ml-10 lg:ml-5">
+    <!-- Contenido Principal -->
+    <div class="main-content flex-1 p-4 ml-0 md:ml-10 lg:ml-5 rounded-lg shadow-lg">
         <h2 class="text-2xl font-semibold mb-6 text-white mt-10">Asignar Especialidad a Docente</h2>
 
-        
         <!-- Formulario de Matrícula -->
         <form id="asignarForm" class="bg-white p-6 rounded-lg shadow-md space-y-4 w-full max-w-lg md:max-w-md lg:max-w-sm">
             <!-- Selección de Especialidad -->
@@ -69,28 +77,9 @@
                 </thead>
                 <tbody id="asignacionesTableBody" class="text-gray-700 text-sm font-light">
                     <!-- Ejemplo de contenido dinámico -->
-                    <tr>
-                        <td class="p-3">1</td>
-                        <td class="p-3">Juan Pérez</td>
-                        <td class="p-3">Matemáticas</td>
-                        <td class="p-3">
-                            <button class="bg-blue-500 text-white px-2 py-1 rounded">Editar</button>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="p-3">2</td>
-                        <td class="p-3">Ana López</td>
-                        <td class="p-3">Historia</td>
-                        <td class="p-3">
-                            <button class="bg-blue-500 text-white px-2 py-1 rounded">Editar</button>
-                        </td>
-                    </tr>
                 </tbody>
             </table>
         </div>
-
-
-
     </div>
 
     <style>
@@ -99,9 +88,6 @@
             white-space: nowrap;
         }
     </style>
-
-    </div>
-
 </body>
 </html>
 <script>

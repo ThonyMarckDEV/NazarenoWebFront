@@ -41,38 +41,47 @@ async function loadCursos() {
         hideLoadingOverlay();
         const container = document.getElementById("cursosContainer");
         container.innerHTML = ""; 
-
+    
+        // Verifica si hay cursos en los datos recibidos
+        if (data.data.length === 0) {
+            // Si no hay cursos, muestra el mensaje directamente en el contenedor
+            container.innerHTML = `
+                <p class="text-center text-gray-400 text-lg font-semibold">No hay cursos disponibles</p>
+            `;
+            return; // Termina la ejecución si no hay cursos
+        }
+    
         data.data.forEach(curso => {
             if (!curso.idCurso) {
                 console.warn("idCurso no está definido en el curso:", curso);
                 showNotification("Error: idCurso no existe para un curso", "bg-red-500");
                 return;
             }
-        
+    
             const courseCard = document.createElement("div");
             courseCard.classList.add("bg-gray-100", "p-4", "rounded-lg", "shadow-md", "mb-4");
             courseCard.id = `curso-${curso.idCurso}`; // Agrega un ID único al elemento del curso
             courseCard.dataset.nombreCurso = curso.nombreCurso; // Almacena nombre del curso
             courseCard.dataset.seccion = curso.seccion; // Almacena sección
             courseCard.innerHTML = `
-            <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between space-y-2 sm:space-y-0">
-                <div>
-                    <h3 class="text-lg font-semibold text-gray-800">${curso.nombreCurso}</h3>
-                    <p class="text-sm text-gray-600">Grado: ${curso.nombreGrado} - Sección: ${curso.seccion}</p>
-                </div>
-                <div class="flex flex-col sm:flex-row space-y-2 sm:space-y-0 sm:space-x-2 items-center sm:items-center">
-                    <button onclick="openEstudiantesModal(${curso.idCurso})" class="text-gray-500 hover:text-gray-600 text-sm sm:text-base no-underline">
-                        Estudiantes matriculados
-                    </button>
-                    <div class="flex justify-center w-full sm:w-auto">
-                        <button onclick="seleccionarCurso(${curso.idCurso})" class="bg-black text-white px-3 py-1 rounded w-full sm:w-auto">
-                            Ver Módulos
+                <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between space-y-2 sm:space-y-0">
+                    <div>
+                        <h3 class="text-lg font-semibold text-gray-800">${curso.nombreCurso}</h3>
+                        <p class="text-sm text-gray-600">Grado: ${curso.nombreGrado} - Sección: ${curso.seccion}</p>
+                    </div>
+                    <div class="flex flex-col sm:flex-row space-y-2 sm:space-y-0 sm:space-x-2 items-center sm:items-center">
+                        <button onclick="openEstudiantesModal(${curso.idCurso})" class="text-gray-500 hover:text-gray-600 text-sm sm:text-base no-underline">
+                            Estudiantes matriculados
                         </button>
+                        <div class="flex justify-center w-full sm:w-auto">
+                            <button onclick="seleccionarCurso(${curso.idCurso})" class="bg-black text-white px-3 py-1 rounded w-full sm:w-auto">
+                                Ver Módulos
+                            </button>
+                        </div>
                     </div>
                 </div>
-            </div>
-        `;
-        
+            `;
+            
             container.appendChild(courseCard);
         });
     })

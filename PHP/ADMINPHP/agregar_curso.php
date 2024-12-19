@@ -15,7 +15,7 @@
         }
     </style>
 </head>
-<body class="background-image bg-gray-100 flex">
+<body class="background-image min-h-screen flex">
 
     <!-- Contenedor de Notificación -->
     <div id="notification" style="display: none;" class="fixed top-4 left-1/2 transform -translate-x-1/2 px-4 py-2 text-white font-semibold text-center rounded shadow-md"></div>
@@ -24,7 +24,7 @@
     <?php include 'sidebarAdmin.php'; ?>
 
     <!-- Contenido Principal -->
-    <div class="flex-1 p-4 ml-0 md:ml-10 lg:ml-5">
+    <div class="main-content flex-1 p-4 ml-0 md:ml-10 lg:ml-5 rounded-lg shadow-lg">
         <h2 class="text-2xl font-semibold mb-6 text-white mt-10">Agregar Curso</h2>
 
         <!-- Formulario -->
@@ -57,29 +57,29 @@
             </button>
         </form>
 
-    <!-- Tabla de Cursos -->
-    <div class="overflow-x-auto mt-4">
+        <!-- Tabla de Cursos -->
+        <div class="overflow-x-auto mt-4">
+            <h3 class="text-xl font-semibold mb-4 mt-10 text-white">Cursos Agregados</h3>
+            <!-- Campo de búsqueda para la tabla de cursos -->
+            <div class="mb-4">
+                <input type="text" id="searchCursosInput" placeholder="Buscar cursos..." class="border p-2 rounded w-full sm:w-1/2">
+            </div>
 
-    <h3 class="text-xl font-semibold mb-4 mt-10 text-white">Curso agregados</h3>
-    <!-- Campo de búsqueda para la tabla de cursos -->
-    <div class="mb-4">
-        <input type="text" id="searchCursosInput" placeholder="Buscar cursos..." class="border p-2 rounded w-full sm:w-1/2">
-    </div>
-
-        <table class="min-w-full bg-white shadow-md rounded-lg text-sm sm:text-base">
-            <thead>
-                <tr class="bg-gray-200 text-gray-600 uppercase leading-normal">
-                    <th class="p-2 sm:p-3 text-left">ID</th>
-                    <th class="p-2 sm:p-3 text-left">Curso</th>
-                    <th class="p-2 sm:p-3 text-left">Especialidad</th>
-                    <th class="p-2 sm:p-3 text-left">Grado - Sección</th>
-                    <th class="p-2 sm:p-3 text-left">Acciones</th>
-                </tr>
-            </thead>
-            <tbody id="cursosTableBody" class="text-gray-700 font-light">
-                <!-- Contenido dinámico generado por JavaScript -->
-            </tbody>
-        </table>
+            <table class="min-w-full bg-white shadow-md rounded-lg text-sm sm:text-base">
+                <thead>
+                    <tr class="bg-gray-200 text-gray-600 uppercase leading-normal">
+                        <th class="p-2 sm:p-3 text-left">ID</th>
+                        <th class="p-2 sm:p-3 text-left">Curso</th>
+                        <th class="p-2 sm:p-3 text-left">Especialidad</th>
+                        <th class="p-2 sm:p-3 text-left">Grado - Sección</th>
+                        <th class="p-2 sm:p-3 text-left">Acciones</th>
+                    </tr>
+                </thead>
+                <tbody id="cursosTableBody" class="text-gray-700 font-light">
+                    <!-- Contenido dinámico generado por JavaScript -->
+                </tbody>
+            </table>
+        </div>
     </div>
 
     <!-- Script para enviar datos en formato JSON y obtener las listas -->
