@@ -71,6 +71,8 @@ document.addEventListener('DOMContentLoaded', async () => {
                                 .join('');
                             notasModal.classList.remove('hidden');
 
+                        
+
                             // **Agregar funcionalidad de exportación a Excel**
                             let exportarExcelButton = document.querySelector('#exportar-excel');
 

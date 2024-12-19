@@ -157,8 +157,6 @@
     <!-- Script para manejar verNotasGeneralesGrado -->
     <script type="module" src="../../js/verNotasGeneralesGrado.js"></script>
     <!-- Script para manejar verNotasGeneralesGrado -->
-    <script type="module" src="../../js/verNotasGeneralesGrado.js"></script>
-    <!-- Script para manejar verNotasGeneralesGrado -->
     <script type="module" src="../../js/veralumnos.js"></script>
 </body>
 </html>

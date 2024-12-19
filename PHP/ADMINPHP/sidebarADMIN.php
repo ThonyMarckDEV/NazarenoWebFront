@@ -8,10 +8,10 @@
 </button>
 
 <!-- Overlay para cerrar el menú -->
-<div id="overlay" class="fixed inset-0 bg-black bg-opacity-50 z-40 hidden sm:hidden"></div>
+<div id="overlay" class="fixed inset-0 bg-black bg-opacity-50 z-1 hidden sm:hidden"></div>
 
 <!-- sidebar.php -->
-<div id="mobileSidebar" class="fixed inset-y-0 left-0 w-64 bg-white shadow-md transform -translate-x-full transition-transform duration-300 z-50 sm:translate-x-0 sm:static sm:w-64 sm:min-h-screen px-3 sm:px-6 py-4">
+<div id="mobileSidebar" class="fixed inset-y-0 left-0 w-64 bg-white shadow-md transform -translate-x-full transition-transform duration-300 z-5 sm:translate-x-0 sm:static sm:w-64 sm:min-h-screen px-3 sm:px-6 py-4">
     <div class="flex items-center space-x-4">
         <a href="Admin.php"><img src="../../img/C.E.B.E.LOGO.png" alt="Logo" class="h-10 w-10"></a>
         <a href="Admin.php"><h1 class="text-xl font-bold">C.E.B.E</h1></a>
