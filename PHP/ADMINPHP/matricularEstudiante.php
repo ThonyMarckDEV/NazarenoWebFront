@@ -12,10 +12,19 @@
             background-size: cover;
             background-position: center;
             background-repeat: no-repeat;
+            position: fixed; /* Fondo fijo para evitar movimientos */
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1; /* Envía el fondo al nivel más bajo */
         }
     </style>
 </head>
-<body class="background-image bg-gray-100 flex">
+<body class="bg-gray-100 flex">
+
+    <!-- Fondo Fijo -->
+    <div class="background-image"></div>
 
     <!-- Notificación -->
     <div id="notification" style="display: none;" class="fixed top-4 left-1/2 transform -translate-x-1/2 px-4 py-2 text-white font-semibold text-center rounded shadow-md"></div>
